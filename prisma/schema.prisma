@@ -1,0 +1,357 @@
+// prisma/schema.prisma
+// SwipeList Database Schema
+// This is the SOURCE OF TRUTH for all data models
+// Changes here cascade to: Zod validators → tRPC types → Frontend types
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================================================
+// USER & AUTH
+// ============================================================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  phone         String?   // Optional, for contact
+  avatarUrl     String?
+  
+  // Location (for distance-based search)
+  city          String?
+  latitude      Float?
+  longitude     Float?
+  
+  // Trust & Safety
+  isVerified    Boolean   @default(false)
+  isBanned      Boolean   @default(false)
+  banReason     String?
+  
+  // Rate limiting
+  listingsToday Int       @default(0)
+  lastListingAt DateTime?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  listings      Listing[]
+  favorites     Favorite[]
+  swipeEvents   SwipeEvent[]
+  searchProfiles SearchProfile[]
+  
+  // Messaging
+  sentMessages     Message[]      @relation("SentMessages")
+  receivedMessages Message[]      @relation("ReceivedMessages")
+  conversations    Conversation[] @relation("ConversationParticipants")
+  
+  // Reports
+  reportsMade      Report[]       @relation("ReportsMade")
+  reportsReceived  Report[]       @relation("ReportsReceived")
+  
+  @@index([email])
+  @@index([city])
+}
+
+// ============================================================================
+// LISTINGS
+// ============================================================================
+
+model Listing {
+  id          String        @id @default(cuid())
+  slug        String        @unique // URL-friendly identifier
+  
+  // Core fields
+  title       String        @db.VarChar(100)
+  description String        @db.VarChar(2000)
+  price       Decimal       @db.Decimal(12, 2)
+  currency    String        @default("RSD") // Serbian Dinar
+  isNegotiable Boolean      @default(false)
+  
+  // Category
+  categoryId  String
+  category    Category      @relation(fields: [categoryId], references: [id])
+  
+  // Condition (for physical items)
+  condition   ItemCondition @default(GOOD)
+  
+  // Location
+  city        String
+  address     String?       // Optional specific address
+  latitude    Float?
+  longitude   Float?
+  
+  // Status
+  status      ListingStatus @default(PENDING_REVIEW)
+  
+  // Moderation
+  moderationScore Float?    // 0-1, from AI moderation
+  moderationFlags String[]  // Array of flag reasons
+  moderatedAt    DateTime?
+  
+  // Visibility & Promotion
+  isFeatured  Boolean       @default(false)
+  featuredUntil DateTime?
+  viewCount   Int           @default(0)
+  
+  // Timestamps
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  expiresAt   DateTime      // Auto-expire after 30 days
+  
+  // Owner
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Dynamic Attributes (Category-specific)
+  // e.g., { "brand": "BMW", "model": "320d" }
+  attributes  Json?
+  
+  // Relations
+  images      ListingImage[]
+  favorites   Favorite[]
+  swipeEvents SwipeEvent[]
+  conversations Conversation[]
+  reports     Report[]
+  
+  @@index([userId])
+  @@index([categoryId])
+  @@index([status])
+  @@index([city])
+  @@index([createdAt(sort: Desc)])
+  @@index([price])
+  // Composite index for common queries
+  @@index([status, categoryId, city])
+}
+
+model ListingImage {
+  id          String   @id @default(cuid())
+  listingId   String
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
+  // Image variants
+  originalUrl String   // Full size
+  mediumUrl   String   // 600px wide
+  thumbUrl    String   // 200px wide
+  
+  // Metadata
+  order       Int      @default(0) // 0 = hero image
+  altText     String?
+  
+  // Moderation
+  isApproved  Boolean  @default(true)
+  moderationScore Float?
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([listingId])
+}
+
+model Category {
+  id          String    @id // e.g., "vehicles", "electronics"
+  name        String    // Display name in Serbian
+  icon        String    // Lucide icon name
+  order       Int       @default(0) // Display order
+  isActive    Boolean   @default(true)
+  
+  listings    Listing[]
+  
+  @@index([isActive, order])
+}
+
+// ============================================================================
+// USER INTERACTIONS
+// ============================================================================
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, listingId])
+  @@index([userId])
+  @@index([listingId])
+}
+
+model SwipeEvent {
+  id        String         @id @default(cuid())
+  userId    String
+  user      User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing        @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
+  direction SwipeDirection
+  
+  // For analytics
+  timeSpentMs Int?         // How long they looked at the card
+  
+  createdAt DateTime       @default(now())
+  
+  @@unique([userId, listingId]) // One swipe per user per listing
+  @@index([userId])
+  @@index([listingId])
+  @@index([createdAt(sort: Desc)])
+}
+
+model SearchProfile {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  name        String   // e.g., "Laptop search"
+  
+  // Saved filters
+  categoryIds String[] // Multiple categories
+  minPrice    Decimal? @db.Decimal(12, 2)
+  maxPrice    Decimal? @db.Decimal(12, 2)
+  city        String?
+  radiusKm    Int?     // Search radius from city center
+  keywords    String[] // Search terms
+  conditions  ItemCondition[]
+  
+  // Notifications
+  notifyNew   Boolean  @default(false) // Alert when new matches
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@index([userId])
+}
+
+// ============================================================================
+// MESSAGING
+// ============================================================================
+
+model Conversation {
+  id          String    @id @default(cuid())
+  
+  // The listing this conversation is about
+  listingId   String
+  listing     Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  
+  // Participants (always 2: buyer and seller)
+  participants User[]   @relation("ConversationParticipants")
+  
+  // Status
+  isArchived  Boolean   @default(false)
+  
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  messages    Message[]
+  
+  @@index([listingId])
+  @@index([updatedAt(sort: Desc)])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  senderId       String
+  sender         User         @relation("SentMessages", fields: [senderId], references: [id])
+  
+  receiverId     String
+  receiver       User         @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  
+  content        String       @db.VarChar(2000)
+  
+  // Read receipts
+  isRead         Boolean      @default(false)
+  readAt         DateTime?
+  
+  createdAt      DateTime     @default(now())
+  
+  @@index([conversationId])
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([createdAt(sort: Desc)])
+}
+
+// ============================================================================
+// MODERATION & SAFETY
+// ============================================================================
+
+model Report {
+  id          String       @id @default(cuid())
+  
+  // Who reported
+  reporterId  String
+  reporter    User         @relation("ReportsMade", fields: [reporterId], references: [id])
+  
+  // What was reported
+  listingId   String?
+  listing     Listing?     @relation(fields: [listingId], references: [id], onDelete: SetNull)
+  
+  reportedUserId String?
+  reportedUser   User?     @relation("ReportsReceived", fields: [reportedUserId], references: [id])
+  
+  reason      ReportReason
+  details     String?      @db.VarChar(1000)
+  
+  // Resolution
+  status      ReportStatus @default(PENDING)
+  resolvedAt  DateTime?
+  resolution  String?      // Admin notes
+  
+  createdAt   DateTime     @default(now())
+  
+  @@index([status])
+  @@index([listingId])
+  @@index([reportedUserId])
+}
+
+// ============================================================================
+// ENUMS
+// ============================================================================
+
+enum ListingStatus {
+  DRAFT           // Not yet submitted
+  PENDING_REVIEW  // Awaiting moderation
+  ACTIVE          // Live and visible
+  SOLD            // Marked as sold by user
+  EXPIRED         // Past expiration date
+  REJECTED        // Failed moderation
+  REMOVED         // Removed by admin
+}
+
+enum ItemCondition {
+  NEW        // Novo
+  LIKE_NEW   // Kao novo
+  GOOD       // Dobro
+  FAIR       // Korišćeno
+}
+
+enum SwipeDirection {
+  LEFT   // Pass/dismiss
+  RIGHT  // Like/favorite
+  UP     // Super like (future feature)
+}
+
+enum ReportReason {
+  SPAM
+  SCAM
+  PROHIBITED_ITEM
+  WRONG_CATEGORY
+  DUPLICATE
+  OFFENSIVE
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  ACTION_TAKEN
+  DISMISSED
+}

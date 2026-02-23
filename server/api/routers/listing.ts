@@ -1,0 +1,347 @@
+// server/api/routers/listing.ts
+import { z } from 'zod'
+import { TRPCError } from '@trpc/server'
+import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
+import {
+  createListingSchema,
+  updateListingSchema,
+  listListingsSchema,
+  getListingSchema,
+  changeListingStatusSchema,
+} from '@/contracts/validators'
+import type {
+  ListingDetail,
+  ListingsResponse,
+  CreateListingResponse,
+  MutationResponse,
+} from '@/contracts/api'
+import { ERRORS, SUCCESS } from '@/lib/constants'
+import { toListingCard, toListingDetail, generateSlug } from '../helpers'
+
+const LISTING_SELECT = `
+  *,
+  listing_images(id, original_url, medium_url, thumb_url, "order"),
+  users(id, name, image, is_verified, phone, city, created_at)
+`
+
+const CARD_SELECT = `
+  *,
+  listing_images(id, original_url, medium_url, thumb_url, "order"),
+  users(id, name, image, is_verified)
+`
+
+export const listingRouter = createTRPCRouter({
+  get: publicProcedure
+    .input(getListingSchema)
+    .query(async ({ ctx, input }): Promise<ListingDetail> => {
+      let query = ctx.supabase
+        .from('listings')
+        .select(LISTING_SELECT)
+
+      if (input.id) {
+        query = query.eq('id', input.id)
+      } else if (input.slug) {
+        // slug is not a DB column in new schema, so search by title pattern
+        // For now, try by id since slugs contain the id suffix
+        const idSuffix = input.slug.split('-').pop() ?? ''
+        query = query.ilike('id', `%${idSuffix}%`)
+      }
+
+      const { data: listing, error } = await query.single()
+
+      if (error || !listing) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: ERRORS.LISTING_NOT_FOUND,
+        })
+      }
+
+      // Increment view count (fire and forget)
+      ctx.supabase
+        .from('listings')
+        .update({ view_count: (listing.view_count ?? 0) + 1 })
+        .eq('id', listing.id)
+        .then(() => { })
+
+      // Get seller's active listing count
+      const { count: listingCount } = await ctx.supabase
+        .from('listings')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', listing.user_id)
+        .eq('status', 'ACTIVE')
+
+      // Check if user favorited / swiped
+      let isFavorited: boolean | undefined
+      let hasSwiped: boolean | undefined
+      if (ctx.user) {
+        const { data: fav } = await ctx.supabase
+          .from('favorites')
+          .select('id')
+          .eq('user_id', ctx.user.id)
+          .eq('listing_id', listing.id)
+          .maybeSingle()
+        isFavorited = !!fav
+
+        const { data: swipe } = await ctx.supabase
+          .from('swipe_events')
+          .select('id')
+          .eq('user_id', ctx.user.id)
+          .eq('listing_id', listing.id)
+          .maybeSingle()
+        hasSwiped = !!swipe
+      }
+
+      return toListingDetail(listing, listingCount ?? 0, ctx.user?.id, { isFavorited, hasSwiped })
+    }),
+
+  list: publicProcedure
+    .input(listListingsSchema)
+    .query(async ({ ctx, input }): Promise<ListingsResponse> => {
+      const limit = input.limit ?? 20
+
+      let query = ctx.supabase
+        .from('listings')
+        .select(CARD_SELECT)
+        .eq('status', 'ACTIVE')
+
+      if (input.userId) {
+        query = query.eq('user_id', input.userId)
+      }
+
+      // Full-text search
+      if (input.query) {
+        const tsQuery = input.query.trim().split(/\s+/).join(' & ')
+        query = query.textSearch('search_vector', tsQuery, { type: 'plain' })
+      }
+
+      // Filters
+      if (input.categoryId) query = query.eq('category_id', input.categoryId)
+      if (input.city) query = query.ilike('city', `%${input.city}%`)
+      if (input.minPrice !== undefined) query = query.gte('price', input.minPrice)
+      if (input.maxPrice !== undefined) query = query.lte('price', input.maxPrice)
+      if (input.conditions?.length) query = query.in('condition', input.conditions)
+
+      // Exclude swiped listings
+      if (input.excludeSwiped && ctx.user) {
+        const { data: swipedIds } = await ctx.supabase
+          .from('swipe_events')
+          .select('listing_id')
+          .eq('user_id', ctx.user.id)
+
+        const ids = swipedIds?.map(s => s.listing_id) ?? []
+        if (ids.length > 0) {
+          query = query.not('id', 'in', `(${ids.join(',')})`)
+        }
+      }
+
+      // Sorting: Premium first, then by selected sort criteria
+      const sortBy = input.sortBy === 'price' ? 'price' : 'created_at'
+      const ascending = input.sortOrder === 'asc'
+      query = query.order('is_premium', { ascending: false }).order(sortBy, { ascending })
+
+      // Offset pagination (cursor = offset number as string)
+      const offset = input.cursor ? parseInt(input.cursor, 10) : 0
+      query = query.range(offset, offset + limit)
+
+      const { data, error } = await query
+      if (error) throw new Error(error.message)
+
+      const items = (data ?? []).slice(0, limit)
+      const hasMore = (data ?? []).length > limit
+
+      return {
+        items: items.map((l) => toListingCard(l, ctx.user?.id)),
+        nextCursor: hasMore ? String(offset + limit) : null,
+        hasMore,
+      }
+    }),
+
+  create: protectedProcedure
+    .input(createListingSchema)
+    .mutation(async ({ ctx, input }): Promise<CreateListingResponse> => {
+      // Rate limiting: max 5 listings per day
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+
+      const { count } = await ctx.supabase
+        .from('listings')
+        .select('id', { count: 'exact', head: true })
+        .eq('user_id', ctx.user.id)
+        .gte('created_at', today.toISOString())
+
+      if ((count ?? 0) >= 5) {
+        throw new TRPCError({
+          code: 'TOO_MANY_REQUESTS',
+          message: 'Dostigli ste dnevni limit od 5 oglasa.',
+        })
+      }
+
+      // Create the listing
+      const { data: listing, error } = await ctx.supabase
+        .from('listings')
+        .insert({
+          title: input.title,
+          description: input.description,
+          price: input.price,
+          currency: input.currency ?? 'RSD',
+          category_id: input.categoryId,
+          condition: (input.condition ?? 'GOOD') as any,
+          city: input.city,
+          user_id: ctx.user.id,
+          status: 'ACTIVE' as any,
+          attributes: input.attributes as any ?? {},
+        })
+        .select()
+        .single()
+
+      if (error || !listing) throw new Error(error?.message ?? 'Failed to create listing')
+
+      // Update with slug
+      const slug = generateSlug(input.title, listing.id)
+      // Note: slug is not a column in the new schema, but we can store it or use ID-based URLs
+
+      // Insert images if provided
+      if (input.imageIds?.length) {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+        const imageRows = input.imageIds.map((id, index) => {
+          const base = `${supabaseUrl}/storage/v1/object/public/listing-images/${id}`
+          return {
+            listing_id: listing.id,
+            original_url: base,
+            medium_url: `${base}?width=800&quality=80`,
+            thumb_url: `${base}?width=400&height=400&resize=cover&quality=70`,
+            order: index,
+          }
+        })
+        await ctx.supabase.from('listing_images').insert(imageRows)
+      }
+
+      return { id: listing.id, slug, status: 'ACTIVE' }
+    }),
+
+  update: protectedProcedure
+    .input(updateListingSchema)
+    .mutation(async ({ ctx, input }): Promise<MutationResponse> => {
+      const { id, ...data } = input
+
+      // Verify ownership
+      const { data: existing } = await ctx.supabase
+        .from('listings')
+        .select('user_id')
+        .eq('id', id)
+        .single()
+
+      if (!existing || existing.user_id !== ctx.user.id) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: ERRORS.LISTING_NOT_FOUND,
+        })
+      }
+
+      const updateData: Record<string, any> = { updated_at: new Date().toISOString() }
+      if (data.title) updateData.title = data.title
+      if (data.description) updateData.description = data.description
+      if (data.price !== undefined) updateData.price = data.price
+      if (data.currency) updateData.currency = data.currency
+      if (data.categoryId) updateData.category_id = data.categoryId
+      if (data.condition) updateData.condition = data.condition
+      if (data.city) updateData.city = data.city
+      if (data.attributes) updateData.attributes = data.attributes
+
+      await ctx.supabase
+        .from('listings')
+        .update(updateData)
+        .eq('id', id)
+
+      return { success: true, message: SUCCESS.LISTING_UPDATED }
+    }),
+
+  changeStatus: protectedProcedure
+    .input(changeListingStatusSchema)
+    .mutation(async ({ ctx, input }): Promise<MutationResponse> => {
+      const { data: existing } = await ctx.supabase
+        .from('listings')
+        .select('user_id')
+        .eq('id', input.id)
+        .single()
+
+      if (!existing || existing.user_id !== ctx.user.id) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: ERRORS.LISTING_NOT_FOUND,
+        })
+      }
+
+      await ctx.supabase
+        .from('listings')
+        .update({ status: input.status as any })
+        .eq('id', input.id)
+
+      return {
+        success: true,
+        message: input.status === 'SOLD' ? SUCCESS.LISTING_SOLD : SUCCESS.LISTING_UPDATED,
+      }
+    }),
+
+  myListings: protectedProcedure
+    .input(
+      z.object({
+        status: z
+          .enum(['ACTIVE', 'SOLD', 'EXPIRED', 'PENDING_REVIEW', 'REJECTED', 'REMOVED'])
+          .optional(),
+        limit: z.number().min(1).max(50).default(20),
+        cursor: z.string().optional(),
+      })
+    )
+    .query(async ({ ctx, input }): Promise<ListingsResponse> => {
+      let query = ctx.supabase
+        .from('listings')
+        .select(CARD_SELECT)
+        .eq('user_id', ctx.user.id)
+
+      if (input.status) {
+        query = query.eq('status', input.status)
+      }
+
+      query = query.order('created_at', { ascending: false })
+
+      const offset = input.cursor ? parseInt(input.cursor, 10) : 0
+      query = query.range(offset, offset + input.limit)
+
+      const { data, error } = await query
+      if (error) throw new Error(error.message)
+
+      const items = (data ?? []).slice(0, input.limit)
+      const hasMore = (data ?? []).length > input.limit
+
+      return {
+        items: items.map((l) => toListingCard(l, ctx.user.id)),
+        nextCursor: hasMore ? String(offset + input.limit) : null,
+        hasMore,
+      }
+    }),
+
+  delete: protectedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }): Promise<MutationResponse> => {
+      const { data: existing } = await ctx.supabase
+        .from('listings')
+        .select('user_id')
+        .eq('id', input.id)
+        .single()
+
+      if (!existing || existing.user_id !== ctx.user.id) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: ERRORS.LISTING_NOT_FOUND,
+        })
+      }
+
+      await ctx.supabase
+        .from('listings')
+        .update({ status: 'REMOVED' as any })
+        .eq('id', input.id)
+
+      return { success: true, message: SUCCESS.LISTING_DELETED }
+    }),
+})

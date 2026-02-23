@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(ls \"C:\\\\Users\\\\sam\\\\Desktop\\\\swipe ads\\\\app\\\\\\(main\\)\"\" 2>/dev/null || ls \"C:UserssamDesktopswipe adsapp \")",
+      "Bash(pnpm db:generate:*)",
+      "Bash(cd:*)",
+      "Bash(npm run db:generate:*)",
+      "Bash(where:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker run:*)",
+      "Bash(npm install)",
+      "Bash(npm cache clean:*)",
+      "Bash(npm install:*)",
+      "Bash(pnpm dev)",
+      "Bash(findstr:*)",
+      "Bash(npx pnpm install)",
+      "Bash(cmd.exe /c \"where php\")",
+      "Bash(cmd.exe /c \"php --version\")",
+      "Bash(powershell.exe -Command \"[System.Environment]::GetEnvironmentVariable\\(''Path'', ''Machine''\\) -split '';'' | Where-Object { $_ -like ''*php*'' }\")",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\sam\\\\Desktop\\\\swipe ads\\\\setup.ps1\")",
+      "Bash(\"C:\\\\Users\\\\sam\\\\AppData\\\\Local\\\\Microsoft\\\\WinGet\\\\Packages\\\\PHP.PHP.8.3_Microsoft.Winget.Source_8wekyb3d8bbwe\\\\php.exe\" artisan tinker --execute=\"echo ''Users: '' . App\\\\Models\\\\User::count\\(\\) . ''\\\\n''; echo ''Listings: '' . App\\\\Models\\\\Listing::count\\(\\) . ''\\\\n''; echo ''Categories: '' . App\\\\Models\\\\Category::count\\(\\) . ''\\\\n'';\")",
+      "Bash(tree:*)"
+    ]
+  }
+}

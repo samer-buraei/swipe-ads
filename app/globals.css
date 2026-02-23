@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+:root {
+  /* 
+    Red Dot Award Design - "Warm Modernist" Palette
+    Inspired by: Porsche Design System (Clean), Airbnb (Warmth), Stripe (Precision)
+  */
+
+  /* Base Surfaces - Warm, paper-like off-white for depth layers */
+  --background: #fdfcfb; 
+  --foreground: #1a1a1a; /* Soft Black for reduced eye strain */
+
+  /* Glassmorphic Surfaces */
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* Primary Brand - "Swipe Action Orange" */
+  /* Purpose: High energy, clear CTAs, matches the 'swipe' physical action */
+  --primary: #FF5A1F;
+  --primary-foreground: #ffffff;
+
+  /* Secondary - "Stone Support" */
+  /* Purpose: Supporting elements, tags, secondary buttons */
+  --secondary: #f4f2f0;
+  --secondary-foreground: #1a1a1a;
+
+  /* Muted - For de-emphasis */
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+
+  /* Accent - Delight moments */
+  --accent: #FF5A1F;
+  --accent-foreground: #ffffff;
+
+  /* Destructive - Warning/Error */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* Borders & Inputs */
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #FF5A1F; /* Focus rings match primary */
+
+  /* Radius System - Deeply rounded for friendly, tactile feel */
+  --radius: 1.5rem; /* 24px */
+}
+
+/* Dark Mode - "Midnight Graphite" */
+/* Purpose: High contrast, OLED-friendly, battery saving */
+.dark {
+  --background: #09090b;
+  --foreground: #fafafa;
+  --card: #121214;
+  --card-foreground: #fafafa;
+  --popover: #121214;
+  --popover-foreground: #fafafa;
+  --primary: #FF5A1F;
+  --primary-foreground: #ffffff;
+  --secondary: #27272a;
+  --secondary-foreground: #fafafa;
+  --muted: #27272a;
+  --muted-foreground: #a1a1a1; /* Softer text in dark mode */
+  --accent: #27272a;
+  --accent-foreground: #fafafa;
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
+  --border: #27272a;
+  --input: #27272a;
+  --ring: #FF5A1F;
+}
+
+@theme inline {
+  /* Color Mapping */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Typography Mapping */
+  /* Sora for UI body text (highly legible, geometric) */
+  --font-sans: var(--font-body), "Inter", sans-serif;
+  /* Fraunces for Display/Headings (character, elegance) */
+  --font-serif: var(--font-display), "Georgia", serif;
+  --font-display: var(--font-display);
+
+  /* Radius tokens */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Animations - "Living Interface" */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-fade-out: fade-out 0.3s ease-in;
+  --animate-float: float 6s ease-in-out infinite;
+
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+}
+
+/* Base Global Styles */
+body {
+  @apply bg-background text-foreground;
+  font-family: var(--font-sans);
+  /* Text Rendering Optimization */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Premium Feel settings */
+  line-height: 1.6;
+}
+
+/* Heading Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  @apply font-semibold tracking-tight;
+  /* Subtle letter spacing for headings */
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  @apply bg-white/70 backdrop-blur-lg border border-white/20 shadow-xl;
+}
+.dark .glass {
+  @apply bg-black/70 border-white/5;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
