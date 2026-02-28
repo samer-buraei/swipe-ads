@@ -39,3 +39,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# testing output (generated, never commit)
+/playwright-report/
+/test-results/
+/coverage/
+*.log
+
+# scratch / temp files
+seed-user2.ts
+seed-user2-fetch.js
+test_from.ts
+test_row.ts
+test_types.ts
+test_update.ts
+
+# AI agent scratch output
+lmstudio_qwen_output/
+
+# OS
+Thumbs.db
