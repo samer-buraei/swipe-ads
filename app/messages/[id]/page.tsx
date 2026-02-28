@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
+import { createClient } from '@/lib/supabase/client';
 
 export default function ConversationPage() {
   const params = useParams<{ id: string }>();
@@ -27,17 +28,72 @@ export default function ConversationPage() {
   const sendMutation = api.message.send.useMutation({
     onSuccess: () => {
       setMessage('');
-      utils.message.getConversation.invalidate({ conversationId: params.id }).catch(() => { });
       utils.message.listConversations.invalidate().catch(() => { });
     },
   });
+
+  const markReadMutation = api.message.markRead.useMutation();
+
+  const [liveMessages, setLiveMessages] = useState<any[]>([]);
+
+  // Initial Sync & Mark Read
+  useEffect(() => {
+    if (data?.messages) {
+      setLiveMessages(data.messages);
+
+      const hasUnread = data.messages.some(m => !m.isFromMe && !m.isRead);
+      if (hasUnread) {
+        markReadMutation.mutate({ conversationId: params.id });
+        utils.message.listConversations.invalidate();
+      }
+    }
+  }, [data?.messages]);
+
+  // Realtime Subscription
+  useEffect(() => {
+    if (!data?.otherUser?.id) return;
+
+    const supabase = createClient();
+    const channel = supabase
+      .channel(`room_${params.id}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'messages',
+        filter: `conversation_id=eq.${params.id}`,
+      }, (payload) => {
+        const newMsg = payload.new as any;
+        const msg = {
+          id: newMsg.id,
+          content: newMsg.content,
+          isFromMe: newMsg.sender_id !== data.otherUser.id,
+          isRead: newMsg.is_read,
+          createdAt: new Date(newMsg.created_at),
+        };
+
+        setLiveMessages(prev => {
+          if (prev.some(m => m.id === msg.id)) return prev;
+          return [...prev, msg];
+        });
+
+        if (!msg.isFromMe) {
+          markReadMutation.mutate({ conversationId: params.id });
+          utils.message.listConversations.invalidate();
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [data?.otherUser?.id, params.id]);
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [data?.messages]);
+  }, [liveMessages]);
 
   if (isLoading) {
     return (
@@ -99,9 +155,9 @@ export default function ConversationPage() {
         className="flex-1 overflow-y-auto px-1 py-4 space-y-4 scroll-smooth"
       >
         <AnimatePresence initial={false}>
-          {data.messages.map((msg, i) => {
+          {liveMessages.map((msg, i) => {
             const isMe = msg.isFromMe;
-            const isSequenced = i > 0 && data.messages[i - 1].isFromMe === isMe;
+            const isSequenced = i > 0 && liveMessages[i - 1].isFromMe === isMe;
 
             return (
               <motion.div

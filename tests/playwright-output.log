@@ -1,0 +1,56 @@
+
+Running 5 tests using 1 worker
+
+[1A[2K[1/5] [chromium] ΓÇ║ tests\e2e.spec.ts:16:9 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Homepage loads and shows Exchange Rate converted prices
+[1A[2K[2/5] [chromium] ΓÇ║ tests\e2e.spec.ts:16:9 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Homepage loads and shows Exchange Rate converted prices (retry #1)
+[1A[2K  1) [chromium] ΓÇ║ tests\e2e.spec.ts:16:9 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Homepage loads and shows Exchange Rate converted prices 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"SwipeMarket - Prodaj i kupi brzo"[39m
+    Received: [31m""[39m
+
+      20 |
+      21 |         const title = await page.title();
+    > 22 |         expect(title).toBe('SwipeMarket - Prodaj i kupi brzo');
+         |                       ^
+      23 |     });
+      24 |
+      25 |     test('Public Profile Routing Resolves', async ({ page }) => {
+        at C:\Users\sam\Desktop\swipemarket\tests\e2e.spec.ts:22:23
+
+    Retry #1 ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m"SwipeMarket - Prodaj i kupi brzo"[39m
+    Received: [31m""[39m
+
+      20 |
+      21 |         const title = await page.title();
+    > 22 |         expect(title).toBe('SwipeMarket - Prodaj i kupi brzo');
+         |                       ^
+      23 |     });
+      24 |
+      25 |     test('Public Profile Routing Resolves', async ({ page }) => {
+        at C:\Users\sam\Desktop\swipemarket\tests\e2e.spec.ts:22:23
+
+    attachment #1: trace (application/zip) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+    test-results\e2e-SwipeMarket-E2E-Flow-H-f87fc-hange-Rate-converted-prices-chromium-retry1\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\e2e-SwipeMarket-E2E-Flow-H-f87fc-hange-Rate-converted-prices-chromium-retry1\trace.zip
+
+    ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+
+[1A[2K[3/5] [chromium] ΓÇ║ tests\e2e.spec.ts:25:9 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Public Profile Routing Resolves
+[1A[2K[4/5] [chromium] ΓÇ║ tests\e2e.spec.ts:32:10 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ New Listing - Dynamic Categories & Limits
+[1A[2K[5/5] [chromium] ΓÇ║ tests\e2e.spec.ts:50:10 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Admin Guard Validation
+[1A[2K[6/5] (retries) [chromium] ΓÇ║ tests\e2e.spec.ts:56:10 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Search Profiles Setup
+[1A[2K  1 failed
+    [chromium] ΓÇ║ tests\e2e.spec.ts:16:9 ΓÇ║ SwipeMarket E2E Flow ΓÇ║ Homepage loads and shows Exchange Rate converted prices 
+  3 skipped
+  1 passed (15.6s)
+
+[36m  Serving HTML report at http://localhost:9323. Press Ctrl+C to quit.[39m

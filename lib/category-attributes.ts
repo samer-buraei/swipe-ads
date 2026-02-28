@@ -9,11 +9,11 @@ import type { CategoryId } from './constants';
 // FIELD TYPES
 // ============================================================================
 
-export type FieldType = 
-  | 'text' 
-  | 'number' 
-  | 'select' 
-  | 'multiselect' 
+export type FieldType =
+  | 'text'
+  | 'number'
+  | 'select'
+  | 'multiselect'
   | 'boolean'
   | 'year';
 
@@ -83,10 +83,10 @@ export const vehicleAttributesSchema = z.object({
 export type VehicleAttributes = z.infer<typeof vehicleAttributesSchema>;
 
 export const vehicleFields: AttributeField[] = [
-  { 
-    name: 'brand', 
-    label: 'Marka', 
-    type: 'select', 
+  {
+    name: 'brand',
+    label: 'Marka',
+    type: 'select',
     required: true,
     options: vehicleBrands.map(b => ({ value: b.toLowerCase(), label: b })),
   },
@@ -175,7 +175,7 @@ export const electronicsTypes = [
 ] as const;
 
 export const electronicsBrands = [
-  'Apple', 'Samsung', 'Xiaomi', 'Huawei', 'Sony', 'LG', 'Lenovo', 'HP', 
+  'Apple', 'Samsung', 'Xiaomi', 'Huawei', 'Sony', 'LG', 'Lenovo', 'HP',
   'Dell', 'Asus', 'Acer', 'MSI', 'Razer', 'Canon', 'Nikon', 'JBL',
   'Bose', 'Marshall', 'Nintendo', 'PlayStation', 'Xbox', 'Ostalo'
 ] as const;
@@ -280,11 +280,13 @@ export const sportsFields: AttributeField[] = [
   { name: 'sportType', label: 'Vrsta sporta', type: 'select', required: false, options: [...sportTypes] },
   { name: 'brand', label: 'Marka', type: 'text', required: false, placeholder: 'npr. Adidas, Nike' },
   { name: 'size', label: 'Veličina', type: 'text', required: false, placeholder: 'npr. L, 54cm' },
-  { name: 'forAge', label: 'Za uzrast', type: 'select', required: false, options: [
-    { value: 'deca', label: 'Deca' },
-    { value: 'odrasli', label: 'Odrasli' },
-    { value: 'svi', label: 'Svi uzrasti' },
-  ]},
+  {
+    name: 'forAge', label: 'Za uzrast', type: 'select', required: false, options: [
+      { value: 'deca', label: 'Deca' },
+      { value: 'odrasli', label: 'Odrasli' },
+      { value: 'svi', label: 'Svi uzrasti' },
+    ]
+  },
 ];
 
 // ============================================================================
@@ -430,27 +432,25 @@ export const categoryAttributesSchema = z.union([
 ]).optional();
 
 // Map category ID to its fields
-export const categoryFieldsMap: Record<CategoryId, AttributeField[]> = {
-  vehicles: vehicleFields,
-  home: realEstateFields,
-  electronics: electronicsFields,
-  fashion: fashionFields,
-  sports: sportsFields,
-  kids: kidsFields,
-  pets: petsFields,
-  services: servicesFields,
+export const categoryFieldsMap: Partial<Record<CategoryId, AttributeField[]>> = {
+  vozila: vehicleFields,
+  nekretnine: realEstateFields,
+  elektronika: electronicsFields,
+  odeca: fashionFields,
+  sport: sportsFields,
+  'kucni-ljubimci': petsFields,
+  ostalo: servicesFields,
 };
 
 // Map category ID to its Zod schema
-export const categorySchemaMap: Record<CategoryId, z.ZodTypeAny> = {
-  vehicles: vehicleAttributesSchema,
-  home: realEstateAttributesSchema,
-  electronics: electronicsAttributesSchema,
-  fashion: fashionAttributesSchema,
-  sports: sportsAttributesSchema,
-  kids: kidsAttributesSchema,
-  pets: petsAttributesSchema,
-  services: servicesAttributesSchema,
+export const categorySchemaMap: Partial<Record<CategoryId, z.ZodTypeAny>> = {
+  vozila: vehicleAttributesSchema,
+  nekretnine: realEstateAttributesSchema,
+  elektronika: electronicsAttributesSchema,
+  odeca: fashionAttributesSchema,
+  sport: sportsAttributesSchema,
+  'kucni-ljubimci': petsAttributesSchema,
+  ostalo: servicesAttributesSchema,
 };
 
 // Get fields for a category
@@ -470,11 +470,11 @@ export function validateCategoryAttributes(
 ): { success: true; data: Record<string, unknown> } | { success: false; errors: string[] } {
   const schema = getCategorySchema(categoryId);
   const result = schema.safeParse(attributes);
-  
+
   if (result.success) {
     return { success: true, data: result.data as Record<string, unknown> };
   }
-  
+
   const errors = result.error.errors.map(e => `${e.path.join('.')}: ${e.message}`);
   return { success: false, errors };
 }

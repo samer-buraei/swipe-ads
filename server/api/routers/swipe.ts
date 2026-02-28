@@ -79,6 +79,7 @@ export const swipeRouter = createTRPCRouter({
           users(id, name, image, is_verified)
         `)
         .eq('status', 'ACTIVE')
+        .neq('user_id', ctx.user.id)
         .order('created_at', { ascending: false })
         .limit(count)
 
@@ -100,6 +101,7 @@ export const swipeRouter = createTRPCRouter({
         .from('listings')
         .select('id', { count: 'exact', head: true })
         .eq('status', 'ACTIVE')
+        .neq('user_id', ctx.user.id)
 
       if (input.categoryId) countQuery = countQuery.eq('category_id', input.categoryId)
       if (input.city) countQuery = countQuery.ilike('city', `%${input.city}%`)

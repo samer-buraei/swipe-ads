@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { api } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
 interface ListingCardProps {
   listing: ListingCardType;
@@ -19,6 +20,7 @@ interface ListingCardProps {
 export function ListingCard({ listing, className }: ListingCardProps) {
   const [localFavorite, setLocalFavorite] = useState(listing.isFavorited ?? false);
   const utils = api.useUtils();
+  const { data: exchange } = useExchangeRate();
   const toggleFavorite = api.favorite.toggle.useMutation({
     onSuccess: (data) => {
       setLocalFavorite(data.isFavorited);
@@ -67,8 +69,20 @@ export function ListingCard({ listing, className }: ListingCardProps) {
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 flex-1 space-y-1">
             {/* Price - The most important info */}
-            <div className="text-xl font-bold tracking-tight text-primary">
-              {formatPrice(listing.price, listing.currency)}
+            <div className="flex flex-col">
+              <div className="text-xl font-bold tracking-tight text-primary flex items-center flex-wrap gap-2">
+                <span>{formatPrice(listing.price, listing.currency)}</span>
+                {exchange?.rate && (
+                  <span className="text-sm font-medium text-muted-foreground/70 tracking-normal">
+                    (~{formatPrice(
+                      listing.currency === 'RSD'
+                        ? Math.round(listing.price / exchange.rate)
+                        : Math.round(listing.price * exchange.rate),
+                      listing.currency === 'RSD' ? 'EUR' : 'RSD'
+                    )})
+                  </span>
+                )}
+              </div>
             </div>
 
             <Link href={ROUTES.listing(listing.slug)}>
@@ -87,10 +101,10 @@ export function ListingCard({ listing, className }: ListingCardProps) {
               {listing.attributes && (
                 <>
                   <span className="text-muted-foreground/30">•</span>
-                  {(listing.categoryId === 'vehicles' && listing.attributes.brand) ? (
+                  {(listing.categoryId === 'vozila' && listing.attributes.brand) ? (
                     <span>{listing.attributes.brand} {listing.attributes.model}</span>
-                  ) : (listing.categoryId === 'home' && listing.attributes.type) ? (
-                    <span>{listing.attributes.type} {listing.attributes.sqm}m²</span>
+                  ) : (listing.categoryId === 'nekretnine' && listing.attributes.propertyType) ? (
+                    <span>{listing.attributes.propertyType} {listing.attributes.sqm}m²</span>
                   ) : (
                     <span>{listing.attributes.condition || 'Polovno'}</span>
                   )}

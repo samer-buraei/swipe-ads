@@ -7,14 +7,16 @@
 // ============================================================================
 
 export const CATEGORIES = [
-  { id: 'vehicles', name: 'Vozila', icon: 'Car', order: 0 },
-  { id: 'electronics', name: 'Elektronika', icon: 'Smartphone', order: 1 },
-  { id: 'home', name: 'Kuća i bašta', icon: 'Home', order: 2 },
-  { id: 'fashion', name: 'Moda', icon: 'Shirt', order: 3 },
-  { id: 'sports', name: 'Sport i rekreacija', icon: 'Dumbbell', order: 4 },
-  { id: 'kids', name: 'Deca i bebe', icon: 'Baby', order: 5 },
-  { id: 'pets', name: 'Ljubimci', icon: 'PawPrint', order: 6 },
-  { id: 'services', name: 'Usluge', icon: 'Wrench', order: 7 },
+  { id: 'nekretnine', name: 'Nekretnine', icon: 'Home', order: 1 },
+  { id: 'vozila', name: 'Vozila', icon: 'Car', order: 2 },
+  { id: 'elektronika', name: 'Elektronika', icon: 'Smartphone', order: 3 },
+  { id: 'namestaj', name: 'Nameštaj i pokućstvo', icon: 'Sofa', order: 4 },
+  { id: 'odeca', name: 'Odeća, obuća, dodaci', icon: 'Shirt', order: 5 },
+  { id: 'sport', name: 'Sport i rekreacija', icon: 'Dumbbell', order: 6 },
+  { id: 'knjige', name: 'Knjige', icon: 'Book', order: 7 },
+  { id: 'kucni-ljubimci', name: 'Kućni ljubimci', icon: 'PawPrint', order: 8 },
+  { id: 'masine', name: 'Mašine, alati i oprema', icon: 'Wrench', order: 9 },
+  { id: 'ostalo', name: 'Ostalo', icon: 'Package', order: 10 },
 ] as const;
 
 export type CategoryId = (typeof CATEGORIES)[number]['id'];

@@ -1,0 +1,2148 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/sam/Desktop/swipemarket[39m
+
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useQuery.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/string.test.ts [2m([22m[2m76 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/queryClient.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useQueries.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useMutation.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/string.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 234[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/template-literal.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 67[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/suspense.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/QueryResetErrorBoundary.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/index.test.ts [2m([22m[2m56 tests[22m[2m)[22m[32m 98[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/error.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/index.test.ts [2m([22m[2m56 tests[22m[2m)[22m[32m 93[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/discriminated-unions.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 60[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/error.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/lib/__tests__/tsconfig-loader.test.js [2m([22m[2m17 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/refine.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/primitive.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/object.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/async-parsing.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/src/__tests__/tsconfig-loader.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/error-utils.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/object.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 50[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/readonly.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/entities/src/decode.spec.ts [2m([22m[2m48 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useInfiniteQuery.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/query.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/utils.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/mutationCache.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/hydration.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/async-parsing.test.ts [2m([22m[2m23 tests[22m[2m)[22m[33m 529[2mms[22m[39m
+   [33m[2mΓ£ô[22m[39m async validation multiple errors 2 [33m 506[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/queryObserver.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v4/classic/tests/datetime.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/gensync/test/index.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/refine.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/language-server.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/string.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/discriminated-unions.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/next/dist/trace/trace.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 164[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js [2m([22m[2m5 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 8[2mms[22m[39m
+[31m       [31m├ù[31m Default CSS[39m[32m 4[2mms[22m[39m
+[31m       [31m├ù[31m Weight and style[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m Other properties[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m Multiple weights default style[39m[32m 1[2mms[22m[39m
+[31m       [31m├ù[31m Multiple styles default weight[39m[32m 0[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/number.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/coerce.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/readonly.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/partials.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/enum.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/queriesObserver.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/record.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/continuability.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/recursive-types.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/default.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 36[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/primitive.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/array.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/mutations.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/queryCache.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/ssr-hydration.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/QueryClientProvider.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useIsMutating.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/lib/__tests__/try-path.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/useIsFetching.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/coerce.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/catch.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/preprocess.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/Hydrate.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/assignability.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/function.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/catch.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/number.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/json-schema-traverse/spec/index.spec.js [2m([22m[2m10 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/function.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/google/loader.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/src/__tests__/try-path.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/deepmasking.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/set.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 45[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/react-query/src/__tests__/ssr.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/object.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/recursive-types.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/registries.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/all-errors.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/set.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/partial.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/entities/src/index.spec.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/preprocess.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/map.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/onlineManager.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/pickomit.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/intersection.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/lazy.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/focusManager.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/local/pick-font-file-for-fallback-generation.test.js [2m([22m[2m6 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 22[2mms[22m[39m
+     [32mΓ£ô[39m should pick the weight closest to 400[32m 3[2mms[22m[39m
+     [32mΓ£ô[39m should pick the thinner weight if both have the same distance to 400[32m 0[2mms[22m[39m
+     [32mΓ£ô[39m should pick variable range closest to 400[32m 0[2mms[22m[39m
+     [32mΓ£ô[39m should prefer normal style over italic[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should error on invalid weight in array[39m[32m 13[2mms[22m[39m
+[31m     [31m├ù[31m Invalid variable weight in array[39m[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/optional.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js [2m([22m[2m10 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[32m 37[2mms[22m[39m
+[31m     [31m├ù[31m Missing function name[39m[32m 10[2mms[22m[39m
+[31m     [31m├ù[31m Unknown font[39m[32m 4[2mms[22m[39m
+[31m     [31m├ù[31m Unknown weight[39m[32m 6[2mms[22m[39m
+[31m     [31m├ù[31m Missing weight for non variable font[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m Unknown style[39m[32m 5[2mms[22m[39m
+[31m     [31m├ù[31m Invalid display value[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m Variable in weight array[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m Invalid subset in call[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m Missing subsets in config and call[39m[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m Setting axes on non variable font[39m[32m 1[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v4/mini/tests/checks.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/lib/__tests__/config-loader.test.js [2m([22m[2m5 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 9[2mms[22m[39m
+     [32mΓ£ô[39m should use explicitParams when set[32m 2[2mms[22m[39m
+     [32mΓ£ô[39m should use explicitParams when set and add cwd when path is relative[32m 0[2mms[22m[39m
+     [32mΓ£ô[39m should fallback to tsConfigLoader when explicitParams is not set[32m 0[2mms[22m[39m
+     [32mΓ£ô[39m should show an error message when baseUrl is missing[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should presume cwd to be a tsconfig file when loadConfig is called with absolute path to tsconfig.json[39m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/next/dist/compiled/@next/font/dist/google/find-font-files-in-css.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/recursive.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/@tanstack/react-query/src/__tests__/useQuery.types.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v4/core/tests/locales/be.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v4/core/tests/locales/ru.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/record.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/number.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/nested-refine.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 23[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/pickomit.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/map.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/default.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/src/__tests__/config-loader.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/intersection.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [2m[90mΓåô[39m[22m node_modules/zod/src/v4/classic/tests/json.test.ts [2m([22m[2m1 test[22m[2m | [22m[33m1 skipped[39m[2m)[22m
+ [32mΓ£ô[39m node_modules/entities/src/encode.spec.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/assignability.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/enum.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m test/api.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/promise.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/standard-schema.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v4/classic/tests/file.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@supabase/ssr/dist/main/utils/base64url.test.js [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/string-formats.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/firstparty.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/literal.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/lib/__tests__/mapping-entry.test.js [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 15[2mms[22m[39m
+     [32mΓ£ô[39m should change to absolute paths and sort in longest prefix order[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m should should add a match-all pattern when requested[39m[32m 10[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/infiniteQueryBehavior.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/firstparty.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/nonoptional.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/nativeEnum.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/@supabase/ssr/dist/module/utils/base64url.test.js [2m([22m[2m24 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/stringbool.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/promise.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/next/dist/trace/report/index.test.js [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 16[2mms[22m[39m
+       [32mΓ£ô[39m should write the trace events to JSON file[32m 11[2mms[22m[39m
+[31m       [31m├ù[31m should record telemetry event[39m[32m 3[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/@supabase/ssr/src/utils/base64url.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/brand.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/next/dist/compiled/@next/font/dist/google/sort-fonts-variant-values.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/generics.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/bigint.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/mutationObserver.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js [2m([22m[2m6 tests[22m[2m | [22m[31m6 failed[39m[2m)[22m[32m 18[2mms[22m[39m
+[31m     [31m├ù[31m Not using default export[39m[32m 9[2mms[22m[39m
+[31m     [31m├ù[31m Missing src[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m Invalid file extension[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m Invalid display value[39m[32m 2[2mms[22m[39m
+[31m     [31m├ù[31m Invalid declaration[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m Empty src array[39m[32m 1[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/notifyManager.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/bigint.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/array.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/src/__tests__/mapping-entry.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 14[2mms[22m[39m
+     [32mΓ£ô[39m should change to absolute paths and sort in longest prefix order[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m should should add a match-all pattern when requested[39m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/async-refinements.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/complex.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 9[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/generics.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/async-refinements.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/pipe.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/branded.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/@tanstack/query-core/src/tests/infiniteQueryObserver.test.tsx [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/description.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v4/mini/tests/brand.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/functions.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/optional.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/description.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/standard-schema.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/nullable.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/core/tests/index.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/instanceof.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 17[2mms[22m[39m
+[31m     [31m├ù[31m Setting axes on font without definable axes[39m[32m 10[2mms[22m[39m
+[31m     [31m├ù[31m Invalid axes value[39m[32m 3[2mms[22m[39m
+[31m     [31m├ù[31m Invalid value in axes array[39m[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/custom.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/computed.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/parser.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/literal.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/prefault.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/instanceof.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/date.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/date.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/custom.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js [2m([22m[2m17 tests[22m[2m | [22m[31m17 failed[39m[2m)[22m[32m 15[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and exists[39m[32m 5[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to correct path when many are specified[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and prioritize pattern with longest prefix[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and exists with extension[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve request with extension specified[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches without star and exists[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to parent folder when filename is in subfolder[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from main field in package.json[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from main field in package.json (js)[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from list of fields by priority in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should ignore field mappings to missing files in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should ignore advanced field mappings in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to with the help of baseUrl when not explicitly set[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not resolve with the help of baseUrl when asked not to[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not locate path that does not match[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not resolve typings file (index.d.ts)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should resolve main file with cjs file extension[39m[32m 0[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/prototypes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/parseUtil.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v4/core/tests/locales/en.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/firstpartyschematypes.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/pipeline.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/base.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/object-in-es5-env.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/lib/__tests__/match-path-sync.test.js [2m([22m[2m17 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts [2m([22m[2m17 tests[22m[2m | [22m[31m17 failed[39m[2m)[22m[32m 13[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and exists[39m[32m 4[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to correct path when many are specified[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and prioritize pattern with longest prefix[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches with star and exists with extension[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve request with extension specified[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should locate path that matches without star and exists[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to parent folder when filename is in subfolder[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from main field in package.json[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from main field in package.json (js)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should resolve from list of fields by priority in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should ignore field mappings to missing files in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should ignore advanced field mappings in package.json[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should resolve to with the help of baseUrl when not explicitly set[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not resolve with the help of baseUrl when asked not to[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not locate path that does not match[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should not resolve typings file (index.d.ts)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m should resolve main file with cjs file extension[39m[32m 0[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/coalesce.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [31mΓ¥»[39m node_modules/zod/src/v3/tests/anyunknown.test.ts [2m([22m[2m0 test[22m[2m)[22m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/nan.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/mini/tests/error.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/safeparse.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/tsconfig-paths/src/__tests__/match-path-sync.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/anyunknown.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/nan.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/object-augmentation.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/masking.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v3/tests/mocker.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/nullable.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/entities/src/escape.spec.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/prototypes.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mΓ£ô[39m node_modules/zod/src/v4/classic/tests/base.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Suites 67 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  node_modules/entities/src/index.spec.ts [ node_modules/entities/src/index.spec.ts ]
+Error: Failed to resolve import "../maps/legacy.json" from "node_modules/entities/src/index.spec.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/entities/src/index.spec.ts:4:19
+  2  |  import { describe, it, expect } from "vitest";
+  3  |  import * as entities from "./index.js";
+  4  |  import legacy from "../maps/legacy.json";
+     |                      ^
+  5  |  const levels = ["xml", "entities"];
+  6  |  describe("Documents", () => {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/131]ΓÄ»
+
+ FAIL  node_modules/gensync/test/index.test.js [ node_modules/gensync/test/index.test.js ]
+Error: Cannot find module 'util.promisify'
+Require stack:
+- C:\Users\sam\Desktop\swipemarket\node_modules\gensync\test\index.test.js
+ Γ¥» Object.<anonymous> node_modules/gensync/test/index.test.js:3:19
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/config-loader.test.ts [ node_modules/tsconfig-paths/src/__tests__/config-loader.test.ts ]
+TypeError: (0 , __vite_ssr_import_0__) is not a function
+ Γ¥» node_modules/tsconfig-paths/src/options.ts:3:14
+      1| import * as minimist from "minimist";
+      2| 
+      3| const argv = minimist(process.argv.slice(2), {
+       |              ^
+      4|   string: ["project"],
+      5|   alias: {
+ Γ¥» node_modules/tsconfig-paths/src/config-loader.ts:3:1
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/config-loader.test.ts:1:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/focusManager.test.tsx [ node_modules/@tanstack/query-core/src/tests/focusManager.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/focusManager.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/hydration.test.tsx [ node_modules/@tanstack/query-core/src/tests/hydration.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/hydration.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/infiniteQueryBehavior.test.tsx [ node_modules/@tanstack/query-core/src/tests/infiniteQueryBehavior.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/infiniteQueryBehavior.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/infiniteQueryObserver.test.tsx [ node_modules/@tanstack/query-core/src/tests/infiniteQueryObserver.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/infiniteQueryObserver.test.tsx:2:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/mutationCache.test.tsx [ node_modules/@tanstack/query-core/src/tests/mutationCache.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/mutationCache.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/mutationObserver.test.tsx [ node_modules/@tanstack/query-core/src/tests/mutationObserver.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/mutationObserver.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/mutations.test.tsx [ node_modules/@tanstack/query-core/src/tests/mutations.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/mutations.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/notifyManager.test.tsx [ node_modules/@tanstack/query-core/src/tests/notifyManager.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/notifyManager.test.tsx:2:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/onlineManager.test.tsx [ node_modules/@tanstack/query-core/src/tests/onlineManager.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/onlineManager.test.tsx:2:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/queriesObserver.test.tsx [ node_modules/@tanstack/query-core/src/tests/queriesObserver.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/queriesObserver.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[13/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/query.test.tsx [ node_modules/@tanstack/query-core/src/tests/query.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/query.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[14/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/queryCache.test.tsx [ node_modules/@tanstack/query-core/src/tests/queryCache.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/queryCache.test.tsx:3:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[15/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/queryClient.test.tsx [ node_modules/@tanstack/query-core/src/tests/queryClient.test.tsx ]
+Error: Failed to resolve import "@testing-library/jest-dom" from "node_modules/@tanstack/query-core/src/tests/queryClient.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/query-core/src/tests/queryClient.test.tsx:2:7
+  1  |  import { waitFor } from "@testing-library/react";
+  2  |  import "@testing-library/jest-dom";
+     |          ^
+  3  |  import { InfiniteQueryObserver, MutationObserver, QueryObserver } from "..";
+  4  |  import { focusManager, onlineManager } from "..";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[16/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/queryObserver.test.tsx [ node_modules/@tanstack/query-core/src/tests/queryObserver.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/queryObserver.test.tsx:2:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[17/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/query-core/src/tests/utils.test.tsx [ node_modules/@tanstack/query-core/src/tests/utils.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.ts:21:8
+     19| 
+     20| export const mockLogger = {
+     21|   log: jest.fn(),
+       |        ^
+     22|   warn: jest.fn(),
+     23|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/query-core/src/tests/utils.test.tsx:12:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[18/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/Hydrate.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/Hydrate.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/utils.tsx:62:8
+     60| 
+     61| export const mockLogger = {
+     62|   log: jest.fn(),
+       |        ^
+     63|   warn: jest.fn(),
+     64|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/Hydrate.test.tsx:14:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[19/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/QueryClientProvider.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/QueryClientProvider.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/utils.tsx:62:8
+     60| 
+     61| export const mockLogger = {
+     62|   log: jest.fn(),
+       |        ^
+     63|   warn: jest.fn(),
+     64|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/QueryClientProvider.test.tsx:12:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[20/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/QueryResetErrorBoundary.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/QueryResetErrorBoundary.test.tsx ]
+Error: Failed to resolve import "react-error-boundary" from "node_modules/@tanstack/react-query/src/__tests__/QueryResetErrorBoundary.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/QueryResetErrorBoundary.test.tsx:2:30
+  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import { ErrorBoundary } from "react-error-boundary";
+     |                                 ^
+  4  |  import * as React from "react";
+  5  |  import { QueryCache, QueryErrorResetBoundary, useQueries, useQuery } from "..";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[21/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/ssr-hydration.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/ssr-hydration.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/utils.tsx:62:8
+     60| 
+     61| export const mockLogger = {
+     62|   log: jest.fn(),
+       |        ^
+     63|   warn: jest.fn(),
+     64|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/ssr-hydration.test.tsx:15:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[22/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/ssr.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/ssr.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/utils.tsx:62:8
+     60| 
+     61| export const mockLogger = {
+     62|   log: jest.fn(),
+       |        ^
+     63|   warn: jest.fn(),
+     64|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/ssr.test.tsx:10:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[23/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/suspense.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/suspense.test.tsx ]
+Error: Failed to resolve import "react-error-boundary" from "node_modules/@tanstack/react-query/src/__tests__/suspense.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/suspense.test.tsx:3:30
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import * as React from "react";
+  4  |  import { ErrorBoundary } from "react-error-boundary";
+     |                                 ^
+  5  |  import {
+  6  |    QueryCache,
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[24/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useInfiniteQuery.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useInfiniteQuery.test.tsx ]
+ReferenceError: jest is not defined
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/utils.tsx:62:8
+     60| 
+     61| export const mockLogger = {
+     62|   log: jest.fn(),
+       |        ^
+     63|   warn: jest.fn(),
+     64|   error: jest.fn(),
+ Γ¥» node_modules/@tanstack/react-query/src/__tests__/useInfiniteQuery.test.tsx:5:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[25/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useIsFetching.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useIsFetching.test.tsx ]
+Error: Failed to resolve import "react-error-boundary" from "node_modules/@tanstack/react-query/src/__tests__/useIsFetching.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/useIsFetching.test.tsx:3:30
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import * as React from "react";
+  4  |  import { ErrorBoundary } from "react-error-boundary";
+     |                                 ^
+  5  |  import { QueryCache, useIsFetching, useQuery } from "..";
+  6  |  import {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[26/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useIsMutating.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useIsMutating.test.tsx ]
+Error: Failed to resolve import "react-error-boundary" from "node_modules/@tanstack/react-query/src/__tests__/useIsMutating.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/useIsMutating.test.tsx:3:30
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import * as React from "react";
+  4  |  import { ErrorBoundary } from "react-error-boundary";
+     |                                 ^
+  5  |  import { QueryClient } from "@tanstack/query-core";
+  6  |  import { useIsMutating } from "../useIsMutating";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[27/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useMutation.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useMutation.test.tsx ]
+Error: Failed to resolve import "@testing-library/jest-dom" from "node_modules/@tanstack/react-query/src/__tests__/useMutation.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/useMutation.test.tsx:2:7
+  1  |  import { jsxDEV } from "react/jsx-dev-runtime";
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import "@testing-library/jest-dom";
+     |          ^
+  4  |  import * as React from "react";
+  5  |  import { ErrorBoundary } from "react-error-boundary";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[28/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useQueries.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useQueries.test.tsx ]
+Error: Failed to resolve import "react-error-boundary" from "node_modules/@tanstack/react-query/src/__tests__/useQueries.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/useQueries.test.tsx:3:30
+  2  |  import { fireEvent, waitFor } from "@testing-library/react";
+  3  |  import * as React from "react";
+  4  |  import { ErrorBoundary } from "react-error-boundary";
+     |                                 ^
+  5  |  import * as QueriesObserverModule from "../../../query-core/src/queriesObserver";
+  6  |  import { QueriesObserver, QueryCache, useQueries } from "..";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[29/131]ΓÄ»
+
+ FAIL  node_modules/@tanstack/react-query/src/__tests__/useQuery.test.tsx [ node_modules/@tanstack/react-query/src/__tests__/useQuery.test.tsx ]
+Error: Failed to resolve import "@testing-library/jest-dom" from "node_modules/@tanstack/react-query/src/__tests__/useQuery.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/@tanstack/react-query/src/__tests__/useQuery.test.tsx:2:7
+  1  |  import { Fragment, jsxDEV } from "react/jsx-dev-runtime";
+  2  |  import { act, fireEvent, waitFor } from "@testing-library/react";
+  3  |  import "@testing-library/jest-dom";
+     |          ^
+  4  |  import * as React from "react";
+  5  |  import { ErrorBoundary } from "react-error-boundary";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[30/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/all-errors.test.ts [ node_modules/zod/src/v3/tests/all-errors.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/all-errors.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/all-errors.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const Test = z.object({
+  5  |    f1: z.number(),
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[31/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/anyunknown.test.ts [ node_modules/zod/src/v3/tests/anyunknown.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/anyunknown.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/anyunknown.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("check any inference", () => {
+  5  |    const t1 = z.any();
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[32/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/array.test.ts [ node_modules/zod/src/v3/tests/array.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/array.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/array.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const minTwo = z.string().array().min(2);
+  5  |  const maxTwo = z.string().array().max(2);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[33/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/base.test.ts [ node_modules/zod/src/v3/tests/base.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/base.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/base.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("type guard", () => {
+  5  |    const stringToNumber = z.string().transform((arg) => arg.length);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[34/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/branded.test.ts [ node_modules/zod/src/v3/tests/branded.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/branded.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/branded.test.ts:5:21
+  1  |  import { test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("branded types", () => {
+  5  |    const mySchema = z.object({
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[35/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/catch.test.ts [ node_modules/zod/src/v3/tests/catch.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/catch.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/catch.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import { z } from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("basic catch", () => {
+  5  |    expect(z.string().catch("default").parse(void 0)).toBe("default");
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[36/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/default.test.ts [ node_modules/zod/src/v3/tests/default.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/default.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/default.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import { z } from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("basic defaults", () => {
+  5  |    expect(z.string().default("default").parse(void 0)).toBe("default");
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[37/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/enum.test.ts [ node_modules/zod/src/v3/tests/enum.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/enum.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/enum.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("create enum", () => {
+  5  |    const MyEnum = z.enum(["Red", "Green", "Blue"]);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[38/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/error.test.ts [ node_modules/zod/src/v3/tests/error.test.ts ]
+Error: Failed to resolve import "../ZodError.js" from "node_modules/zod/src/v3/tests/error.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/error.test.ts:5:39
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { ZodError, ZodIssueCode } from "../ZodError.js";
+     |                                          ^
+  4  |  import { ZodParsedType } from "../helpers/util.js";
+  5  |  test("error creation", () => {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/firstparty.test.ts [ node_modules/zod/src/v3/tests/firstparty.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/firstparty.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/firstparty.test.ts:5:21
+  1  |  import { test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("first party switch", () => {
+  5  |    const myType = z.string();
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[40/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/firstpartyschematypes.test.ts [ node_modules/zod/src/v3/tests/firstpartyschematypes.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/firstpartyschematypes.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/firstpartyschematypes.test.ts:5:21
+  1  |  import { test } from "vitest";
+  2  |  import { util } from "../helpers/util.js";
+     |                        ^
+  3  |  test("Identify missing [ZodFirstPartySchemaTypes]", () => {
+  4  |    util.assertEqual(true);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[41/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/function.test.ts [ node_modules/zod/src/v3/tests/function.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/function.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/function.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const args1 = z.tuple([z.string()]);
+  5  |  const returns1 = z.number();
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[42/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/generics.test.ts [ node_modules/zod/src/v3/tests/generics.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/generics.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/generics.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("generics", () => {
+  5  |    async function stripOuter(schema, data) {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[43/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/instanceof.test.ts [ node_modules/zod/src/v3/tests/instanceof.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/instanceof.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/instanceof.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("instanceof", async () => {
+  5  |    class Test {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[44/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/map.test.ts [ node_modules/zod/src/v3/tests/map.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/map.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/map.test.ts:6:21
+  2  |  import * as z from "zod/v3";
+  3  |  import { ZodIssueCode } from "zod/v3";
+  4  |  import { util } from "../helpers/util.js";
+     |                        ^
+  5  |  const stringMap = z.map(z.string(), z.string());
+  6  |  test("type inference", () => {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[45/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/nativeEnum.test.ts [ node_modules/zod/src/v3/tests/nativeEnum.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/nativeEnum.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/nativeEnum.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("nativeEnum test with consts", () => {
+  5  |    const Fruits = {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[46/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/object.test.ts [ node_modules/zod/src/v3/tests/object.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/object.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/object.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const Test = z.object({
+  5  |    f1: z.number(),
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[47/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/parseUtil.test.ts [ node_modules/zod/src/v3/tests/parseUtil.test.ts ]
+Error: Failed to resolve import "../ZodError.js" from "node_modules/zod/src/v3/locales/en.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/locales/en.ts:1:47
+  1  |  import { ZodIssueCode } from "../ZodError.js";
+     |                                ^
+  2  |  import { util, ZodParsedType } from "../helpers/util.js";
+  3  |  const errorMap = (issue, _ctx) => {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[48/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/partials.test.ts [ node_modules/zod/src/v3/tests/partials.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/partials.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/partials.test.ts:6:21
+  2  |  import * as z from "zod/v3";
+  3  |  import { ZodNullable, ZodOptional } from "zod/v3";
+  4  |  import { util } from "../helpers/util.js";
+     |                        ^
+  5  |  const nested = z.object({
+  6  |    name: z.string(),
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[49/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/pickomit.test.ts [ node_modules/zod/src/v3/tests/pickomit.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/pickomit.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/pickomit.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const fish = z.object({
+  5  |    name: z.string(),
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[50/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/preprocess.test.ts [ node_modules/zod/src/v3/tests/preprocess.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/preprocess.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/preprocess.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("preprocess", () => {
+  5  |    const schema = z.preprocess((data) => [data], z.string().array());
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[51/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/primitive.test.ts [ node_modules/zod/src/v3/tests/primitive.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/primitive.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/primitive.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  import { Mocker } from "./Mocker.js";
+  5  |  const literalStringSchema = z.literal("asdf");
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[52/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/promise.test.ts [ node_modules/zod/src/v3/tests/promise.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/promise.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/promise.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const promSchema = z.promise(
+  5  |    z.object({
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[53/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/readonly.test.ts [ node_modules/zod/src/v3/tests/readonly.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/readonly.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/readonly.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  var testEnum = /* @__PURE__ */ ((testEnum2) => {
+  5  |    testEnum2[testEnum2["A"] = 0] = "A";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[54/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/record.test.ts [ node_modules/zod/src/v3/tests/record.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/record.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/record.test.ts:5:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  const booleanRecord = z.record(z.boolean());
+  5  |  const recordWithEnumKeys = z.record(z.enum(["Tuna", "Salmon"]), z.string());
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[55/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/refine.test.ts [ node_modules/zod/src/v3/tests/refine.test.ts ]
+Error: Failed to resolve import "../ZodError.js" from "node_modules/zod/src/v3/tests/refine.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/refine.test.ts:5:29
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { ZodIssueCode } from "../ZodError.js";
+     |                                ^
+  4  |  import { util } from "../helpers/util.js";
+  5  |  test("refinement", () => {
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[56/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/set.test.ts [ node_modules/zod/src/v3/tests/set.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/set.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/set.test.ts:6:21
+  2  |  import * as z from "zod/v3";
+  3  |  import { ZodIssueCode } from "zod/v3";
+  4  |  import { util } from "../helpers/util.js";
+     |                        ^
+  5  |  const stringSet = z.set(z.string());
+  6  |  const minTwo = z.set(z.string()).min(2);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[57/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v3/tests/standard-schema.test.ts [ node_modules/zod/src/v3/tests/standard-schema.test.ts ]
+Error: Failed to resolve import "../helpers/util.js" from "node_modules/zod/src/v3/tests/standard-schema.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v3/tests/standard-schema.test.ts:6:21
+  1  |  import { expect, test } from "vitest";
+  2  |  import * as z from "zod/v3";
+  3  |  import { util } from "../helpers/util.js";
+     |                        ^
+  4  |  test("assignability", () => {
+  5  |    const _s1 = z.string();
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[58/131]ΓÄ»
+
+ FAIL  node_modules/@supabase/ssr/dist/main/utils/base64url.test.js [ node_modules/@supabase/ssr/dist/main/utils/base64url.test.js ]
+Error: Vitest cannot be imported in a CommonJS module using require(). Please use "import" instead.
+
+If you are using "import" in your source code, then it's possible it was bundled into require() automatically by your bundler. In that case, do not bundle CommonJS output since it will never work with Vitest, or use dynamic import() which is available in all CommonJS modules.
+ Γ¥» Object.<anonymous> node_modules/vitest/index.cjs:1:7
+ Γ¥» Object.<anonymous> node_modules/@supabase/ssr/dist/main/utils/base64url.test.js:3:18
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[59/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/mini/tests/brand.test.ts [ node_modules/zod/src/v4/mini/tests/brand.test.ts ]
+Error: Failed to resolve import "./versions.js" from "node_modules/zod/src/v4/core/index.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/core/index.ts:6:14
+  4  |  export * from "./schemas.js";
+  5  |  export * from "./checks.js";
+  6  |  export * from "./versions.js";
+     |                 ^
+  7  |  export * as util from "./util.js";
+  8  |  export * as regexes from "./regexes.js";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+ Γ¥» fetchModule node_modules/vite/dist/node/chunks/config.js:33993:15
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[60/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/mini/tests/checks.test.ts [ node_modules/zod/src/v4/mini/tests/checks.test.ts ]
+Error: Failed to resolve import "./versions.js" from "node_modules/zod/src/v4/core/index.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/core/index.ts:6:14
+  4  |  export * from "./schemas.js";
+  5  |  export * from "./checks.js";
+  6  |  export * from "./versions.js";
+     |                 ^
+  7  |  export * as util from "./util.js";
+  8  |  export * as regexes from "./regexes.js";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[61/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/classic/tests/datetime.test.ts [ node_modules/zod/src/v4/classic/tests/datetime.test.ts ]
+Error: Failed to resolve import "recheck" from "node_modules/zod/src/v4/classic/tests/datetime.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/classic/tests/datetime.test.ts:1:26
+  1  |  import { checkSync } from "recheck";
+     |                             ^
+  2  |  import { expect, test } from "vitest";
+  3  |  import * as z from "zod/v4";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[62/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/classic/tests/file.test.ts [ node_modules/zod/src/v4/classic/tests/file.test.ts ]
+Error: Failed to resolve import "@web-std/file" from "node_modules/zod/src/v4/classic/tests/file.test.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/classic/tests/file.test.ts:2:32
+  1  |  import { File as WebFile } from "@web-std/file";
+     |                                   ^
+  2  |  import { afterEach, beforeEach, expect, test } from "vitest";
+  3  |  import * as z from "zod/v4";
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[63/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/core/tests/locales/be.test.ts [ node_modules/zod/src/v4/core/tests/locales/be.test.ts ]
+Error: Failed to resolve import "../core/util.js" from "node_modules/zod/src/v4/locales/be.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/locales/be.ts:3:22
+  1  |  import * as util from "../core/util.js";
+     |                         ^
+  2  |  function getBelarusianPlural(count, one, few, many) {
+  3  |    const absCount = Math.abs(count);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[64/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/core/tests/locales/en.test.ts [ node_modules/zod/src/v4/core/tests/locales/en.test.ts ]
+Error: Failed to resolve import "../core/util.js" from "node_modules/zod/src/v4/locales/en.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/locales/en.ts:3:22
+  1  |  import * as util from "../core/util.js";
+     |                         ^
+  2  |  export const parsedType = (data) => {
+  3  |    const t = typeof data;
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[65/131]ΓÄ»
+
+ FAIL  node_modules/zod/src/v4/core/tests/locales/ru.test.ts [ node_modules/zod/src/v4/core/tests/locales/ru.test.ts ]
+Error: Failed to resolve import "../core/util.js" from "node_modules/zod/src/v4/locales/ru.ts". Does the file exist?
+  Plugin: vite:import-analysis
+  File: C:/Users/sam/Desktop/swipemarket/node_modules/zod/src/v4/locales/ru.ts:3:22
+  1  |  import * as util from "../core/util.js";
+     |                         ^
+  2  |  function getRussianPlural(count, one, few, many) {
+  3  |    const absCount = Math.abs(count);
+ Γ¥» TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:28999:43
+ Γ¥» TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:28996:14
+ Γ¥» normalizeUrl node_modules/vite/dist/node/chunks/config.js:27119:18
+ Γ¥» node_modules/vite/dist/node/chunks/config.js:27177:32
+ Γ¥» TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27145:4
+ Γ¥» EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:28797:14
+ Γ¥» loadAndTransform node_modules/vite/dist/node/chunks/config.js:22670:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[66/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/loader.test.js [ node_modules/next/dist/compiled/@next/font/dist/google/loader.test.js ]
+ReferenceError: jest is not defined
+ Γ¥» Object.<anonymous> node_modules/next/dist/compiled/@next/font/dist/google/loader.test.js:9:1
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[67/131]ΓÄ»
+
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Failed Tests 64 ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/mapping-entry.test.ts > mapping-entry > should should add a match-all pattern when requested
+AssertionError: expected [ { pattern: '*', ΓÇª(1) } ] to deeply equal [ { pattern: '*', ΓÇª(1) } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "paths": [
+-       "\\absolute\\base\\url\\*",
++       "/absolute/base/url/*",
+      ],
+      "pattern": "*",
+    },
+  ]
+
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/mapping-entry.test.ts:59:20
+     57|     //   },
+     58|     // ]);
+     59|     expect(result).toEqual([
+       |                    ^
+     60|       {
+     61|         pattern: "*",
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[68/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should locate path that matches with star and exists
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should locate path that matches with star and prioritize pattern with longest prefix
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should locate path that matches with star and exists with extension
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should locate path that matches without star and exists
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve to parent folder when filename is in subfolder
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve to with the help of baseUrl when not explicitly set
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:151:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[69/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve to correct path when many are specified
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:151:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:206:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:15:30
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:167:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[70/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve request with extension specified
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:151:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» matchFromAbsolutePathsAsync node_modules/tsconfig-paths/src/match-path-async.ts:78:3
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:45:5
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:13:7
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[71/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve from main field in package.json
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve from main field in package.json (js)
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should ignore advanced field mappings in package.json
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve main file with cjs file extension
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:182:22
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:125:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/src/match-path-async.ts:120:3
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:172:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:15:30
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:167:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[72/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should resolve from list of fields by priority in package.json
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:182:22
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:125:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/src/match-path-async.ts:120:3
+ Γ¥» tryNext node_modules/tsconfig-paths/src/match-path-async.ts:101:5
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/src/match-path-async.ts:113:12
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:172:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:15:30
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[73/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should ignore field mappings to missing files in package.json
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:182:22
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:125:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/src/match-path-async.ts:120:3
+ Γ¥» tryNext node_modules/tsconfig-paths/src/match-path-async.ts:101:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:127:12
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/src/match-path-async.ts:120:3
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[74/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should not resolve with the help of baseUrl when asked not to
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» matchFromAbsolutePathsAsync node_modules/tsconfig-paths/src/match-path-async.ts:75:12
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:45:5
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:13:7
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[75/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should not locate path that does not match
+ FAIL  node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts > match-path-async > should not resolve typings file (index.d.ts)
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:22:11
+     20|           // assert.equal(result, t.expectedPath);
+     21|           expect(result).toBe(t.expectedPath);
+     22|           done();
+       |           ^
+     23|         }
+     24|       );
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:154:16
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/src/match-path-async.ts:146:5
+ Γ¥» node_modules/tsconfig-paths/src/match-path-async.ts:157:14
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/match-path-async.test.ts:17:11
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[76/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/config-loader.test.js > config-loader > should presume cwd to be a tsconfig file when loadConfig is called with absolute path to tsconfig.json
+Error: ENOENT: no such file or directory, stat 'C:\Users\sam\Desktop\swipemarket\node_modules\tsconfig-paths\lib\__tests__\tsconfig-named.json'
+ Γ¥» resolveConfigPath node_modules/tsconfig-paths/lib/tsconfig-loader.js:55:12
+ Γ¥» loadSyncDefault node_modules/tsconfig-paths/lib/tsconfig-loader.js:32:22
+ Γ¥» tsConfigLoader node_modules/tsconfig-paths/lib/tsconfig-loader.js:26:22
+ Γ¥» configLoader node_modules/tsconfig-paths/lib/config-loader.js:30:22
+ Γ¥» loadConfig node_modules/tsconfig-paths/lib/config-loader.js:9:12
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/config-loader.test.js:80:53
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[77/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/mapping-entry.test.js > mapping-entry > should should add a match-all pattern when requested
+AssertionError: expected [ { pattern: '*', ΓÇª(1) } ] to deeply equal [ { pattern: '*', ΓÇª(1) } ]
+
+- Expected
++ Received
+
+  [
+    {
+      "paths": [
+-       "\\absolute\\base\\url\\*",
++       "/absolute/base/url/*",
+      ],
+      "pattern": "*",
+    },
+  ]
+
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/mapping-entry.test.js:55:24
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[78/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should locate path that matches with star and exists
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should locate path that matches with star and prioritize pattern with longest prefix
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should locate path that matches with star and exists with extension
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should locate path that matches without star and exists
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve to parent folder when filename is in subfolder
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve to with the help of baseUrl when not explicitly set
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:72:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[79/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve to correct path when many are specified
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:72:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:106:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:9:78
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:82:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[80/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve request with extension specified
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:72:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» matchFromAbsolutePathsAsync node_modules/tsconfig-paths/lib/match-path-async.js:32:5
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:16:16
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:9:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[81/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve from main field in package.json
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve from main field in package.json (js)
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should ignore advanced field mappings in package.json
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve main file with cjs file extension
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:92:32
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:54:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/lib/match-path-async.js:49:5
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:87:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:9:78
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:82:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[82/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should resolve from list of fields by priority in package.json
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:92:32
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:54:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/lib/match-path-async.js:49:5
+ Γ¥» tryNext node_modules/tsconfig-paths/lib/match-path-async.js:41:16
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/lib/match-path-async.js:46:16
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:87:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:9:78
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[83/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should ignore field mappings to missing files in package.json
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:92:32
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:54:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/lib/match-path-async.js:49:5
+ Γ¥» tryNext node_modules/tsconfig-paths/lib/match-path-async.js:41:16
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:56:16
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingMainFieldMappedFile node_modules/tsconfig-paths/lib/match-path-async.js:49:5
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[84/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should not resolve with the help of baseUrl when asked not to
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» matchFromAbsolutePathsAsync node_modules/tsconfig-paths/lib/match-path-async.js:30:16
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:16:16
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:9:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[85/131]ΓÄ»
+
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should not locate path that does not match
+ FAIL  node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js > match-path-async > should not resolve typings file (index.d.ts)
+Error: done() callback is deprecated, use promise instead
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:14:17
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:75:24
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+ Γ¥» findFirstExistingPath node_modules/tsconfig-paths/lib/match-path-async.js:67:9
+ Γ¥» node_modules/tsconfig-paths/lib/match-path-async.js:78:20
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/match-path-async.test.js:10:24
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[86/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/trace/report/index.test.js > Trace Reporter > Telemetry reporter > should record telemetry event
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/trace/report/index.test.js:43:32
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[87/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js > getFontAxes errors > Setting axes on font without definable axes
+Error: Snapshot `getFontAxes errors > Setting axes on font without definable axes 1` mismatched
+
+Expected: ""Font `Lora` has no definable `axes`""
+Received: "[NextFontError: Font `Lora` has no definable `axes`]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js:6:86
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[88/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js > getFontAxes errors > Invalid axes value
+Error: Snapshot `getFontAxes errors > Invalid axes value 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid axes value for font `Inter`, expected an array of axes.
++ [NextFontError: Invalid axes value for font `Inter`, expected an array of axes.
+- Available axes: `opsz`"
++ Available axes: `opsz`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js:10:14
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[89/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js > getFontAxes errors > Invalid value in axes array
+Error: Snapshot `getFontAxes errors > Invalid value in axes array 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid axes value `INVALID` for font `Roboto Flex`.
++ [NextFontError: Invalid axes value `INVALID` for font `Roboto Flex`.
+- Available axes: `GRAD`, `XOPQ`, `XTRA`, `YOPQ`, `YTAS`, `YTDE`, `YTFI`, `YTLC`, `YTUC`, `opsz`, `slnt`, `wdth`"
++ Available axes: `GRAD`, `XOPQ`, `XTRA`, `YOPQ`, `YTAS`, `YTDE`, `YTFI`, `YTLC`, `YTUC`, `opsz`, `slnt`, `wdth`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/get-font-axes.test.js:17:14
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[90/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Missing function name
+Error: Snapshot `validateFontFunctionCall errors > Missing function name 1` mismatched
+
+Expected: ""next/font/google has no default export""
+Received: "[NextFontError: next/font/google has no default export]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:7:21
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[91/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Unknown font
+Error: Snapshot `validateFontFunctionCall errors > Unknown font 1` mismatched
+
+Expected: ""Unknown font `Unknown Font`""
+Received: "[NextFontError: Unknown font `Unknown Font`]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:10:123
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[92/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Unknown weight
+Error: Snapshot `validateFontFunctionCall errors > Unknown weight 1` mismatched
+
+- Expected
++ Received
+
+- "Unknown weight `123` for font `Inter`.
++ [NextFontError: Unknown weight `123` for font `Inter`.
+- Available weights: `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`, `variable`"
++ Available weights: `100`, `200`, `300`, `400`, `500`, `600`, `700`, `800`, `900`, `variable`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:16:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[93/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Missing weight for non variable font
+Error: Snapshot `validateFontFunctionCall errors > Missing weight for non variable font 1` mismatched
+
+- Expected
++ Received
+
+- "Missing weight for font `Abel`.
++ [NextFontError: Missing weight for font `Abel`.
+- Available weights: `400`"
++ Available weights: `400`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:23:14
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[94/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Unknown style
+Error: Snapshot `validateFontFunctionCall errors > Unknown style 1` mismatched
+
+- Expected
++ Received
+
+- "Unknown style `normal` for font `Molle`.
++ [NextFontError: Unknown style `normal` for font `Molle`.
+- Available styles: `italic`"
++ Available styles: `italic`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:33:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[95/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Invalid display value
+Error: Snapshot `validateFontFunctionCall errors > Invalid display value 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid display value `Invalid` for font `Inter`.
++ [NextFontError: Invalid display value `Invalid` for font `Inter`.
+- Available display values: `auto`, `block`, `swap`, `fallback`, `optional`"
++ Available display values: `auto`, `block`, `swap`, `fallback`, `optional`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:42:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[96/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Variable in weight array
+Error: Snapshot `validateFontFunctionCall errors > Variable in weight array 1` mismatched
+
+Expected: ""Unexpected `variable` in weight array for font `Inter`. You only need `variable`, it includes all available weights.""
+Received: "[NextFontError: Unexpected `variable` in weight array for font `Inter`. You only need `variable`, it includes all available weights.]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:51:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[97/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Invalid subset in call
+Error: Snapshot `validateFontFunctionCall errors > Invalid subset in call 1` mismatched
+
+- Expected
++ Received
+
+- "Unknown subset `oops` for font `Inter`.
++ [NextFontError: Unknown subset `oops` for font `Inter`.
+- Available subsets: `cyrillic`, `cyrillic-ext`, `greek`, `greek-ext`, `latin`, `latin-ext`, `vietnamese`"
++ Available subsets: `cyrillic`, `cyrillic-ext`, `greek`, `greek-ext`, `latin`, `latin-ext`, `vietnamese`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:54:137
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[98/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Missing subsets in config and call
+Error: Snapshot `validateFontFunctionCall errors > Missing subsets in config and call 1` mismatched
+
+- Expected
++ Received
+
+- "Preload is enabled but no subsets were specified for font `Inter`. Please specify subsets or disable preloading if your intended subset can't be preloaded.
++ [NextFontError: Preload is enabled but no subsets were specified for font `Inter`. Please specify subsets or disable preloading if your intended subset can't be preloaded.
+  Available subsets: `cyrillic`, `cyrillic-ext`, `greek`, `greek-ext`, `latin`, `latin-ext`, `vietnamese`
+
+- Read more: https://nextjs.org/docs/messages/google-fonts-missing-subsets"
++ Read more: https://nextjs.org/docs/messages/google-fonts-missing-subsets]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:61:14
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[99/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js > validateFontFunctionCall errors > Setting axes on non variable font
+Error: Snapshot `validateFontFunctionCall errors > Setting axes on non variable font 1` mismatched
+
+Expected: ""Axes can only be defined for variable fonts""
+Received: "[NextFontError: Axes can only be defined for variable fonts]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/google/validate-google-font-function-call.test.js:73:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[100/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js > next/font/local loader > generated CSS > Default CSS
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js:14:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[101/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js > next/font/local loader > generated CSS > Weight and style
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js:38:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[102/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js > next/font/local loader > generated CSS > Other properties
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js:72:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[103/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js > next/font/local loader > generated CSS > Multiple weights default style
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js:122:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[104/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js > next/font/local loader > generated CSS > Multiple styles default weight
+ReferenceError: jest is not defined
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/loader.test.js:191:26
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[105/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/pick-font-file-for-fallback-generation.test.js > pickFontFileForFallbackGeneration > should error on invalid weight in array
+Error: Snapshot `pickFontFileForFallbackGeneration > should error on invalid weight in array 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid weight value in src array: `100 abc`.
++ [NextFontError: Invalid weight value in src array: `100 abc`.
+- Expected `normal`, `bold` or a number."
++ Expected `normal`, `bold` or a number.]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/pick-font-file-for-fallback-generation.test.js:97:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[106/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/pick-font-file-for-fallback-generation.test.js > pickFontFileForFallbackGeneration > Invalid variable weight in array
+Error: Snapshot `pickFontFileForFallbackGeneration > Invalid variable weight in array 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid weight value in src array: `100 abc`.
++ [NextFontError: Invalid weight value in src array: `100 abc`.
+- Expected `normal`, `bold` or a number."
++ Expected `normal`, `bold` or a number.]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/pick-font-file-for-fallback-generation.test.js:108:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[107/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Not using default export
+Error: Snapshot `validateLocalFontFunctionCall > Not using default export 1` mismatched
+
+Expected: ""next/font/local has no named exports""
+Received: "[NextFontError: next/font/local has no named exports]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:6:107
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[108/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Missing src
+Error: Snapshot `validateLocalFontFunctionCall > Missing src 1` mismatched
+
+Expected: ""Missing required `src` property""
+Received: "[NextFontError: Missing required `src` property]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:9:102
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[109/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Invalid file extension
+Error: Snapshot `validateLocalFontFunctionCall > Invalid file extension 1` mismatched
+
+Expected: ""Unexpected file `./font/font-file.abc`""
+Received: "[NextFontError: Unexpected file `./font/font-file.abc`]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:12:131
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[110/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Invalid display value
+Error: Snapshot `validateLocalFontFunctionCall > Invalid display value 1` mismatched
+
+- Expected
++ Received
+
+- "Invalid display value `invalid`.
++ [NextFontError: Invalid display value `invalid`.
+- Available display values: `auto`, `block`, `swap`, `fallback`, `optional`"
++ Available display values: `auto`, `block`, `swap`, `fallback`, `optional`]
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:18:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[111/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Invalid declaration
+Error: Snapshot `validateLocalFontFunctionCall > Invalid declaration 1` mismatched
+
+Expected: ""Invalid declaration prop: `src`""
+Received: "[NextFontError: Invalid declaration prop: `src`]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:27:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[112/131]ΓÄ»
+
+ FAIL  node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js > validateLocalFontFunctionCall > Empty src array
+Error: Snapshot `validateLocalFontFunctionCall > Empty src array 1` mismatched
+
+Expected: ""Unexpected empty `src` array.""
+Received: "[NextFontError: Unexpected empty `src` array.]"
+
+ Γ¥» node_modules/next/dist/compiled/@next/font/dist/local/validate-local-font-function-call.test.js:32:13
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[113/131]ΓÄ»
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Unhandled Errors ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+Vitest caught 6 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js:26:17
+ Γ¥» node_modules/tsconfig-paths/lib/filesystem.js:47:9
+ Γ¥» FSReqCallback.oncomplete node:fs:198:5
+
+This error originated in "node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js:38:17
+ Γ¥» node_modules/tsconfig-paths/lib/filesystem.js:45:20
+ Γ¥» FSReqCallback.oncomplete node:fs:197:21
+
+This error originated in "node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js:59:17
+ Γ¥» node_modules/tsconfig-paths/lib/filesystem.js:37:16
+ Γ¥» FSReqCallback.readFileAfterClose [as oncomplete] node:internal/fs/read/context:68:3
+
+This error originated in "node_modules/tsconfig-paths/lib/__tests__/filesystem.test.js" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts:27:9
+     25|         done();
+     26|       } catch (error) {
+     27|         done(error);
+       |         ^
+     28|       }
+     29|     });
+ Γ¥» node_modules/tsconfig-paths/src/filesystem.ts:81:5
+ Γ¥» FSReqCallback.oncomplete node:fs:198:5
+
+This error originated in "node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts:39:9
+     37|         done();
+     38|       } catch (error) {
+     39|         done(error);
+       |         ^
+     40|       }
+     41|     });
+ Γ¥» node_modules/tsconfig-paths/src/filesystem.ts:79:14
+ Γ¥» FSReqCallback.oncomplete node:fs:197:21
+
+This error originated in "node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ» Uncaught Exception ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+Error: done() callback is deprecated, use promise instead
+ Γ¥» context node_modules/@vitest/runner/dist/index.js:1272:9
+ Γ¥» node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts:61:9
+     59|         done();
+     60|       } catch (error) {
+     61|         done(error);
+       |         ^
+     62|       }
+     63|     });
+ Γ¥» node_modules/tsconfig-paths/src/filesystem.ts:68:12
+ Γ¥» FSReqCallback.readFileAfterClose [as oncomplete] node:internal/fs/read/context:68:3
+
+This error originated in "node_modules/tsconfig-paths/src/__tests__/filesystem.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»
+
+
+[2m  Snapshots [22m [1m[31m21 failed[39m[22m
+[2m Test Files [22m [1m[31m78 failed[39m[22m[2m | [22m[1m[32m111 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (190)[39m
+[2m      Tests [22m [1m[31m64 failed[39m[22m[2m | [22m[1m[32m1114 passed[39m[22m[2m | [22m[90m1 todo[39m[90m (1179)[39m
+[2m     Errors [22m [1m[31m6 errors[39m[22m
+[2m   Start at [22m 01:36:45
+[2m   Duration [22m 19.35s[2m (transform 10.39s, setup 0ms, import 17.61s, tests 3.34s, environment 446.94s)[22m
+

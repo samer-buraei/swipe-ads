@@ -11,17 +11,75 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
+import { ReportModal } from '@/components/listings/ReportModal';
 
 export default function ListingDetailPage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
   const { data, isLoading, error } = api.listing.get.useQuery({ slug: params.slug });
 
+  const { data: user } = api.user.me.useQuery();
+
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null);
+  useEffect(() => {
+    fetch('/api/exchange-rate')
+      .then(r => r.json())
+      .then(d => setExchangeRate(d.rate))
+      .catch(() => setExchangeRate(117.5));
+  }, []);
+
   const sendMessage = api.message.send.useMutation({
     onSuccess: ({ conversationId }) => {
       router.push(ROUTES.conversation(conversationId))
     }
   })
+
+  // Favorite toggle logic
+  const [localFavorite, setLocalFavorite] = useState(false);
+  useEffect(() => {
+    if (data?.isFavorited !== undefined) {
+      setLocalFavorite(data.isFavorited);
+    }
+  }, [data?.isFavorited]);
+
+  const toggleFavorite = api.favorite.toggle.useMutation({
+    onSuccess: (res) => {
+      setLocalFavorite(res.isFavorited);
+    }
+  });
+
+  const handleFavoriteClick = () => {
+    if (!data) return;
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    toggleFavorite.mutate({ listingId: data.id });
+  };
+
+  // Share logic
+  const handleShare = async () => {
+    if (!data) return;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: data.title,
+          text: `Pogledaj oglas: ${data.title} na SwipeMarket!`,
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.error('Error sharing', err);
+      }
+    } else {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Link je kopiran u spremnik!');
+    }
+  };
+
+  // Prevent messaging if the listing belongs to the logged-in user
+  const isOwnListing = user?.id === data?.seller?.id;
 
   if (isLoading) {
     return (
@@ -77,11 +135,17 @@ export default function ListingDetailPage() {
             <ArrowLeft className="h-5 w-5" />
           </Button>
           <div className="flex gap-2">
-            <Button variant="secondary" size="icon" className="rounded-full shadow-lg bg-white/90 backdrop-blur-sm">
+            <Button variant="secondary" size="icon" className="rounded-full shadow-lg bg-white/90 backdrop-blur-sm" onClick={handleShare}>
               <Share2 className="h-5 w-5" />
             </Button>
-            <Button variant="secondary" size="icon" className="rounded-full shadow-lg bg-white/90 backdrop-blur-sm">
-              <Heart className="h-5 w-5" />
+            <Button
+              variant="secondary"
+              size="icon"
+              className={cn("rounded-full shadow-lg bg-white/90 backdrop-blur-sm transition-all", localFavorite && "text-red-500 hover:text-red-600")}
+              onClick={handleFavoriteClick}
+              disabled={toggleFavorite.isLoading}
+            >
+              <Heart className={cn("h-5 w-5 transition-all", localFavorite && "fill-current scale-110")} />
             </Button>
           </div>
         </div>
@@ -112,6 +176,13 @@ export default function ListingDetailPage() {
                 <span className="text-3xl font-bold tracking-tight">
                   {formatPrice(data.price, data.currency)}
                 </span>
+                {exchangeRate && (
+                  <span className="text-xl font-normal text-muted-foreground opacity-80 ml-1 pb-1">
+                    ≈ {data.currency === 'RSD'
+                      ? `${Math.round(data.price / exchangeRate).toLocaleString('sr-RS')} €`
+                      : `${Math.round(data.price * exchangeRate).toLocaleString('sr-RS')} RSD`}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -164,14 +235,26 @@ export default function ListingDetailPage() {
                 </div>
               </div>
 
-              <Button
-                className="w-full rounded-xl h-12 text-lg shadow-lg shadow-primary/20 gap-2"
-                onClick={handleContact}
-                disabled={sendMessage.isLoading}
-              >
-                <MessageCircle className="h-5 w-5" />
-                {sendMessage.isLoading ? 'Učitavanje...' : 'Kontaktiraj prodavca'}
-              </Button>
+              {!isOwnListing ? (
+                <Button
+                  className="w-full rounded-xl h-12 text-lg shadow-lg shadow-primary/20 gap-2"
+                  onClick={handleContact}
+                  disabled={sendMessage.isLoading}
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  {sendMessage.isLoading ? 'Učitavanje...' : 'Kontaktiraj prodavca'}
+                </Button>
+              ) : (
+                <Button
+                  className="w-full rounded-xl h-12 text-lg shadow-lg shadow-primary/20 gap-2"
+                  variant="outline"
+                  onClick={() => router.push(ROUTES.profile)}
+                >
+                  Ovo je vaš oglas
+                </Button>
+              )}
+
+              <ReportModal listingId={data.id} disabled={!user} />
             </div>
           </aside>
         </div>

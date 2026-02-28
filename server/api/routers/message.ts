@@ -13,7 +13,7 @@ import type {
   SendMessageResponse,
   MutationResponse,
 } from '@/contracts/api'
-import { ERRORS, SUCCESS } from '@/lib/constants'
+import { ERRORS, SUCCESS, LIMITS } from '@/lib/constants'
 
 export const messageRouter = createTRPCRouter({
   listConversations: protectedProcedure
@@ -37,7 +37,7 @@ export const messageRouter = createTRPCRouter({
           updated_at,
           listing_id,
           listings (
-            id, title, status,
+            id, slug, title, status,
             listing_images(thumb_url)
           )
         `)
@@ -78,8 +78,16 @@ export const messageRouter = createTRPCRouter({
 
           const lastMessage = lastMsgs?.[0]
 
-          // Count unread
-          const { count: unreadCount } = await ctx.supabase
+          // Get my unread_count
+          const { data: myPart } = await ctx.supabase
+            .from('conversation_participants')
+            .select('unread_count')
+            .eq('conversation_id', c.id)
+            .eq('user_id', ctx.user.id)
+            .single()
+
+          // Fallback Count
+          const { count: unreadCountFallback } = await ctx.supabase
             .from('messages')
             .select('id', { count: 'exact', head: true })
             .eq('conversation_id', c.id)
@@ -90,6 +98,7 @@ export const messageRouter = createTRPCRouter({
             id: c.id,
             listing: {
               id: c.listings?.id ?? '',
+              slug: c.listings?.slug ?? c.listings?.id ?? '',
               title: c.listings?.title ?? '',
               heroImage: c.listings?.listing_images?.[0]?.thumb_url ?? null,
               status: c.listings?.status ?? 'ACTIVE',
@@ -102,7 +111,7 @@ export const messageRouter = createTRPCRouter({
                 isFromMe: lastMessage.sender_id === ctx.user.id,
               }
               : null,
-            unreadCount: unreadCount ?? 0,
+            unreadCount: myPart?.unread_count ?? unreadCountFallback ?? 0,
             updatedAt: new Date(c.updated_at),
           }
         })
@@ -132,7 +141,7 @@ export const messageRouter = createTRPCRouter({
         .select(`
           id,
           listings (
-            id, title, price, currency, status, user_id,
+            id, slug, title, price, currency, status, user_id,
             listing_images(thumb_url)
           )
         `)
@@ -180,7 +189,7 @@ export const messageRouter = createTRPCRouter({
         id: conversation.id,
         listing: {
           id: listing?.id ?? '',
-          slug: '',
+          slug: listing?.slug ?? listing?.id ?? '',
           title: listing?.title ?? '',
           price: Number(listing?.price ?? 0),
           currency: listing?.currency ?? 'RSD',
@@ -203,6 +212,28 @@ export const messageRouter = createTRPCRouter({
   send: protectedProcedure
     .input(sendMessageSchema)
     .mutation(async ({ ctx, input }): Promise<SendMessageResponse> => {
+      if (ctx.user.id === input.receiverId) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Ne možete slati poruke sami sebi.',
+        })
+      }
+
+      // Rate limiting check
+      const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString()
+      const { count: recentMessages } = await ctx.supabase
+        .from('messages')
+        .select('id', { count: 'exact', head: true })
+        .eq('sender_id', ctx.user.id)
+        .gte('created_at', oneHourAgo);
+
+      if (recentMessages !== null && recentMessages >= LIMITS.MAX_MESSAGES_PER_HOUR) {
+        throw new TRPCError({
+          code: 'TOO_MANY_REQUESTS',
+          message: ERRORS.TOO_MANY_MESSAGES,
+        })
+      }
+
       // Find existing conversation for this listing between these two users
       const { data: myConvs } = await ctx.supabase
         .from('conversation_participants')
@@ -273,6 +304,22 @@ export const messageRouter = createTRPCRouter({
         .update({ updated_at: new Date().toISOString() })
         .eq('id', conversationId)
 
+      // Increment unread count for receiver
+      const { data: receiverPart } = await ctx.supabase
+        .from('conversation_participants')
+        .select('unread_count')
+        .eq('conversation_id', conversationId)
+        .eq('user_id', input.receiverId)
+        .single()
+
+      if (receiverPart) {
+        await ctx.supabase
+          .from('conversation_participants')
+          .update({ unread_count: (receiverPart.unread_count || 0) + 1 })
+          .eq('conversation_id', conversationId)
+          .eq('user_id', input.receiverId)
+      }
+
       return { messageId: message.id, conversationId: conversationId! }
     }),
 
@@ -285,6 +332,12 @@ export const messageRouter = createTRPCRouter({
         .eq('conversation_id', input.conversationId)
         .neq('sender_id', ctx.user.id)
         .eq('is_read', false)
+
+      await ctx.supabase
+        .from('conversation_participants')
+        .update({ unread_count: 0 })
+        .eq('conversation_id', input.conversationId)
+        .eq('user_id', ctx.user.id)
 
       return { success: true, message: SUCCESS.MESSAGE_SENT }
     }),

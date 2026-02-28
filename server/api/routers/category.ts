@@ -43,6 +43,23 @@ export const categoryRouter = createTRPCRouter({
         .order('order', { ascending: true })
 
       if (error) throw new Error(error.message)
-      return data ?? []
+
+      return (data ?? []).map(row => {
+        let options = undefined;
+        if (row.options) {
+          try {
+            options = typeof row.options === 'string' ? JSON.parse(row.options) : row.options;
+          } catch (e) {
+            options = row.options;
+          }
+        }
+        return {
+          name: row.key,
+          label: row.label,
+          type: row.type.toLowerCase(),
+          required: row.required,
+          options,
+        }
+      })
     }),
 })

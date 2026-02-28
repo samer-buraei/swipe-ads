@@ -4,7 +4,8 @@ import { api } from '@/lib/trpc'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { ListingCard } from '@/components/listings/ListingCard'
-import { Settings, MapPin, Star, LogOut, Edit2, Check, X } from 'lucide-react'
+import { Settings, MapPin, Star, LogOut, Edit2, Check, X, ShieldCheck } from 'lucide-react'
+import { PhoneVerification } from '@/components/profile/PhoneVerification'
 
 export default function ProfilePage() {
   const router = useRouter()
@@ -187,6 +188,9 @@ export default function ProfilePage() {
         </div>
       </div>
 
+      {/* Phone Verification */}
+      <PhoneVerification currentPhone={user.phone} phoneVerifiedAt={user.phoneVerifiedAt} />
+
       {/* My listings */}
       {listings?.items && listings.items.length > 0 && (
         <div>
@@ -207,10 +211,17 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Settings list */}
-      <div className="bg-white rounded-3xl ring-1 ring-black/5 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-3xl ring-1 ring-black/5 shadow-sm overflow-hidden mt-6">
         <SettingsRow icon={<Settings className="w-5 h-5 text-gray-400" />} label="Podešavanja naloga" />
         <SettingsRow icon={<Star className="w-5 h-5 text-amber-400" />} label="Premium nalog" badge="PREMIUM" onClick={() => { }} />
+        {user.isAdmin && (
+          <SettingsRow
+            icon={<ShieldCheck className="w-5 h-5 text-blue-500" />}
+            label="Admin Panel"
+            labelColor="text-blue-600"
+            onClick={() => router.push('/admin')}
+          />
+        )}
         <SettingsRow
           icon={<LogOut className="w-5 h-5" />}
           label="Odjavi se"

@@ -39,6 +39,7 @@ export const userRouter = createTRPCRouter({
         avatarUrl: newUser.image,
         city: newUser.city,
         isVerified: newUser.is_verified,
+        isAdmin: newUser.is_admin,
         createdAt: new Date(newUser.created_at),
         stats: {
           activeListings: 0,
@@ -75,6 +76,8 @@ export const userRouter = createTRPCRouter({
       avatarUrl: user.image,
       city: user.city,
       isVerified: user.is_verified,
+      phoneVerifiedAt: user.phone_verified_at ? new Date(user.phone_verified_at) : null,
+      isAdmin: user.is_admin,
       createdAt: new Date(user.created_at),
       stats: {
         activeListings: activeListings ?? 0,
@@ -137,6 +140,7 @@ export const userRouter = createTRPCRouter({
       if (input.phone !== undefined) updateData.phone = input.phone
       if (input.city !== undefined) updateData.city = input.city
       if (input.bio !== undefined) updateData.bio = input.bio
+      if (input.phoneVerifiedAt !== undefined) updateData.phone_verified_at = input.phoneVerifiedAt
 
       await ctx.supabase
         .from('users')

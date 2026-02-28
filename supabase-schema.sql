@@ -24,7 +24,7 @@ CREATE TYPE report_reason AS ENUM (
 );
 
 CREATE TYPE report_status AS ENUM (
-  'PENDING', 'REVIEWED', 'ACTION_TAKEN', 'DISMISSED'
+  'PENDING', 'RESOLVED', 'DISMISSED'
 );
 
 CREATE TYPE attribute_type AS ENUM (
@@ -86,6 +86,7 @@ CREATE TABLE users (
   city TEXT,
   bio TEXT,
   is_verified BOOLEAN DEFAULT FALSE,
+  is_admin BOOLEAN DEFAULT FALSE,
   is_banned BOOLEAN DEFAULT FALSE,
   push_subscription JSONB,
   avg_rating DECIMAL(3,2) DEFAULT 0,
@@ -103,6 +104,7 @@ CREATE TABLE users (
 
 CREATE TABLE listings (
   id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  slug TEXT UNIQUE,
   title TEXT NOT NULL,
   description TEXT,
   price DECIMAL(12,2),
@@ -153,7 +155,7 @@ CREATE TABLE listing_images (
 CREATE INDEX idx_listing_images_listing_id ON listing_images(listing_id);
 
 -- ============================================================================
--- 7. FAVORITES, SWIPES, SEARCH PROFILES
+-- 7. FAVORITES, SWIPES
 -- ============================================================================
 
 CREATE TABLE favorites (
@@ -234,12 +236,23 @@ CREATE TABLE reports (
   id TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   reporter_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   listing_id TEXT REFERENCES listings(id) ON DELETE CASCADE,
+  reported_user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   reason report_reason NOT NULL,
-  description TEXT,
+  details TEXT,
   status report_status DEFAULT 'PENDING',
   resolved_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  
+  -- Must report either a user or listing
+  CONSTRAINT chk_report_target CHECK (
+    (reported_user_id IS NOT NULL AND listing_id IS NULL) OR 
+    (reported_user_id IS NULL AND listing_id IS NOT NULL)
+  )
 );
+
+CREATE INDEX idx_reports_reporter_id ON reports(reporter_id);
+CREATE INDEX idx_reports_listing_id ON reports(listing_id);
+CREATE INDEX idx_reports_status ON reports(status);
 
 -- ============================================================================
 -- 10. ROW LEVEL SECURITY
@@ -336,3 +349,8 @@ INSERT INTO listings (title, description, price, currency, condition, status, ca
   ('Kožni dvosed trosjed', 'Braon koža, kupljen 2022. Malo korišćen, bez oštećenja.', 45000, 'RSD', 'GOOD', 'ACTIVE', 'namestaj', 'Niš', '00000000-0000-0000-0000-000000000001'),
   ('Vintage akustična gitara', 'Yamaha F310, odličan ton. Uključen kofer.', 15000, 'RSD', 'GOOD', 'ACTIVE', 'ostalo', 'Beograd', '00000000-0000-0000-0000-000000000001'),
   ('Planinarska bicikla Trek Marlin 7', 'Veličina L, 2021. godište. Redovno servisirana.', 35000, 'RSD', 'GOOD', 'ACTIVE', 'sport', 'Beograd', '00000000-0000-0000-0000-000000000001');
+
+-- Backfill slugs for seeded listings
+UPDATE listings 
+SET slug = lower(regexp_replace(title, '[^a-zA-Z0-9]+', '-', 'g')) || '-' || right(id, 6) 
+WHERE slug IS NULL;

@@ -46,9 +46,8 @@ export async function createTRPCContext(): Promise<TRPCContext> {
     }
   }
 
-  // Use service role client for DB queries (full access)
-  // Note: in production, switch this to supabaseForAuth to respect RLS
-  const supabase = createServiceRoleClient()
+  // Use session-aware client for normal DB queries (respects RLS)
+  const supabase = createServerSupabaseClient()
 
   return { supabase, user }
 }
@@ -65,4 +64,18 @@ export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Morate biti prijavljeni.' })
   }
   return next({ ctx: { ...ctx, user: ctx.user } })
+})
+
+export const adminProcedure = protectedProcedure.use(async ({ ctx, next }) => {
+  const { data: userData } = await ctx.supabase
+    .from('users')
+    .select('is_admin')
+    .eq('id', ctx.user.id)
+    .single()
+
+  if (!userData?.is_admin) {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'Nedozvoljen pristup. Samo za administratore.' })
+  }
+
+  return next({ ctx })
 })

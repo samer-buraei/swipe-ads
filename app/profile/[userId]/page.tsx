@@ -1,3 +1,5 @@
+'use client';
+
 import { api } from '@/lib/trpc'
 import { ListingCard } from '@/components/listings/ListingCard'
 import { MapPin } from 'lucide-react'

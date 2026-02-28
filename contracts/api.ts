@@ -129,6 +129,8 @@ export interface CurrentUser {
   city: string | null;
   bio?: string | null;
   isVerified: boolean;
+  phoneVerifiedAt?: Date | null;
+  isAdmin?: boolean;
   createdAt: Date;
   // Stats
   stats: {

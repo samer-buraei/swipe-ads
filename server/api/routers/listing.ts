@@ -17,6 +17,7 @@ import type {
 } from '@/contracts/api'
 import { ERRORS, SUCCESS } from '@/lib/constants'
 import { toListingCard, toListingDetail, generateSlug } from '../helpers'
+import { moderateContent } from '@/lib/moderation'
 
 const LISTING_SELECT = `
   *,
@@ -41,10 +42,8 @@ export const listingRouter = createTRPCRouter({
       if (input.id) {
         query = query.eq('id', input.id)
       } else if (input.slug) {
-        // slug is not a DB column in new schema, so search by title pattern
-        // For now, try by id since slugs contain the id suffix
-        const idSuffix = input.slug.split('-').pop() ?? ''
-        query = query.ilike('id', `%${idSuffix}%`)
+        // Query by exact slug
+        query = query.eq('slug', input.slug)
       }
 
       const { data: listing, error } = await query.single()
@@ -176,6 +175,16 @@ export const listingRouter = createTRPCRouter({
         })
       }
 
+      // 2. Moderate Text & Images
+      const moderationMsg = `${input.title}\n${input.description}`;
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+      const imageUrls = input.imageIds?.map(id => `${supabaseUrl}/storage/v1/object/public/listing-images/${id}`) ?? [];
+
+      const moderation = await moderateContent({
+        text: moderationMsg,
+        imageUrls
+      });
+
       // Create the listing
       const { data: listing, error } = await ctx.supabase
         .from('listings')
@@ -188,8 +197,10 @@ export const listingRouter = createTRPCRouter({
           condition: (input.condition ?? 'GOOD') as any,
           city: input.city,
           user_id: ctx.user.id,
-          status: 'ACTIVE' as any,
+          status: moderation.isApproved ? 'ACTIVE' : ('PENDING_REVIEW' as any),
           attributes: input.attributes as any ?? {},
+          moderation_score: moderation.score,
+          moderation_flags: moderation.flags as any,
         })
         .select()
         .single()
@@ -198,7 +209,7 @@ export const listingRouter = createTRPCRouter({
 
       // Update with slug
       const slug = generateSlug(input.title, listing.id)
-      // Note: slug is not a column in the new schema, but we can store it or use ID-based URLs
+      await ctx.supabase.from('listings').update({ slug }).eq('id', listing.id)
 
       // Insert images if provided
       if (input.imageIds?.length) {
@@ -216,7 +227,7 @@ export const listingRouter = createTRPCRouter({
         await ctx.supabase.from('listing_images').insert(imageRows)
       }
 
-      return { id: listing.id, slug, status: 'ACTIVE' }
+      return { id: listing.id, slug, status: listing.status }
     }),
 
   update: protectedProcedure

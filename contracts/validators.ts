@@ -2,8 +2,8 @@
 // Zod schemas for runtime validation
 // These MUST match prisma/schema.prisma
 // Used by: tRPC routers, forms, API validation
-
 import { z } from 'zod';
+import { LIMITS } from '@/lib/constants';
 
 // ============================================================================
 // ENUMS (must match Prisma enums)
@@ -91,22 +91,15 @@ export const createListingSchema = z.object({
     .max(999999999, 'Cena je prevelika'),
 
   currency: z.string().default('RSD'),
-  isNegotiable: z.boolean().default(false),
-
+  city: z.string().min(1, 'Unesite grad').max(100),
   categoryId: z.string().min(1, 'Izaberite kategoriju'),
   condition: ItemConditionSchema.default('GOOD'),
-
-  // Location
-  city: z.string().min(1, 'Unesite grad').max(100),
-  address: z.string().max(200).optional(),
-  latitude: z.number().min(-90).max(90).optional(),
-  longitude: z.number().min(-180).max(180).optional(),
 
   // Images (URLs after upload)
   imageIds: z
     .array(z.string())
     .min(1, 'Dodajte najmanje 1 sliku')
-    .max(5, 'Možete dodati najviše 5 slika'),
+    .max(LIMITS.MAX_IMAGES_PER_LISTING, `Možete dodati najviše ${LIMITS.MAX_IMAGES_PER_LISTING} slika`),
 
   // Dynamic Attributes
   attributes: z.record(z.any()).optional(),
@@ -128,7 +121,6 @@ export const listListingsSchema = z.object({
   // Filters
   categoryId: z.string().optional(),
   city: z.string().optional(),
-  radiusKm: z.number().min(1).max(500).optional(),
   minPrice: z.number().min(0).optional(),
   maxPrice: z.number().optional(),
   conditions: z.array(ItemConditionSchema).optional(),
@@ -141,20 +133,12 @@ export const listListingsSchema = z.object({
   // Exclude listings user has already swiped on
   excludeSwiped: z.boolean().default(false),
 
-  // Category-specific attribute filters
-  // These are passed as key-value pairs and matched against listing.attributes JSON
-  attributes: z.record(z.union([z.string(), z.number(), z.boolean()])).optional(),
-
-  // Geolocation search (for distance-based results)
-  userLat: z.number().min(-90).max(90).optional(),
-  userLng: z.number().min(-180).max(180).optional(),
-
   // Pagination
-  limit: z.number().min(1).max(50).default(20),
+  limit: z.number().min(1).max(LIMITS.MAX_PAGE_SIZE).default(LIMITS.DEFAULT_PAGE_SIZE),
   cursor: z.string().optional(),
 
   // Sort
-  sortBy: z.enum(['createdAt', 'price', 'distance']).default('createdAt'),
+  sortBy: z.enum(['createdAt', 'price']).default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).default('desc'),
 });
 
@@ -181,6 +165,7 @@ export const updateProfileSchema = z.object({
   bio: z.string().max(500).optional(),
   latitude: z.number().min(-90).max(90).optional(),
   longitude: z.number().min(-180).max(180).optional(),
+  phoneVerifiedAt: z.string().optional(),
 });
 
 export const getUserSchema = z.object({

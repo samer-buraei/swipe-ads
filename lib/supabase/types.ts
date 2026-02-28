@@ -82,6 +82,7 @@ export interface Database {
                     city: string | null
                     bio: string | null
                     is_verified: boolean
+                    is_admin: boolean
                     is_banned: boolean
                     push_subscription: Json | null
                     avg_rating: number
@@ -102,6 +103,7 @@ export interface Database {
                     city?: string | null
                     bio?: string | null
                     is_verified?: boolean
+                    is_admin?: boolean
                     is_banned?: boolean
                     push_subscription?: Json | null
                     avg_rating?: number
@@ -122,6 +124,7 @@ export interface Database {
                     city?: string | null
                     bio?: string | null
                     is_verified?: boolean
+                    is_admin?: boolean
                     is_banned?: boolean
                     push_subscription?: Json | null
                     avg_rating?: number
@@ -136,6 +139,7 @@ export interface Database {
             listings: {
                 Row: {
                     id: string
+                    slug: string | null
                     title: string
                     description: string | null
                     price: number | null
@@ -158,6 +162,7 @@ export interface Database {
                 }
                 Insert: {
                     id?: string
+                    slug?: string | null
                     title: string
                     description?: string | null
                     price?: number | null
@@ -179,6 +184,7 @@ export interface Database {
                 }
                 Update: {
                     id?: string
+                    slug?: string | null
                     title?: string
                     description?: string | null
                     price?: number | null
@@ -284,7 +290,8 @@ export interface Database {
                     price_max: number | null
                     city: string | null
                     radius_km: number | null
-                    keywords: string | null
+                    keywords: string[] | null
+                    conditions: ('NEW' | 'LIKE_NEW' | 'GOOD' | 'FAIR')[] | null
                     notify_on_new: boolean
                     created_at: string
                 }
@@ -297,7 +304,8 @@ export interface Database {
                     price_max?: number | null
                     city?: string | null
                     radius_km?: number | null
-                    keywords?: string | null
+                    keywords?: string[] | null
+                    conditions?: ('NEW' | 'LIKE_NEW' | 'GOOD' | 'FAIR')[] | null
                     notify_on_new?: boolean
                     created_at?: string
                 }
@@ -310,7 +318,8 @@ export interface Database {
                     price_max?: number | null
                     city?: string | null
                     radius_km?: number | null
-                    keywords?: string | null
+                    keywords?: string[] | null
+                    conditions?: ('NEW' | 'LIKE_NEW' | 'GOOD' | 'FAIR')[] | null
                     notify_on_new?: boolean
                     created_at?: string
                 }
@@ -385,7 +394,7 @@ export interface Database {
                     listing_id: string | null
                     reason: 'SPAM' | 'SCAM' | 'PROHIBITED_ITEM' | 'WRONG_CATEGORY' | 'DUPLICATE' | 'OFFENSIVE' | 'OTHER'
                     description: string | null
-                    status: 'PENDING' | 'REVIEWED' | 'ACTION_TAKEN' | 'DISMISSED'
+                    status: 'PENDING' | 'RESOLVED' | 'DISMISSED'
                     resolved_at: string | null
                     created_at: string
                 }
@@ -395,7 +404,7 @@ export interface Database {
                     listing_id?: string | null
                     reason: 'SPAM' | 'SCAM' | 'PROHIBITED_ITEM' | 'WRONG_CATEGORY' | 'DUPLICATE' | 'OFFENSIVE' | 'OTHER'
                     description?: string | null
-                    status?: 'PENDING' | 'REVIEWED' | 'ACTION_TAKEN' | 'DISMISSED'
+                    status?: 'PENDING' | 'RESOLVED' | 'DISMISSED'
                     resolved_at?: string | null
                     created_at?: string
                 }
@@ -405,7 +414,7 @@ export interface Database {
                     listing_id?: string | null
                     reason?: 'SPAM' | 'SCAM' | 'PROHIBITED_ITEM' | 'WRONG_CATEGORY' | 'DUPLICATE' | 'OFFENSIVE' | 'OTHER'
                     description?: string | null
-                    status?: 'PENDING' | 'REVIEWED' | 'ACTION_TAKEN' | 'DISMISSED'
+                    status?: 'PENDING' | 'RESOLVED' | 'DISMISSED'
                     resolved_at?: string | null
                     created_at?: string
                 }
@@ -422,7 +431,7 @@ export interface Database {
             item_condition: 'NEW' | 'LIKE_NEW' | 'GOOD' | 'FAIR'
             swipe_direction: 'LEFT' | 'RIGHT' | 'UP'
             report_reason: 'SPAM' | 'SCAM' | 'PROHIBITED_ITEM' | 'WRONG_CATEGORY' | 'DUPLICATE' | 'OFFENSIVE' | 'OTHER'
-            report_status: 'PENDING' | 'REVIEWED' | 'ACTION_TAKEN' | 'DISMISSED'
+            report_status: 'PENDING' | 'RESOLVED' | 'DISMISSED'
             attribute_type: 'TEXT' | 'NUMBER' | 'SELECT' | 'MULTISELECT' | 'BOOLEAN'
         }
     }

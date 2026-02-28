@@ -18,7 +18,7 @@ interface ImageUploaderProps {
 
 export type { UploadedImage }
 
-export function ImageUploader({ value, onChange, maxImages = 15 }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, maxImages = 5 }: ImageUploaderProps) {
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const uploadFile = async (file: File): Promise<{ id: string; url: string }> => {

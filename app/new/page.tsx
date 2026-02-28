@@ -11,6 +11,7 @@ import {
   CITIES,
   CONDITIONS,
   ROUTES,
+  LIMITS,
   type CategoryId,
   type ConditionId
 } from '@/lib/constants';
@@ -28,11 +29,9 @@ export default function NewListingPage() {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [currency, setCurrency] = useState<'RSD' | 'EUR'>('RSD');
-  const [isNegotiable, setIsNegotiable] = useState(false);
-  const [categoryId, setCategoryId] = useState<CategoryId>(CATEGORIES[0].id);
-  const [condition, setCondition] = useState<ConditionId>(CONDITIONS[2].id);
   const [city, setCity] = useState<string>(CITIES[0].name);
-  const [address, setAddress] = useState('');
+  const [categoryId, setCategoryId] = useState<CategoryId>(CATEGORIES[0].id as CategoryId);
+  const [condition, setCondition] = useState<ConditionId>('GOOD');
   const [images, setImages] = useState<UploadedImage[]>([]);
 
   // Category-specific attributes
@@ -97,6 +96,11 @@ export default function NewListingPage() {
       newErrors.price = 'Unesite validnu cenu';
     }
 
+    // Check if images are empty
+    if (images.length === 0) {
+      newErrors.images = 'Morate dodati barem jednu sliku';
+    }
+
     // Check if images are still uploading
     if (images.some(img => img.uploading)) {
       newErrors.images = 'Sačekajte da se slike učitaju';
@@ -113,21 +117,16 @@ export default function NewListingPage() {
     }
 
     const uploadedIds = images.filter(img => img.id).map(img => img.id);
-    const coords = getCoordinates();
 
     createMutation.mutate({
       title,
       description,
       price: Number(price),
       currency,
-      isNegotiable,
       categoryId,
       condition,
       city,
-      address: address || undefined,
-      latitude: coords.latitude,
-      longitude: coords.longitude,
-      imageIds: uploadedIds.length ? uploadedIds : [crypto.randomUUID()],
+      imageIds: uploadedIds,
       attributes: Object.keys(attributes).length > 0 ? attributes : undefined,
     });
   };
@@ -306,15 +305,6 @@ export default function NewListingPage() {
                   <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 opacity-50">▼</div>
                 </div>
               </div>
-
-              <div>
-                <label className="text-sm font-semibold ml-1 mb-2 block">Adresa</label>
-                <Input
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Ulica i broj (opciono)"
-                />
-              </div>
             </div>
           </section>
 
@@ -327,7 +317,7 @@ export default function NewListingPage() {
             <ImageUploader
               value={images}
               onChange={setImages}
-              maxImages={15}
+              maxImages={LIMITS.MAX_IMAGES_PER_LISTING}
             />
             {errors.images && <p className="text-xs text-destructive mt-2">{errors.images}</p>}
           </section>

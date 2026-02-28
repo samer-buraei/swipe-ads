@@ -18,9 +18,12 @@ export function ConversationView({ conversationId, currentUserId, onBack }: Conv
     const [realtimeMessages, setRealtimeMessages] = useState<MessageItem[]>([])
     const bottomRef = useRef<HTMLDivElement>(null)
 
+    const utils = api.useUtils()
     const { data, isLoading } = api.message.getConversation.useQuery(
         { conversationId }
     )
+
+    const markReadMutation = api.message.markRead.useMutation()
 
     // Handle new realtime messages
     const handleNewMessage = useCallback((msg: any) => {
@@ -58,6 +61,17 @@ export function ConversationView({ conversationId, currentUserId, onBack }: Conv
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [allMessages.length])
+
+    // Mark messages as read on view
+    useEffect(() => {
+        if (allMessages.length > 0) {
+            const hasUnread = allMessages.some(m => !m.isFromMe && !m.isRead)
+            if (hasUnread) {
+                markReadMutation.mutate({ conversationId })
+                utils.message.listConversations.invalidate()
+            }
+        }
+    }, [allMessages, conversationId])
 
     // Reset realtime messages when conversation changes
     useEffect(() => {
