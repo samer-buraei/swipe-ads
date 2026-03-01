@@ -16,29 +16,576 @@
 | 1 | Run both SQL migrations | Browser — Supabase Dashboard | ✅ Done |
 | 2 | Set DEMO_MODE=false | File edit | ✅ Done |
 | 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
-| 4 | Push all code to GitHub | Terminal | ⚠️ Not done |
-| 5 | Import project to Vercel from GitHub | Browser — Vercel Dashboard | ⚠️ Not done |
-| 6 | Add env vars to Vercel + redeploy | Browser — Vercel Dashboard | ⚠️ Not done |
+| 4 | Push all code to GitHub | Terminal | ✅ Done |
+| 5 | Import project to Vercel + add env vars + deploy | Browser — Vercel Dashboard | ✅ Done |
+| 6 | Verify live app + test all features | Browser | ⚠️ Do this now — check Vercel for live URL |
+| 7 | Connect custom domain swipemarket.rs | Browser — Vercel Dashboard | ⏳ Optional |
 
-> **Stripe skipped** — not supported in Serbia. The Promoviši button has been removed from the UI. The checkout and webhook route files remain in the codebase but are unreachable without a button. No Stripe env vars needed.
+> **Stripe skipped** — not supported in Serbia. Promoviši button removed from UI. No Stripe env vars needed.
 
-**→ Full step-by-step instructions for Steps 4–6 are in the DEPLOYMENT CHECKLIST section below.**
+**→ Deployment is live or finishing. Get the Vercel URL and run the verification tests in the DEPLOYMENT CHECKLIST section.**
+
+---
+
+## FULL FEATURE TEST PLAN — Browser Agent (Antigravity)
+
+> **When to run:** After Vercel deployment shows "Ready" (green check).
+> **How to report:** For every test, write ✅ PASS or ❌ FAIL. On failure, copy the exact error text from the screen and the URL you were on.
+> **Important:** Complete PRE-TEST SETUP A and B before running any test — they are mandatory prerequisites.
+
+---
+
+### PRE-TEST SETUP
+
+**A — Find the live URL (do this first)**
+
+1. Navigate to `https://vercel.com/dashboard`
+2. Click the **swipe-ads** project tile
+3. Look at the top of the page — there is a URL ending in `.vercel.app`
+4. Copy that URL exactly (e.g. `https://swipe-ads-abc123.vercel.app`)
+5. This is your `[LIVE_URL]` — substitute it everywhere below
+
+**B — Add Vercel URL to Supabase (MANDATORY — without this Google login fails)**
+
+1. Navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/auth/url-configuration`
+2. Scroll down to the section labelled **"Redirect URLs"**
+3. Click the **"Add URL"** button
+4. Type exactly: `[LIVE_URL]/auth/callback` (using your real Vercel URL)
+5. Click **"Add"** to save that entry
+6. Click **"Add URL"** again
+7. Type exactly: `[LIVE_URL]/**`
+8. Click **"Add"**
+9. Click the **"Save"** button at the bottom of the page
+10. ✅ Confirm: both URLs appear in the Redirect URLs list before continuing
+
+**C — Prepare two browser sessions**
+
+Some tests require two different logged-in users at the same time:
+- **Session A** — your main browser window (normal)
+- **Session B** — a separate incognito window (Ctrl+Shift+N in Chrome) or a different browser
+
+You do not need to log in yet — the tests will tell you when and how.
+
+---
+
+---
+
+### TEST 1 — App loads without crashing
+
+**URL:** Navigate to `[LIVE_URL]`
+
+**What to look for:**
+- The page renders within 5 seconds
+- You see either: a login page with phone number input, OR a stack of listing cards (swipe deck)
+- The bottom of the screen has 5 navigation icons (Home, Search, Post, Messages, Profile)
+
+**✅ PASS criteria:** Page renders, bottom nav is visible, no error text on screen
+
+**❌ FAIL criteria:** Any of these appear on screen:
+- "Application error: a client-side exception has occurred"
+- "500 Internal Server Error"
+- Blank white page that stays blank for more than 10 seconds
+- "This page could not be found" (404)
+
+---
+
+### TEST 2 — Phone OTP login (Session A)
+
+**URL:** Navigate to `[LIVE_URL]/login`
+
+**Steps:**
+1. You see a page with a phone number input field and text "Unesite vaš broj telefona"
+2. In the phone input field, type: `0641112222`
+3. Click the button labelled **"Pošalji kod"**
+4. The screen should change — a new input appears asking for a 6-digit code with text like "Unesite kod"
+5. In the code field, type: `123456`
+   _(This works because +381641112222 is a test number configured in Supabase with fixed OTP 123456)_
+6. Click the button labelled **"Potvrdi"** or **"Prijavi se"**
+
+**✅ PASS criteria:** You are redirected to `[LIVE_URL]` (home page) and the bottom nav shows a Profile icon you can click. You are now logged in as User A. Note this session stays open.
+
+**❌ FAIL criteria:**
+- After clicking "Pošalji kod": error message appears (e.g. "Nevažeći broj telefona" or any red text)
+- After entering 123456: error says code is wrong or expired
+- Page stays on login after submitting — you are not redirected home
+
+---
+
+### TEST 3 — Google OAuth login (Session B)
+
+**URL:** Open a new incognito window. Navigate to `[LIVE_URL]/login`
+
+**Steps:**
+1. You see the login page with a button labelled **"Nastavi sa Google"** (or similar, with a Google logo)
+2. Click that button
+3. A Google account chooser page opens (either in the same tab or a popup)
+4. Select any Google account
+5. Google redirects back to the app
+
+**✅ PASS criteria:** You land back on `[LIVE_URL]` logged in as a different user. You can see the home page / swipe deck. This is now your Session B (User B). Keep this incognito window open.
+
+**❌ FAIL criteria:**
+- A page shows "Error 400: redirect_uri_mismatch" → means PRE-TEST SETUP step B was skipped. Stop, go complete step B, then retry this test.
+- Google page shows "Access blocked" → a different OAuth config issue, report the exact error text
+- You end up back on the login page after Google — not redirected home
+
+---
+
+### TEST 4 — Swipe deck browsing and favorites
+
+**Session:** Use Session A (logged in as User A)
+**URL:** Navigate to `[LIVE_URL]`
+
+**Steps:**
+1. You should see stacked cards — each card has a photo, a title, a price, and a city
+2. Note the title of the top card
+3. Click and drag the card to the RIGHT, or click the heart ♥ button at the bottom of the card
+4. The card should slide off-screen to the right, revealing the next card underneath
+5. Now click the bottom nav icon that looks like a heart (Favorites)
+6. You land on `[LIVE_URL]/favorites`
+
+**✅ PASS criteria:**
+- The card you swiped right on appears in the Favorites list with its title visible
+- At least one card title matches what you noted in step 2
+
+**❌ FAIL criteria:**
+- No cards appear on home screen (only acceptable if the database is empty — check if listings exist)
+- Swiping does nothing (card stays in place)
+- Favorites page shows "Nema sačuvanih oglasa" even though you just swiped right
+- Any red error text or spinning loader that never stops
+
+---
+
+### TEST 5 — Grid browse and listing detail
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/quick-browse`
+
+**Steps:**
+1. You should see a 2-column grid of listing cards with photos and prices
+2. Click on any one card
+3. A new page opens — the listing detail page
+
+**✅ PASS criteria on the detail page:**
+- The page URL changes to `[LIVE_URL]/listing/[some-slug]`
+- You can see: the listing title as an `<h1>` heading, the price in RSD, at least one photo, a seller section showing the seller's name, and a "Kontaktiraj prodavca" button
+
+**❌ FAIL criteria:**
+- Grid shows spinning loader that never resolves
+- Clicking a card goes nowhere or shows a blank page
+- Detail page loads but shows only partial content (missing price, seller info, or images)
+
+---
+
+### TEST 6 — Search with text and city filter
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/search`
+
+**Steps:**
+1. You see a search bar at the top
+2. Click the search bar and type: `a` (single letter — just to get any results)
+3. Wait up to 3 seconds for results to appear below the search bar
+4. Note how many results appear
+5. Find a city filter dropdown or input (labelled something like "Grad" or "Sve lokacije")
+6. Select **"Beograd"** from the dropdown
+7. Observe the results list
+
+**✅ PASS criteria:**
+- After typing `a`: at least 1 result card appears (if the DB has listings)
+- After selecting Beograd: results change — either fewer results appear (filtered) or 0 results with text "Nema rezultata"
+- No red error messages at any point
+
+**❌ FAIL criteria:**
+- Search bar is visible but results never appear after 5 seconds
+- Selecting the city filter causes a crash or blank page
+- Page shows "Greška pri učitavanju" (error loading)
+
+---
+
+### TEST 7 — Create a new listing (Session A — User A)
+
+**Session:** Session A
+**URL:** Click the **+** (post/add) icon in the bottom nav, or navigate to `[LIVE_URL]/new`
+
+**Steps:**
+1. A form appears with fields for title, description, price, city, category, condition, and image upload
+2. Fill in the fields with exactly these values:
+   - Title field: type `Test oglas QA`
+   - Description field: type `Ovo je test oglas koji ce biti obrisan`
+   - Price field: type `1500`
+   - City field: type or select `Beograd`
+   - Category: click the dropdown, select any category (e.g. "Elektronika")
+   - Condition: click the dropdown, select `Novo`
+3. Find the image upload area — click it or click "Dodaj slike" and upload any image file from your computer (any JPG or PNG under 5MB works)
+4. Wait for the image to finish uploading — a thumbnail should appear
+5. Click the submit button (labelled **"Objavi oglas"** or **"Postavi oglas"**)
+
+**✅ PASS criteria:**
+- After submit, the page redirects to `[LIVE_URL]/listing/test-oglas-qa` (or similar slug)
+- The listing detail page shows the title "Test oglas QA", price "1.500 RSD", city "Beograd"
+- Copy the URL of this listing detail page — you will need it for Tests 8, 9, 10, 12
+
+**❌ FAIL criteria:**
+- Image upload shows an error (red text, or thumbnail never appears)
+- Submit button stays spinning for more than 15 seconds
+- After submit, an error appears instead of redirecting to the listing
+- You stay on `/new` with a validation error — note which field caused it
+
+---
+
+### TEST 8 — Edit the listing
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/profile`
+
+**Steps:**
+1. You see "Moji oglasi" section with listing cards
+2. Find the card for **"Test oglas QA"** (from TEST 7)
+3. Below that card, there are action buttons — click the button labelled **"Izmeni"**
+4. A new page opens at `[LIVE_URL]/listing/[slug]/edit`
+5. Check that all form fields are pre-filled: title shows "Test oglas QA", price shows "1500", city shows "Beograd"
+6. Click into the Title field, clear it, and type: `Test oglas QA — izmenjen`
+7. Click the save button (labelled **"Sačuvaj izmene"** or **"Sačuvaj"**)
+
+**✅ PASS criteria:**
+- After saving, you are redirected back to the listing detail page
+- The title on the listing detail page now reads **"Test oglas QA — izmenjen"** (not the old title)
+
+**❌ FAIL criteria:**
+- Edit page opens but fields are empty (pre-fill broken)
+- Save button does nothing or shows a spinner that never stops
+- After saving, the listing still shows the old title "Test oglas QA"
+- Page shows any error text
+
+---
+
+### TEST 9 — Mark as sold, then reactivate
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/profile`
+
+**Steps:**
+1. Find the **"Test oglas QA — izmenjen"** card under "Moji oglasi"
+2. Below the card, click the button labelled **"Prodato"**
+3. Watch the buttons below that card — they should change
+4. Now click the button that appeared in place of "Prodato" — it should be labelled **"Reaktiviraj"**
+5. Watch the buttons change back
+
+**✅ PASS criteria:**
+- After clicking "Prodato": the button label changes to "Reaktiviraj" within 2 seconds (no page reload needed)
+- After clicking "Reaktiviraj": the button label changes back to "Prodato" within 2 seconds
+
+**❌ FAIL criteria:**
+- Clicking either button does nothing visible
+- Page reloads but button label stays the same
+- Any error message appears
+
+---
+
+### TEST 10 — Delete the listing
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/profile`
+
+**Steps:**
+1. Find the **"Test oglas QA — izmenjen"** card
+2. Click the button labelled **"Obriši"** (it may be styled in red)
+3. A browser dialog box appears asking for confirmation with text like "Obrisati oglas?"
+4. Click **OK** (or the confirm button) in that dialog
+
+**✅ PASS criteria:**
+- The listing card for "Test oglas QA — izmenjen" disappears from the profile page immediately
+- Navigate back to the listing's old URL (from TEST 7) — the page shows "not found" or a 404 message, or redirects to home
+
+**❌ FAIL criteria:**
+- No confirmation dialog appears — deletion happens without warning (UX issue, report it)
+- After confirming, the card is still visible in the profile
+- An error message appears after clicking OK
+
+---
+
+### TEST 11 — Create a listing for messaging and rating tests
+
+Before running tests 12 and 13, User A needs an active listing.
+
+**Session:** Session A
+**URL:** Navigate to `[LIVE_URL]/new`
+
+1. Create a new listing:
+   - Title: `Oglas za testiranje poruka`
+   - Description: `Test`
+   - Price: `500`
+   - City: `Beograd`
+   - Category: any
+   - Condition: `Novo`
+   - Upload any image
+2. Click **"Objavi oglas"**
+3. ✅ **Pass:** Redirected to the listing detail page. Copy this URL — you will use it in tests 12 and 13.
+
+---
+
+### TEST 12 — Messaging between two users
+
+**Sessions:** Both Session A (User A) and Session B (User B) open at the same time
+
+**In Session B (User B's incognito window):**
+1. Navigate to the listing URL you copied in TEST 11
+2. You see the listing detail page for "Oglas za testiranje poruka"
+3. Scroll down to the seller section — find and click the button labelled **"Kontaktiraj prodavca"**
+4. A message input area appears below (or a modal opens)
+5. Type exactly: `Zdravo, da li je dostupno?`
+6. Click the send button (a paper plane icon, or a button labelled "Pošalji")
+
+**✅ PASS (Session B):** The message "Zdravo, da li je dostupno?" appears in the conversation area with a timestamp. The input field clears.
+
+**Now switch to Session A (User A):**
+7. Navigate to `[LIVE_URL]/messages`
+8. You should see a conversation listed with User B's name
+
+**✅ PASS (Session A):** The conversation from User B appears in the list showing the message preview "Zdravo, da li je dostupno?"
+
+9. Click that conversation
+10. You see the message. Type a reply: `Da, dostupno je!`
+11. Click send
+
+**Switch back to Session B:**
+12. Look at the conversation — do NOT reload the page
+
+**✅ PASS (real-time):** The reply "Da, dostupno je!" appears in Session B's conversation within 5 seconds WITHOUT refreshing the page
+
+**❌ FAIL criteria (any of these = failure):**
+- "Kontaktiraj prodavca" button is missing on the listing detail page
+- Clicking the button does nothing
+- Message fails to send (error text appears)
+- Session A does not see the conversation in `/messages`
+- Reply does not appear in Session B after 10 seconds even after manual page refresh
+
+---
+
+### TEST 13 — Seller ratings
+
+**Sessions:** Both Session A and Session B
+
+**In Session B (User B):**
+1. Navigate to the listing URL from TEST 11 (User A's listing)
+2. Scroll to the seller card section — look for a link or button labelled **"Oceni prodavca"**
+
+**✅ PASS:** "Oceni prodavca" link is visible to User B (because User B does not own this listing)
+
+3. Click **"Oceni prodavca"**
+4. A modal/popup opens with 5 star icons and an optional comment field
+5. Click the **4th star** (so 4 out of 5 stars are highlighted/filled)
+6. In the comment field type: `Odličan prodavac, preporučujem!`
+7. Click the button labelled **"Pošalji ocenu"** or **"Oceni"**
+
+**✅ PASS:** Modal closes. In the seller card on the listing page, a star rating now appears showing something like **"★ 4.0 · 1 ocena"**. If the count doesn't update immediately, refresh the page — it should appear after refresh.
+
+8. Click **"Oceni prodavca"** again (it may still be visible for a second attempt)
+9. Select any stars and click submit again
+
+**✅ PASS:** An error message appears saying something like **"Već ste ocenili"** (already rated). The rating is NOT submitted a second time.
+
+**Switch to Session A (User A):**
+10. Navigate to the listing URL from TEST 11
+11. Look at the seller card — there should be NO "Oceni prodavca" link visible
+
+**✅ PASS:** "Oceni prodavca" is NOT shown when you are the owner of the listing
+
+**❌ FAIL criteria:**
+- "Oceni prodavca" is not visible to User B on a listing owned by User A
+- After submitting, no stars appear in the seller card (even after page refresh)
+- Second submission does not show an error — double rating is silently accepted
+- "Oceni prodavca" is visible to User A on their own listing
+
+---
+
+### TEST 14 — Push notifications
+
+**Session:** Session A (User A — normal browser, not incognito)
+
+> Push notifications require a real browser with notification permissions. They will NOT work in incognito mode.
+> They will ONLY work on HTTPS — the Vercel URL is fine, localhost is not.
+
+**Steps:**
+1. Navigate to `[LIVE_URL]/search-profiles`
+2. Look for a blue banner or button near the top of the page labelled **"🔔 Dozvoli notifikacije za nove oglase"**
+
+**✅ PASS:** The blue notification button is visible
+
+3. Click that button
+4. The browser shows a permission popup at the top of the screen asking: "Allow [LIVE_URL] to send notifications?" with Allow / Block options
+5. Click **"Allow"**
+
+**✅ PASS:** The blue button disappears from the page (it only shows when permission is not yet granted)
+
+6. Now switch to **Session B** and create a new listing in city **"Beograd"**:
+   - Go to `[LIVE_URL]/new`
+   - Title: `Oglas koji treba da triguje notifikaciju`
+   - City: `Beograd`
+   - Any other fields, upload an image, submit
+7. Return to Session A's browser and wait up to 30 seconds
+
+**✅ PASS:** A browser push notification appears in the corner of the screen (or as a system notification) with:
+- Title: **"Novi oglas koji te zanima"**
+- Body text containing the listing title and city
+
+8. Click the notification
+
+**✅ PASS:** The browser opens the new listing's page
+
+**❌ FAIL criteria:**
+- The blue button is not visible on `/search-profiles`
+- Browser permission prompt never appears after clicking the button
+- Blue button is still visible after clicking Allow (subscription not saved)
+- No notification arrives after 30 seconds (push delivery failed)
+
+---
+
+### TEST 15 — Own profile editing
+
+**Session:** Session A
+**URL:** Click the Profile icon in the bottom nav, or navigate to `[LIVE_URL]/profile`
+
+**Steps:**
+1. You see your profile page with your name (or "Postavi ime" if not set), city, and two stats: "Aktivni" and "Prodato" counts
+2. Find the pencil / edit icon button in the top-right of the profile card and click it
+3. Input fields appear: one for name, one for city, one for bio
+4. Clear the name field and type: `Test Korisnik`
+5. Click the button labelled **"Sačuvaj"**
+
+**✅ PASS criteria:**
+- The edit fields disappear and the profile card now shows the name **"Test Korisnik"**
+- No page reload required — update happens in place
+- The stats (Aktivni, Prodato) show correct numbers reflecting your actual listings
+
+**❌ FAIL criteria:**
+- Profile page shows a loading spinner that never resolves
+- Edit icon is not visible
+- After clicking "Sačuvaj", name still shows old value
+- Any error message appears
+
+---
+
+### TEST 16 — Public profile view
+
+**Session:** Session B (User B)
+**URL:** Navigate to `[LIVE_URL]/listing/[slug-from-test-11]` (User A's listing)
+
+**Steps:**
+1. On the listing detail page, find the seller card — it shows User A's name
+2. Click on User A's name or avatar photo
+
+**✅ PASS criteria:**
+- Browser navigates to `[LIVE_URL]/profile/[user-id]` (a different URL from `/profile`)
+- Page shows User A's name ("Test Korisnik"), their city, and a list of their active listings
+- There is NO pencil/edit icon on this page (because you are User B, not the owner)
+- The star rating from TEST 13 (★ 4.0) may appear here as well
+
+**❌ FAIL criteria:**
+- Clicking seller name does nothing or shows 404
+- Page shows edit controls (should not be editable by User B)
+- Page shows your own profile (User B's) instead of User A's
+
+---
+
+### TEST 17 — Report a listing
+
+**Session:** Session B (User B)
+**URL:** Navigate to any listing owned by User A
+
+**Steps:**
+1. Scroll to the bottom of the listing detail page
+2. Look for a small link or button labelled **"Prijavi oglas"** (Report listing)
+3. Click it
+4. A modal/popup opens with a dropdown or list of report reasons (e.g. "Prevara", "Neprikladni sadržaj", etc.)
+5. Select any reason from the list
+6. Click the submit button (labelled "Pošalji" or "Prijavi")
+
+**✅ PASS criteria:**
+- A success message appears: something like "Hvala na prijavi" or "Oglas je prijavljen"
+- The modal closes after the success message
+
+**❌ FAIL criteria:**
+- "Prijavi oglas" link is not visible on the page
+- Modal does not open
+- Submit causes a red error message
+- Nothing happens after clicking submit
+
+---
+
+### TEST 18 — Admin dashboard
+
+> **Prerequisite:** Your Supabase user must have `is_admin = true` in the database.
+> **How to set it:** Navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/editor` → click the `users` table → find your user row → click the `is_admin` cell → change to `true` → click outside to save → then refresh the app.
+
+**Session:** Session A (the admin account)
+**URL:** Navigate to `[LIVE_URL]/admin`
+
+**Steps:**
+1. The admin page loads — you see two sections: a list of listings pending approval, and a list of reports
+
+**Section A — Listing approval:**
+2. Find any listing in the pending list (status: PENDING)
+3. Click **"Odobri"** on one of them
+4. ✅ **Pass:** That listing row disappears from the pending list within 2 seconds
+5. Find another pending listing, click **"Odbij"**
+6. ✅ **Pass:** That listing row also disappears
+
+**Section B — Report resolution:**
+7. Find any entry in the reports list
+8. Click **"Rešeno"** on it
+9. ✅ **Pass:** That report row disappears from the list
+
+**❌ FAIL criteria:**
+- Navigating to `/admin` shows a blank page, 403 error, or redirects to login
+- Clicking "Odobri"/"Odbij" does nothing (buttons appear but have no effect)
+- Listings or reports stay in the list after action buttons are clicked
+- Any error message appears after clicking action buttons
+
+---
+
+### FINAL SUMMARY — Report this table back
+
+| # | Feature tested | ✅ Pass / ❌ Fail | Notes (error text + URL if failed) |
+|---|---------------|-----------------|-------------------------------------|
+| 1 | App loads | | |
+| 2 | Phone OTP login | | |
+| 3 | Google OAuth login | | |
+| 4 | Swipe deck + favorites | | |
+| 5 | Grid browse + listing detail | | |
+| 6 | Search + city filter | | |
+| 7 | Create listing with image | | |
+| 8 | Edit listing | | |
+| 9 | Mark sold / reactivate | | |
+| 10 | Delete listing | | |
+| 11 | Create listing for messaging tests | | |
+| 12 | Messaging + real-time delivery | | |
+| 13 | Seller ratings + duplicate block | | |
+| 14 | Push notifications | | |
+| 15 | Own profile edit | | |
+| 16 | Public profile view | | |
+| 17 | Report a listing | | |
+| 18 | Admin dashboard (approve/reject/resolve) | | |
+
+**When done:** Paste this table with filled-in results. For any ❌ FAIL, include the exact error text shown on screen and the URL you were on.
 
 ---
 
 ## DEPLOYMENT CHECKLIST — Browser Agent Instructions
 
 > **For:** Antigravity or any browser-automation agent.
-> **Steps 1–3 are already done.** Start from Step 4.
+> **Steps 1–5 are already done.** Deployment is live.
 > **Stripe is skipped entirely** — do not add any Stripe env vars.
 > **GitHub repo:** `https://github.com/samer-buraei/swipe-ads`
-> **Vercel account:** `samerburaei-4457` (already registered, no project yet)
 
 ---
 
 ### ✅ STEP 1 — SQL migrations — DONE
 ### ✅ STEP 2 — DEMO_MODE=false — DONE
 ### ✅ STEP 3 — VAPID keys in .env.local — DONE
+### ✅ STEP 4 — Code pushed to GitHub — DONE
+### ✅ STEP 5 — Vercel project imported + env vars + deployed — DONE
 
 ---
 
