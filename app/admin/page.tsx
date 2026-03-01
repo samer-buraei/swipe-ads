@@ -121,7 +121,7 @@ export default function AdminDashboardPage() {
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2 w-full md:w-auto mt-4 md:mt-0">
-                                    <Button variant="outline" size="sm" className="border-green-200 bg-green-50 hover:bg-green-100 text-green-700 h-10 w-full rounded-xl md:w-32" onClick={() => resolveReport.mutate({ id: report.id, status: 'RESOLVED' })} disabled={resolveReport.isLoading}>
+                                    <Button variant="outline" size="sm" className="border-green-200 bg-green-50 hover:bg-green-100 text-green-700 h-10 w-full rounded-xl md:w-32" onClick={() => resolveReport.mutate({ id: report.id, status: 'ACTION_TAKEN' })} disabled={resolveReport.isLoading}>
                                         <CheckCircle className="h-4 w-4 mr-2" /> Rešeno
                                     </Button>
                                     <Button variant="ghost" size="sm" className="h-10 w-full rounded-xl md:w-32 text-muted-foreground hover:text-black" onClick={() => resolveReport.mutate({ id: report.id, status: 'DISMISSED' })} disabled={resolveReport.isLoading}>

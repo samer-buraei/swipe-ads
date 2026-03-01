@@ -1,140 +1,142 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { api } from '@/lib/trpc';
-import { Button } from '@/components/ui/button';
-import { CheckCircle2, Phone as PhoneIcon, KeyRound } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react'
+import { api } from '@/lib/trpc'
+import { toE164Serbian, isValidSerbianMobile } from '@/lib/utils'
 
-export function PhoneVerification({
-    currentPhone,
-    phoneVerifiedAt
-}: {
-    currentPhone: string | null;
-    phoneVerifiedAt?: Date | null;
-}) {
-    const [phone, setPhone] = useState(currentPhone || '+381');
-    const [token, setToken] = useState('');
-    const [step, setStep] = useState<'input' | 'verify' | 'done'>('input');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+interface PhoneVerificationProps {
+    currentPhone?: string | null
+    onVerified: (phone: string) => void
+}
 
-    const supabase = createClient();
-    const utils = api.useUtils();
-    const updateUser = api.user.update.useMutation();
+export function PhoneVerification({ currentPhone, onVerified }: PhoneVerificationProps) {
+    const [step, setStep] = useState<'idle' | 'phone' | 'otp'>('idle')
+    const [phone, setPhone] = useState('')
+    const [e164Phone, setE164Phone] = useState('')
+    const [otp, setOtp] = useState(['', '', '', '', '', ''])
+    const [error, setError] = useState('')
+    const [countdown, setCountdown] = useState(0)
+    const otpRefs = useRef<(HTMLInputElement | null)[]>([])
 
-    const handleSendOtp = async () => {
-        setLoading(true);
-        setError('');
-        const { error: otpError } = await supabase.auth.signInWithOtp({
-            phone,
-        });
+    useEffect(() => {
+        if (countdown <= 0) return
+        const t = setTimeout(() => setCountdown(c => c - 1), 1000)
+        return () => clearTimeout(t)
+    }, [countdown])
 
-        setLoading(false);
-        if (otpError) {
-            setError(otpError.message);
-        } else {
-            setStep('verify');
+    const sendOtp = api.auth.sendOtp.useMutation({
+        onSuccess: () => { setStep('otp'); setCountdown(60); setError('') },
+        onError: (err) => setError(err.message),
+    })
+
+    const verifyOtp = api.auth.verifyOtp.useMutation({
+        onSuccess: () => { onVerified(e164Phone); setStep('idle') },
+        onError: (err) => { setError(err.message); setOtp(['', '', '', '', '', '']) },
+    })
+
+    const handleSend = () => {
+        const converted = toE164Serbian(phone)
+        if (!isValidSerbianMobile(converted)) {
+            setError('Unesite validan srpski mobilni broj')
+            return
         }
-    };
+        setE164Phone(converted)
+        sendOtp.mutate({ phone: converted })
+    }
 
-    const handleVerify = async () => {
-        setLoading(true);
-        setError('');
-        const { error: vError } = await supabase.auth.verifyOtp({
-            phone,
-            token,
-            type: 'sms',
-        });
-
-        if (vError) {
-            setError(vError.message);
-            setLoading(false);
-        } else {
-            const now = new Date().toISOString();
-            await updateUser.mutateAsync({ phone, phoneVerifiedAt: now });
-
-            // Update the verify user trigger in supabase manually, but for UI sake invalidate
-            await utils.user.me.invalidate();
-
-            setStep('done');
-            setLoading(false);
+    const handleOtpChange = (index: number, value: string) => {
+        if (!/^\d?$/.test(value)) return
+        const next = [...otp]
+        next[index] = value
+        setOtp(next)
+        if (value && index < 5) otpRefs.current[index + 1]?.focus()
+        if (next.every(d => d) && next.join('').length === 6) {
+            verifyOtp.mutate({ phone: e164Phone, token: next.join('') })
         }
-    };
+    }
 
-    if (phoneVerifiedAt && currentPhone) {
+    if (step === 'idle') {
         return (
-            <div className="flex items-center justify-between bg-green-50/50 p-4 rounded-3xl border border-green-100 mt-6">
-                <div className="flex items-center gap-3">
-                    <div className="bg-green-100 p-2 rounded-full text-green-700">
-                        <CheckCircle2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                        <div className="font-semibold text-green-900 text-sm">Broj je verifikovan</div>
-                        <div className="text-green-700/80 text-xs">{currentPhone}</div>
-                    </div>
+            <div className="flex items-center justify-between p-4 border border-gray-100 rounded-2xl">
+                <div>
+                    <p className="text-sm font-medium text-gray-700">Telefon</p>
+                    <p className="text-sm text-gray-400">{currentPhone ?? 'Nije dodat'}</p>
+                </div>
+                <button
+                    onClick={() => setStep('phone')}
+                    className="text-sm text-indigo-500 font-medium hover:underline"
+                >
+                    {currentPhone ? 'Promeni' : 'Dodaj'}
+                </button>
+            </div>
+        )
+    }
+
+    if (step === 'phone') {
+        return (
+            <div className="space-y-3 p-4 border border-indigo-100 rounded-2xl bg-indigo-50">
+                <p className="text-sm font-medium text-gray-700">Dodaj broj telefona</p>
+                <div className="flex gap-2">
+                    <span className="text-sm text-gray-500 self-center shrink-0">🇷🇸 +381</span>
+                    <input
+                        type="tel"
+                        placeholder="64 123 4567"
+                        value={phone}
+                        onChange={e => setPhone(e.target.value)}
+                        className="flex-1 text-sm border border-gray-200 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-300 bg-white"
+                        autoFocus
+                    />
+                </div>
+                {error && <p className="text-xs text-red-500">{error}</p>}
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleSend}
+                        disabled={sendOtp.isLoading}
+                        className="flex-1 bg-indigo-500 text-white rounded-xl py-2.5 text-sm font-medium disabled:opacity-50"
+                    >
+                        {sendOtp.isLoading ? 'Slanje...' : 'Pošalji kod'}
+                    </button>
+                    <button
+                        onClick={() => { setStep('idle'); setError('') }}
+                        className="px-4 text-sm text-gray-500 border border-gray-200 rounded-xl hover:bg-gray-50"
+                    >
+                        Otkaži
+                    </button>
                 </div>
             </div>
-        );
+        )
     }
 
     return (
-        <div className="bg-white p-5 rounded-3xl border border-black/5 shadow-[0_2px_10px_rgb(0,0,0,0.02)] space-y-4 mt-6">
-            <div className="flex items-center gap-2 mb-2">
-                <PhoneIcon className="w-5 h-5 text-primary" />
-                <h3 className="font-bold">Verifikacija Broja</h3>
-            </div>
-
-            {error && <div className="text-red-500 text-sm font-medium bg-red-50 p-3 rounded-xl border border-red-100">{error}</div>}
-
-            {step === 'input' && (
-                <div className="space-y-4">
-                    <p className="text-sm text-muted-foreground leading-relaxed">Povežite broj telefona da biste stekli oznaku <b>Verifikovan</b> i izgradili poverenje sa kupcima.</p>
+        <div className="space-y-3 p-4 border border-indigo-100 rounded-2xl bg-indigo-50">
+            <p className="text-sm text-gray-600">Unesite kod primljen na {phone}</p>
+            <div className="flex gap-1.5">
+                {otp.map((digit, i) => (
                     <input
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
-                        className="w-full h-11 border border-black/10 rounded-xl px-4 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all font-medium"
-                        placeholder="+381..."
+                        key={i}
+                        ref={el => { otpRefs.current[i] = el }}
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={1}
+                        value={digit}
+                        onChange={e => handleOtpChange(i, e.target.value)}
+                        onKeyDown={e => e.key === 'Backspace' && !otp[i] && i > 0 && otpRefs.current[i - 1]?.focus()}
+                        className="w-10 h-12 text-center text-lg font-bold border-2 border-gray-200 rounded-xl focus:border-indigo-400 focus:outline-none bg-white"
+                        autoFocus={i === 0}
                     />
-                    <Button className="w-full rounded-xl h-11" onClick={handleSendOtp} disabled={loading || phone.length < 9}>
-                        {loading ? 'Slanje...' : 'Pošalji SMS Kod'}
-                    </Button>
-                </div>
-            )}
-
-            {step === 'verify' && (
-                <div className="space-y-4">
-                    <p className="text-sm text-muted-foreground">Unesite 6-cifreni kod koji smo poslali na <b>{phone}</b></p>
-                    <div className="relative">
-                        <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                        <input
-                            value={token}
-                            onChange={e => setToken(e.target.value)}
-                            className="w-full h-11 border border-black/10 rounded-xl pl-10 pr-4 outline-none focus:border-primary/50 focus:ring-2 focus:ring-primary/20 transition-all font-medium tracking-widest text-lg"
-                            placeholder="000000"
-                            maxLength={6}
-                        />
-                    </div>
-                    <div className="flex gap-2">
-                        <Button variant="outline" className="w-full rounded-xl h-11" onClick={() => setStep('input')} disabled={loading}>
-                            Nazad
-                        </Button>
-                        <Button className="w-full rounded-xl h-11" onClick={handleVerify} disabled={loading || token.length < 6}>
-                            {loading ? 'Provera...' : 'Potvrdi Kod'}
-                        </Button>
-                    </div>
-                </div>
-            )}
-
-            {step === 'done' && (
-                <div className="text-center py-4 space-y-2">
-                    <div className="mx-auto w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-3">
-                        <CheckCircle2 className="w-6 h-6" />
-                    </div>
-                    <h4 className="font-bold text-green-900 text-lg">Uspešno verifikovano!</h4>
-                    <p className="text-sm text-green-700/80">Vaš broj telefona je povezan.</p>
-                </div>
+                ))}
+            </div>
+            {error && <p className="text-xs text-red-500">{error}</p>}
+            {countdown > 0 ? (
+                <p className="text-xs text-gray-400">Ponovo za {countdown}s</p>
+            ) : (
+                <button
+                    onClick={() => { setOtp(['', '', '', '', '', '']); sendOtp.mutate({ phone: e164Phone }) }}
+                    className="text-xs text-indigo-500 hover:underline"
+                >
+                    Pošalji ponovo
+                </button>
             )}
         </div>
-    );
+    )
 }

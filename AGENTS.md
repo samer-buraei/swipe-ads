@@ -1,59 +1,1017 @@
 # AGENTS.md — SwipeMarket Multi-Agent Workflow Guide
 
-> This file tells every AI agent (Claude, Gemini, Cursor, etc.) exactly where the project stands, what to do next, and how to work without breaking other agents' work.
-> Last updated: 2026-02-28
+> This file tells every AI agent exactly where the project stands, what to do next, and how to work without breaking other agents' work.
+> Last updated: 2026-03-01
+>
+> **Who reads this file:**
+> - **Gemini 2.5 Pro High** — executes the coding tasks. Read NEXT TASKS first, then the full guide for the task you're implementing.
+> - **Claude** — architect and reviewer. Writes the specs in this file, reviews Gemini's output, runs TypeScript checks.
+
+---
+
+## NEXT TASKS — EXECUTE IN THIS ORDER
+
+| # | Task | Type | Status |
+|---|------|------|--------|
+| 1 | Run both SQL migrations | Browser — Supabase Dashboard | ✅ Done |
+| 2 | Set DEMO_MODE=false | File edit | ✅ Done |
+| 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
+| 4 | Push all code to GitHub | Terminal | ⚠️ Not done |
+| 5 | Import project to Vercel from GitHub | Browser — Vercel Dashboard | ⚠️ Not done |
+| 6 | Add env vars to Vercel + redeploy | Browser — Vercel Dashboard | ⚠️ Not done |
+
+> **Stripe skipped** — not supported in Serbia. The Promoviši button has been removed from the UI. The checkout and webhook route files remain in the codebase but are unreachable without a button. No Stripe env vars needed.
+
+**→ Full step-by-step instructions for Steps 4–6 are in the DEPLOYMENT CHECKLIST section below.**
+
+---
+
+## DEPLOYMENT CHECKLIST — Browser Agent Instructions
+
+> **For:** Antigravity or any browser-automation agent.
+> **Steps 1–3 are already done.** Start from Step 4.
+> **Stripe is skipped entirely** — do not add any Stripe env vars.
+> **GitHub repo:** `https://github.com/samer-buraei/swipe-ads`
+> **Vercel account:** `samerburaei-4457` (already registered, no project yet)
+
+---
+
+### ✅ STEP 1 — SQL migrations — DONE
+### ✅ STEP 2 — DEMO_MODE=false — DONE
+### ✅ STEP 3 — VAPID keys in .env.local — DONE
+
+---
+
+### STEP 4 — Push all code to GitHub (terminal)
+
+All Phase 4 code is uncommitted. Run these commands in the terminal at `C:\Users\sam\Desktop\swipemarket\`:
+
+```bash
+git add -A
+git commit -m "Phase 4 complete: Phone OTP, listing management, ratings, push notifications, admin fix"
+git push origin main
+```
+
+If `main` is rejected (wrong branch name), try `git push origin master`.
+
+After pushing, verify at `https://github.com/samer-buraei/swipe-ads` that the latest commit shows the new files (`lib/push.ts`, `public/sw.js`, `app/api/push/`, `app/api/webhooks/stripe/`, `components/ratings/`, etc.)
+
+---
+
+### STEP 5 — Import project to Vercel (browser)
+
+**Navigate to:** `https://vercel.com/new`
+
+1. You will see "Import Git Repository"
+2. If GitHub is not connected, click **"Connect GitHub"** and authorize Vercel to access your repositories
+3. Find **`swipe-ads`** in the repository list and click **"Import"**
+4. On the "Configure Project" screen:
+   - **Project Name:** `swipemarket` (or leave as `swipe-ads`)
+   - **Framework Preset:** should auto-detect as `Next.js` — confirm this
+   - **Root Directory:** leave as `/` (default)
+   - **Do NOT click Deploy yet** — you must add env vars first (Step 6)
+5. Look for **"Environment Variables"** section on the same configure screen — expand it
+
+---
+
+### STEP 6 — Add env vars and deploy (browser, same screen as Step 5)
+
+Still on the Vercel import/configure screen, add each variable below by clicking **"Add"** for each one:
+
+| Variable Name | Value |
+|---------------|-------|
+| `NEXT_PUBLIC_SUPABASE_URL` | `https://awbtohtpjrqlxfoqtita.supabase.co` |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | (copy from `.env.local` — the long `eyJ...` value next to `NEXT_PUBLIC_SUPABASE_ANON_KEY`) |
+| `SUPABASE_SERVICE_ROLE_KEY` | (copy from `.env.local` — the `eyJ...` value next to `SUPABASE_SERVICE_ROLE_KEY`) |
+| `DEMO_MODE` | `false` |
+| `NEXT_PUBLIC_APP_URL` | `https://swipemarket.rs` (or your Vercel URL if no custom domain yet — you can update this later) |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | (copy from `.env.local`) |
+| `VAPID_PRIVATE_KEY` | (copy from `.env.local`) |
+| `VAPID_SUBJECT` | `mailto:admin@swipemarket.rs` |
+
+After adding all 8 variables, click **"Deploy"**.
+
+Wait for the build to complete — it will show a **"Congratulations"** screen with your deployment URL (e.g. `https://swipe-ads-xyz.vercel.app`).
+
+**Note:** If you have the domain `swipemarket.rs` ready, go to Vercel → your project → Settings → Domains → add `swipemarket.rs` and follow the DNS instructions. Otherwise the Vercel URL works fine for testing.
+
+---
+
+### STEP 1 — Run SQL migrations in Supabase (browser — ALREADY DONE, kept for reference)
+
+Two tables need to be created: `ratings` and `push_subscriptions`. Run them as two separate queries.
+
+**Navigate to:** `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`
+
+If prompted to log in, do so first, then return to that URL.
+
+**Query 1 — Ratings table:**
+
+1. Click "New query" (the `+` button in the SQL Editor sidebar, or the button at the top)
+2. Clear any existing content in the editor
+3. Paste the following SQL exactly:
+
+```sql
+CREATE TABLE IF NOT EXISTS ratings (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  from_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  to_user_id   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  listing_id   UUID REFERENCES listings(id) ON DELETE SET NULL,
+  score        INTEGER NOT NULL CHECK (score >= 1 AND score <= 5),
+  comment      TEXT,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(from_user_id, to_user_id, listing_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_ratings_to_user ON ratings(to_user_id);
+CREATE INDEX IF NOT EXISTS idx_ratings_from_user ON ratings(from_user_id);
+
+ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "ratings_read" ON ratings FOR SELECT USING (true);
+
+CREATE POLICY "ratings_insert" ON ratings FOR INSERT
+  WITH CHECK (auth.uid() = from_user_id);
+```
+
+4. Click the green **"Run"** button (or press Ctrl+Enter)
+5. Confirm the result panel shows: `Success. No rows returned`
+
+**Query 2 — Push subscriptions table:**
+
+1. Click "New query" again to open a fresh editor
+2. Paste the following SQL:
+
+```sql
+CREATE TABLE IF NOT EXISTS push_subscriptions (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  endpoint   TEXT NOT NULL,
+  p256dh     TEXT NOT NULL,
+  auth       TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, endpoint)
+);
+
+CREATE INDEX IF NOT EXISTS idx_push_subscriptions_user ON push_subscriptions(user_id);
+
+ALTER TABLE push_subscriptions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "push_sub_select" ON push_subscriptions FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "push_sub_insert" ON push_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "push_sub_delete" ON push_subscriptions FOR DELETE USING (auth.uid() = user_id);
+```
+
+3. Click **"Run"**
+4. Confirm: `Success. No rows returned`
+
+**Verify both tables exist:**
+
+Navigate to: `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/editor`
+
+In the left panel (Table Editor), confirm you can see both `ratings` and `push_subscriptions` in the table list. If they appear, Step 1 is complete.
+
+---
+
+### STEP 2 — Set DEMO_MODE=false (local file edit)
+
+Open the file: `C:\Users\sam\Desktop\swipemarket\.env.local`
+
+Find the line:
+```
+DEMO_MODE="true"
+```
+
+Change it to:
+```
+DEMO_MODE="false"
+```
+
+Save the file. This enables real Supabase connections instead of mock data.
+
+---
+
+### STEP 3 — Generate VAPID keys (terminal)
+
+Open a terminal in `C:\Users\sam\Desktop\swipemarket\` and run:
+
+```bash
+node -e "const wp = require('web-push'); const k = wp.generateVAPIDKeys(); console.log('PUBLIC:', k.publicKey); console.log('PRIVATE:', k.privateKey);"
+```
+
+The output will look like:
+```
+PUBLIC: BxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxAA
+PRIVATE: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+
+Copy both values. Then open `.env.local` and add these three lines (replace the placeholder values):
+
+```bash
+NEXT_PUBLIC_VAPID_PUBLIC_KEY="BxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxAA"
+VAPID_PRIVATE_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+VAPID_SUBJECT="mailto:admin@swipemarket.rs"
+```
+
+Save `.env.local`. Keep the PUBLIC and PRIVATE key values copied — you will paste them into Vercel in Step 4.
+
+---
+
+### STEP 4 — Add environment variables to Vercel (browser)
+
+**Navigate to:** `https://vercel.com/dashboard`
+
+1. Find and click on the **SwipeMarket** project
+2. Click the **"Settings"** tab at the top
+3. In the left sidebar, click **"Environment Variables"**
+4. For each variable below, click **"Add New"**, fill in the Name and Value fields, select the appropriate environments, and click **"Save"**:
+
+| Variable Name | Value | Environments |
+|---------------|-------|--------------|
+| `DEMO_MODE` | `false` | Production, Preview, Development |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | (public key from Step 3) | Production, Preview, Development |
+| `VAPID_PRIVATE_KEY` | (private key from Step 3) | Production, Preview, Development |
+| `VAPID_SUBJECT` | `mailto:admin@swipemarket.rs` | Production, Preview, Development |
+| `STRIPE_SECRET_KEY` | `sk_test_...` from Stripe Dashboard → Developers → API Keys | Production, Preview, Development |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_test_...` from Stripe Dashboard | Production, Preview, Development |
+
+> **Note:** `STRIPE_WEBHOOK_SECRET` (`whsec_...`) will be added in Step 5 after the webhook is created.
+
+5. After adding all 6 variables above, do NOT redeploy yet — wait until Step 5 adds the 7th variable.
+
+**Where to find Stripe keys:**
+- Navigate to `https://dashboard.stripe.com/test/apikeys`
+- Copy the **Publishable key** (`pk_test_...`) and **Secret key** (`sk_test_...`)
+
+---
+
+### STEP 5 — Configure Stripe webhook and copy secret back to Vercel (browser)
+
+**Part A — Find your Vercel deployment URL:**
+
+1. Navigate to `https://vercel.com/dashboard`
+2. Click the SwipeMarket project
+3. On the **Deployments** tab, copy the production URL (e.g. `https://swipemarket-xyz.vercel.app`)
+
+**Part B — Create the webhook in Stripe:**
+
+1. Navigate to: `https://dashboard.stripe.com/test/webhooks`
+2. Click **"Add endpoint"**
+3. In the **Endpoint URL** field, enter:
+   ```
+   https://YOUR-VERCEL-URL/api/webhooks/stripe
+   ```
+   (replace `YOUR-VERCEL-URL` with the URL from Part A)
+4. Under **"Select events to listen to"**, click **"Select events"**
+5. Search for `checkout.session.completed`, check the box next to it, click **"Add events"**
+6. Click **"Add endpoint"** to save
+7. You will be taken to the webhook detail page
+8. Find the **"Signing secret"** section and click **"Reveal"**
+9. Copy the full `whsec_...` value
+
+**Part C — Add the webhook secret to Vercel:**
+
+1. Navigate back to: `https://vercel.com/dashboard` → SwipeMarket → Settings → Environment Variables
+2. Click **"Add New"**
+3. Name: `STRIPE_WEBHOOK_SECRET`, Value: the `whsec_...` you copied, Environments: Production, Preview, Development
+4. Click **"Save"**
+
+**Part D — Redeploy:**
+
+1. Navigate to the **Deployments** tab of the SwipeMarket project in Vercel
+2. Click the three-dot menu (`...`) next to the most recent deployment
+3. Click **"Redeploy"** → confirm
+4. Wait for the deployment to show **"Ready"** status (green)
+
+---
+
+### VERIFICATION — Confirm everything works
+
+After the redeployment is live, test each feature:
+
+**Test 1 — Ratings:**
+1. Navigate to your live app URL
+2. Open any listing
+3. Log in as a user who does NOT own that listing
+4. You should see **"Oceni prodavca"** link below the seller info
+5. Click it → modal opens → pick stars → submit → star rating appears on the page
+6. Submit again → should get error "Već ste ocenili ovog prodavca za ovaj oglas"
+
+**Test 2 — Push Notifications:**
+1. Navigate to `/search-profiles` on the live app
+2. You should see a blue button: **"🔔 Dozvoli notifikacije za nove oglase"**
+3. Click it → browser asks for permission → click **Allow**
+4. The button should disappear (pushStatus becomes 'granted')
+5. From a different account, create a new listing in the same city
+6. The first browser should receive a push notification: "Novi oglas koji te zanima"
+7. Click the notification → it should open the listing page
+
+**Test 3 — Premium Payments:**
+1. Navigate to `/profile` on the live app
+2. On an ACTIVE listing that is not yet premium, you should see **"★ Promoviši"** button
+3. Click it → you should be redirected to Stripe's hosted checkout page
+4. Use test card: `4242 4242 4242 4242`, expiry `12/34`, CVC `123`, any name/ZIP
+5. Click **"Pay"** → Stripe redirects you back to the listing page with `?promoted=1`
+6. Go back to `/profile` → the listing should now show **"★ Premium"** badge instead of "★ Promoviši"
+7. Check the homepage swipe deck or search results → the premium listing should appear first
+
+**If any test fails:**
+- Check Vercel → Deployments → click the latest deployment → click **"Functions"** tab → check for runtime errors
+- Check Stripe Dashboard → Developers → Webhooks → click your endpoint → check "Recent deliveries" for failed events
+- Check Supabase Dashboard → Logs → API logs for SQL errors
 
 ---
 
 ## READ THIS FIRST — CURRENT STATE
 
-**Project:** SwipeMarket (Serbian classifieds marketplace)
+**Project:** SwipeMarket (Serbian classifieds marketplace — Tinder-style swipe meets Halo Oglasi)
 **Stack:** Next.js 14.2 + React 18.3 + tRPC 10 + Supabase + Tailwind 4 + TypeScript
 **Root:** `C:\Users\sam\Desktop\swipemarket\`
 **Deployment target:** Vercel + Supabase hosted PostgreSQL
 
-### Phases Completed
-- Phase 1: Core app — DB schema, tRPC routers, Supabase Auth (Google OAuth), swipe deck, listing cards
-- Phase 2: Image upload (Supabase Storage), real-time messaging (Supabase Realtime), search page, category attributes from DB
-- Phase 3: Dual currency display, user profiles, premium listing UI, branding, empty states/skeletons
-- Phase 7: RLS enforcement, message rate limits, badge sync, search profiles fix, AI moderation activated, CI scaffolded
+---
 
-### Immediate Blockers (fix before anything else)
+## Phases Completed
 
-| Priority | Blocker | File | Fix |
-|----------|---------|------|-----|
-| P0 | `DEMO_MODE` still `"true"` | `.env.local` | Change to `"false"` |
-| P0 | Prisma not in devDependencies | `package.json` | `npm install --save-dev prisma @prisma/client` |
-| P0 | ESLint config broken | `eslint.config.mjs` | Change to `"eslint-config-next/core-web-vitals.js"` |
-
-### Phase 4 — Not Started (what comes next)
-
-| Task | Effort | Notes |
-|------|--------|-------|
-| Phone OTP auth | 1 day | Twilio via Supabase Auth phone provider |
-| Push notifications | 1 day | Supabase Edge Function + web-push for saved search alerts |
-| Listing management | 0.5 day | Edit own listing, mark as sold, renew expired |
-| Seller ratings | 1 day | Buyer rates seller post-transaction |
-| Admin moderation dashboard | 1 day | Reports queue UI (route exists, logic basic) |
-| Premium payments | 2 days | Stripe or local gateway for `is_premium` upgrade |
+| Phase | What was built |
+|-------|---------------|
+| Phase 1 | Core app — DB schema, tRPC routers, Supabase Auth (Google OAuth), swipe deck, listing cards |
+| Phase 2 | Image upload (Supabase Storage), real-time messaging (Supabase Realtime), search page, category attributes from DB |
+| Phase 3 | Dual currency display, user profiles, premium listing UI, branding, empty states/skeletons |
+| Phase 7 | RLS enforcement, message rate limits, badge sync, search profiles fix, AI moderation activated, CI scaffolded |
+| Phase 4 (partial) | Phone OTP auth, listing management UI, seller ratings (code), admin bug fix — see detail below |
 
 ---
 
-## Core Principle: Contract-First
+## One Remaining Blocker
+
+| Priority | Blocker | File | Fix |
+|----------|---------|------|-----|
+| P0 | `DEMO_MODE` still `"true"` | `.env.local` | Change to `"false"` — **must be done by human, not agent** |
+
+Previously tracked blockers that are now resolved:
+- ~~Prisma not in devDependencies~~ — fixed, `package.json` has `prisma ^5.22.0` in devDependencies
+- ~~ESLint config broken~~ — fixed, ESLint downgraded to `^8.57.1`, `.eslintrc.json` uses `next/core-web-vitals`
+
+---
+
+## Phase 4 Status — Task by Task
+
+### ✅ Phone OTP Auth (done)
+Primary login method is now phone number + SMS OTP (Serbian numbers only, +381 prefix).
+Google OAuth kept as a fallback option on the login page.
+
+**Files:**
+- `app/(auth)/login/page.tsx` — full rewrite, 2-step phone → OTP flow
+- `server/api/routers/auth.ts` — `sendOtp`, `verifyOtp`, `addPhone` tRPC procedures
+- `components/profile/PhoneVerification.tsx` — phone add/change widget on profile page
+- `lib/utils.ts` — `toE164Serbian()`, `formatSerbianPhone()`, `isValidSerbianMobile()`
+
+**How it works:**
+1. User enters Serbian mobile (e.g. `064 123 4567`)
+2. `toE164Serbian()` converts to `+381641234567`
+3. `auth.sendOtp` calls `supabase.auth.signInWithOtp({ phone })`
+4. Supabase sends SMS via their phone provider
+5. User enters 6-digit code → `auth.verifyOtp` calls `supabase.auth.verifyOtp`
+6. Supabase sets session cookie automatically — user is logged in
+
+**⚠️ How to test OTP without a paid SMS provider (development only):**
+
+Supabase has a built-in "Test Phone Numbers" feature — you can pin a specific number to always accept a fixed OTP code, no real SMS sent.
+
+1. Go to **Supabase Dashboard → Authentication → Providers → Phone**
+2. Enable the Phone provider (fill Twilio fields with placeholder values if required)
+3. In the same section, find **Test Phone Numbers**
+4. Add a test number: `+381641112222` with fixed OTP: `123456`
+5. Save
+
+Now you can log in with `+381641112222` / `123456` in dev without any SMS charges. Use real Twilio credentials only when deploying to production.
+
+---
+
+### ✅ Listing Management UI (done)
+Sellers can edit, mark as sold, reactivate, and delete their own listings from the profile page.
+An edit page exists at `/listing/[slug]/edit`.
+
+**Files:**
+- `app/profile/page.tsx` — added Izmeni / Prodato / Obriši buttons below each listing card
+- `app/listing/[slug]/edit/page.tsx` — **new** — edit form (title, description, price, city, condition)
+
+**How it works:**
+- Profile page calls `api.listing.changeStatus` (marks SOLD/ACTIVE) and `api.listing.delete` (soft delete → status REMOVED)
+- Edit page calls `api.listing.get` to pre-fill form, then `api.listing.update` on submit
+- All three backend procedures already existed — this was frontend-only work
+
+---
+
+### ✅ Admin Dashboard Bug Fix (done)
+`resolveReport` was silently failing because it sent status `'RESOLVED'` which doesn't exist in the DB enum.
+Correct value is `'ACTION_TAKEN'`. Fixed in both the router and the UI.
+
+**Files:**
+- `server/api/routers/admin.ts` — input enum: `['ACTION_TAKEN', 'DISMISSED']`
+- `app/admin/page.tsx` — "Rešeno" button now sends `'ACTION_TAKEN'`
+
+---
+
+### ⚠️ Seller Ratings — CODE DONE, SQL MIGRATION PENDING
+
+The feature is fully implemented in code but **requires a SQL migration to be run manually in the Supabase dashboard** before it will work at runtime.
+
+#### Step to do before testing: Run this SQL in Supabase Dashboard → SQL Editor
+
+```sql
+CREATE TABLE IF NOT EXISTS ratings (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  from_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  to_user_id   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  listing_id   UUID REFERENCES listings(id) ON DELETE SET NULL,
+  score        INTEGER NOT NULL CHECK (score >= 1 AND score <= 5),
+  comment      TEXT,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(from_user_id, to_user_id, listing_id)
+);
+
+CREATE INDEX idx_ratings_to_user ON ratings(to_user_id);
+CREATE INDEX idx_ratings_from_user ON ratings(from_user_id);
+
+ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "ratings_read" ON ratings FOR SELECT USING (true);
+
+CREATE POLICY "ratings_insert" ON ratings FOR INSERT
+  WITH CHECK (auth.uid() = from_user_id);
+```
+
+**Files added:**
+- `server/api/routers/rating.ts` — `create`, `list`, `summary` procedures
+- `server/api/root.ts` — `rating: ratingRouter` registered
+- `contracts/validators.ts` — `createRatingSchema`, `listRatingsSchema`
+- `contracts/api.ts` — `RatingItem`, `RatingSummary`, `RatingsResponse`
+- `prisma/schema.prisma` — `Rating` model added (for reference only — actual table is in Supabase)
+- `components/ratings/RatingStars.tsx` — star display component (score + count)
+- `components/ratings/RateSellerModal.tsx` — interactive star picker + comment modal
+- `app/listing/[slug]/page.tsx` — wired `rating.summary` query, `RatingStars` in seller card, "Oceni prodavca" button + modal
+
+**How it works:**
+- Any logged-in user who is NOT the seller sees "Oceni prodavca" link in the seller card on listing detail
+- Clicking opens `RateSellerModal` — pick 1–5 stars, optional comment, submit
+- `rating.create` inserts into `ratings` table; unique constraint prevents double-rating per listing
+- `rating.summary` computes average + count — shown as `RatingStars` in the seller card
+- `rating.list` returns paginated ratings with reviewer info (not yet surfaced in a UI tab — future work)
+
+---
+
+### ❌ Push Notifications — Not started
+
+**What this feature does:** When a user saves a search profile with "Notify me" turned on, they receive a browser push notification whenever a new listing is posted that matches their saved filters. No email, no SMS — browser web-push only.
+
+**Approach:** Keep it inside Next.js — no Supabase Edge Functions needed. Use the `web-push` npm package server-side, called directly from the `listing.create` tRPC procedure after the listing is saved.
+
+---
+
+#### Step 1 — Install the web-push package
+
+Run in terminal:
+```bash
+npm install web-push
+npm install --save-dev @types/web-push
+```
+
+---
+
+#### Step 2 — Generate VAPID keys (one-time setup, done by a human)
+
+Run once in terminal:
+```bash
+node -e "const wp = require('web-push'); const keys = wp.generateVAPIDKeys(); console.log(keys);"
+```
+
+Copy the output into `.env.local`:
+```bash
+NEXT_PUBLIC_VAPID_PUBLIC_KEY="BxxxxYourPublicKeyHere..."
+VAPID_PRIVATE_KEY="xxxxYourPrivateKeyHere..."
+VAPID_SUBJECT="mailto:admin@swipemarket.rs"
+```
+
+Also add these to Vercel environment variables when deploying.
+
+---
+
+#### Step 3 — Run this SQL in Supabase Dashboard → SQL Editor
+
+```sql
+CREATE TABLE IF NOT EXISTS push_subscriptions (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id      UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  endpoint     TEXT NOT NULL,
+  p256dh       TEXT NOT NULL,
+  auth         TEXT NOT NULL,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, endpoint)
+);
+
+CREATE INDEX idx_push_subscriptions_user ON push_subscriptions(user_id);
+
+ALTER TABLE push_subscriptions ENABLE ROW LEVEL SECURITY;
+
+-- Users can only manage their own subscriptions
+CREATE POLICY "push_sub_select" ON push_subscriptions FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "push_sub_insert" ON push_subscriptions FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "push_sub_delete" ON push_subscriptions FOR DELETE USING (auth.uid() = user_id);
+```
+
+---
+
+#### Step 4 — Create the subscribe API route
+
+**File to create:** `app/api/push/subscribe/route.ts`
+
+```ts
+import { NextRequest, NextResponse } from 'next/server'
+import { createServerSupabaseClient } from '@/lib/supabase/server'
+
+export async function POST(req: NextRequest) {
+  const supabase = createServerSupabaseClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const body = await req.json()
+  // body.subscription is a standard PushSubscription JSON object from the browser
+  const { endpoint, keys } = body.subscription
+  if (!endpoint || !keys?.p256dh || !keys?.auth) {
+    return NextResponse.json({ error: 'Invalid subscription' }, { status: 400 })
+  }
+
+  await supabase.from('push_subscriptions').upsert({
+    user_id: user.id,
+    endpoint,
+    p256dh: keys.p256dh,
+    auth: keys.auth,
+  }, { onConflict: 'user_id,endpoint' })
+
+  return NextResponse.json({ success: true })
+}
+```
+
+---
+
+#### Step 5 — Create the push sender utility
+
+**File to create:** `lib/push.ts`
+
+```ts
+import webpush from 'web-push'
+
+webpush.setVapidDetails(
+  process.env.VAPID_SUBJECT!,
+  process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+  process.env.VAPID_PRIVATE_KEY!
+)
+
+export interface PushSubscriptionRow {
+  endpoint: string
+  p256dh: string
+  auth: string
+}
+
+export async function sendPushNotification(
+  subscription: PushSubscriptionRow,
+  payload: { title: string; body: string; url: string }
+) {
+  try {
+    await webpush.sendNotification(
+      {
+        endpoint: subscription.endpoint,
+        keys: { p256dh: subscription.p256dh, auth: subscription.auth },
+      },
+      JSON.stringify(payload)
+    )
+  } catch (err: any) {
+    // 410 = subscription expired/unsubscribed — caller should delete it
+    if (err.statusCode === 410) return { expired: true }
+    // Other errors are non-fatal — log and continue
+    console.error('Push send failed:', err.message)
+  }
+  return { expired: false }
+}
+```
+
+---
+
+#### Step 6 — Wire notifications into listing.create
+
+**File to edit:** `server/api/routers/listing.ts`
+
+At the top of the file, add the import:
+```ts
+import { sendPushNotification } from '@/lib/push'
+```
+
+At the bottom of the `create` mutation, after the listing and images are saved (after the `imageRows` insert block), add:
+
+```ts
+// Fire-and-forget push notifications to matching saved searches
+;(async () => {
+  try {
+    // Filter at DB level: only load profiles matching this listing's city.
+    // Profiles with city=null mean "all cities" — .or() handles both cases.
+    // This avoids loading every search profile into memory on every listing create.
+    const { data: profiles } = await ctx.supabase
+      .from('search_profiles')
+      .select('user_id, category_ids, keywords, city')
+      .eq('notify_on_new', true)
+      .or(`city.is.null,city.ilike.${input.city}`)
+
+    if (!profiles?.length) return
+
+    // Keyword and category matching still done in JS (can't do this in PostgREST easily)
+    const matchingUserIds = profiles
+      .filter(p => {
+        // Empty category_ids means "all categories"
+        const catMatch = !p.category_ids?.length || p.category_ids.includes(input.categoryId)
+        const kwMatch = !p.keywords?.length || p.keywords.some((kw: string) =>
+          input.title.toLowerCase().includes(kw.toLowerCase()) ||
+          input.description.toLowerCase().includes(kw.toLowerCase())
+        )
+        return catMatch && kwMatch
+      })
+      .map(p => p.user_id)
+      // Don't notify the poster about their own listing
+      .filter((id: string) => id !== ctx.user.id)
+
+    if (!matchingUserIds.length) return
+
+    // Fetch push subscriptions for matching users
+    const { data: subs } = await ctx.supabase
+      .from('push_subscriptions')
+      .select('endpoint, p256dh, auth')
+      .in('user_id', matchingUserIds)
+
+    if (!subs?.length) return
+
+    const listingUrl = `/listing/${slug}`
+    for (const sub of subs) {
+      const result = await sendPushNotification(sub, {
+        title: 'Novi oglas koji te zanima',
+        body: `${input.title} — ${input.city}`,
+        url: listingUrl,
+      })
+      // Clean up expired subscriptions
+      if (result?.expired) {
+        await ctx.supabase.from('push_subscriptions').delete().eq('endpoint', sub.endpoint)
+      }
+    }
+  } catch (e) {
+    // Never let push notification errors break listing creation
+    console.error('Push notification error:', e)
+  }
+})()
+```
+
+---
+
+#### Step 7 — Add the browser-side subscription UI
+
+**File to edit:** `app/search-profiles/page.tsx`
+
+Add a "Dozvoli notifikacije" (Allow notifications) button. This only needs to be shown once to get the browser permission. Add this component inside the page:
+
+```tsx
+// Add near the top of the component (after existing imports):
+const [pushStatus, setPushStatus] = useState<'unknown' | 'granted' | 'denied'>('unknown')
+
+useEffect(() => {
+  if ('Notification' in window) setPushStatus(Notification.permission as any)
+}, [])
+
+const handleEnablePush = async () => {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    alert('Vaš pregledač ne podržava notifikacije.')
+    return
+  }
+  const permission = await Notification.requestPermission()
+  setPushStatus(permission as any)
+  if (permission !== 'granted') return
+
+  const reg = await navigator.serviceWorker.ready
+  const sub = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+  })
+
+  await fetch('/api/push/subscribe', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ subscription: sub }),
+  })
+}
+
+// Add in JSX (above the list of search profiles):
+{pushStatus !== 'granted' && (
+  <button
+    onClick={handleEnablePush}
+    className="w-full bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl py-3 text-sm font-medium mb-4"
+  >
+    🔔 Dozvoli notifikacije za nove oglase
+  </button>
+)}
+```
+
+---
+
+#### Step 8 — Add the service worker (required for web-push)
+
+**File to create:** `public/sw.js`
+
+This file must be at the root URL `/sw.js` — that's why it goes in `public/`.
+
+```js
+self.addEventListener('push', (event) => {
+  const data = event.data?.json() ?? {}
+  event.waitUntil(
+    self.registration.showNotification(data.title ?? 'SwipeMarket', {
+      body: data.body ?? '',
+      icon: '/icon-192.png',
+      data: { url: data.url ?? '/' },
+    })
+  )
+})
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close()
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url)
+  )
+})
+```
+
+Then register the service worker in `app/layout.tsx` (client-side, in a `useEffect`):
+
+```tsx
+// In the root layout or providers.tsx, add this effect:
+useEffect(() => {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(console.error)
+  }
+}, [])
+```
+
+---
+
+#### Known limitations (acceptable for MVP, fix post-launch)
+- **Browser pre-prompt:** Calling `Notification.requestPermission()` directly on button click can trigger browser warnings. Post-MVP: show a custom modal explaining the benefit first, then call `requestPermission()` from the modal's confirm button.
+- **Logout unsubscribe:** If a user logs out, their service worker still exists and will receive pushes. Post-MVP: call `DELETE /api/push/subscribe` with the current subscription on `supabase.auth.signOut()`. Not critical for MVP since clicking a received notification just opens the listing URL.
+
+#### Testing Push Notifications
+1. Set the 3 VAPID env vars in `.env.local`
+2. Run `npm run dev`
+3. Go to `/search-profiles` → click "Dozvoli notifikacije" → browser asks permission → click Allow
+4. Create a new listing (from another browser tab or user) in a matching category
+5. You should receive a browser notification: "Novi oglas koji te zanima"
+6. Click the notification → opens the listing page
+7. Run `npx tsc --noEmit` — must pass with zero errors
+
+---
+
+### ❌ Premium Payments — Not started
+
+**What this feature does:** Sellers can pay to "promote" a listing, which sets `is_premium = true`. Premium listings appear first in search results and swipe deck (already sorted by `is_premium` in `listing.ts`), and show an amber "Premium" badge (already styled in `ListingCard`). The backend is ready — only the payment flow and UI trigger are missing.
+
+**Approach:** Stripe Checkout (redirect-based, no card UI needed in the app). Seller clicks "Promoviši oglas" → redirected to Stripe's hosted checkout → pays → Stripe webhook fires → listing gets `is_premium = true`.
+
+---
+
+#### Step 1 — Install Stripe
+
+```bash
+npm install stripe @stripe/stripe-js
+```
+
+---
+
+#### Step 2 — Add env vars to `.env.local`
+
+```bash
+STRIPE_SECRET_KEY="sk_test_..."         # From Stripe Dashboard → Developers → API Keys
+STRIPE_WEBHOOK_SECRET="whsec_..."       # Created when you set up the webhook endpoint (Step 5)
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."  # Also from Stripe Dashboard
+```
+
+---
+
+#### Step 3 — Create the checkout session route
+
+**File to create:** `app/api/checkout/route.ts`
+
+```ts
+import { NextRequest, NextResponse } from 'next/server'
+import Stripe from 'stripe'
+import { createServerSupabaseClient } from '@/lib/supabase/server'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
+
+export async function POST(req: NextRequest) {
+  const supabase = createServerSupabaseClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const { listingId } = await req.json()
+  if (!listingId) return NextResponse.json({ error: 'listingId required' }, { status: 400 })
+
+  // Verify the listing belongs to this user
+  const { data: listing } = await supabase
+    .from('listings')
+    .select('id, title, slug')
+    .eq('id', listingId)
+    .eq('user_id', user.id)
+    .single()
+
+  if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 })
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL!
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [{
+      price_data: {
+        currency: 'rsd',
+        product_data: {
+          name: `Premium oglas: ${listing.title}`,
+          description: '30 dana na vrhu pretrage i swipe špila',
+        },
+        unit_amount: 49900, // 499 RSD in paras (smallest unit)
+      },
+      quantity: 1,
+    }],
+    mode: 'payment',
+    // Pass listing ID through so the webhook knows what to promote
+    metadata: { listingId: listing.id, userId: user.id },
+    success_url: `${appUrl}/listing/${listing.slug}?promoted=1`,
+    cancel_url: `${appUrl}/profile`,
+  })
+
+  return NextResponse.json({ url: session.url })
+}
+```
+
+---
+
+#### Step 4 — Create the Stripe webhook handler
+
+**File to create:** `app/api/webhooks/stripe/route.ts`
+
+```ts
+import { NextRequest, NextResponse } from 'next/server'
+import Stripe from 'stripe'
+import { createServiceRoleClient } from '@/lib/supabase/server'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2024-06-20' })
+
+export async function POST(req: NextRequest) {
+  const body = await req.text()
+  const sig = req.headers.get('stripe-signature')!
+
+  let event: Stripe.Event
+  try {
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
+  } catch (err: any) {
+    return NextResponse.json({ error: `Webhook error: ${err.message}` }, { status: 400 })
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session
+    const listingId = session.metadata?.listingId
+    if (!listingId) return NextResponse.json({ received: true })
+
+    // Use service role to bypass RLS — this is a server webhook, not a user action
+    const adminSupabase = createServiceRoleClient()
+
+    // Idempotency check: Stripe has at-least-once delivery — webhook can fire more than once.
+    // If the listing is already premium and hasn't expired, skip the update.
+    const { data: existing } = await adminSupabase
+      .from('listings')
+      .select('is_premium, featured_until')
+      .eq('id', listingId)
+      .single()
+
+    if (existing?.is_premium && existing?.featured_until && new Date(existing.featured_until) > new Date()) {
+      // Already processed — acknowledge and exit
+      return NextResponse.json({ received: true })
+    }
+
+    const premiumUntil = new Date()
+    premiumUntil.setDate(premiumUntil.getDate() + 30)
+
+    const { error: updateError } = await adminSupabase
+      .from('listings')
+      .update({
+        is_premium: true,
+        featured_until: premiumUntil.toISOString(),
+      })
+      .eq('id', listingId)
+
+    // If DB update fails, return 500 so Stripe retries the webhook automatically
+    if (updateError) {
+      console.error('Webhook: failed to update listing premium status', updateError)
+      return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
+    }
+  }
+
+  return NextResponse.json({ received: true })
+}
+```
+
+---
+
+#### Step 5 — Set up the Stripe webhook (done by a human in Stripe Dashboard)
+
+1. Go to **Stripe Dashboard → Developers → Webhooks → Add endpoint**
+2. Endpoint URL: `https://your-vercel-domain.vercel.app/api/webhooks/stripe`
+3. Select event: `checkout.session.completed`
+4. Copy the **Signing secret** → paste as `STRIPE_WEBHOOK_SECRET` in `.env.local` and Vercel env vars
+
+For local testing, use the Stripe CLI:
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+# Copy the webhook secret it prints → set as STRIPE_WEBHOOK_SECRET
+```
+
+---
+
+#### Step 6 — Add the "Promoviši oglas" button to the profile page
+
+**File to edit:** `app/profile/page.tsx`
+
+Add a `handlePromote` function near the other handlers:
+
+```tsx
+const handlePromote = async (listingId: string) => {
+  const res = await fetch('/api/checkout', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ listingId }),
+  })
+  const { url } = await res.json()
+  if (url) window.location.href = url  // redirect to Stripe Checkout
+}
+```
+
+Then in the listing action buttons section (next to the Izmeni / Prodato / Obriši buttons already there), add for non-premium active listings:
+
+```tsx
+{listing.status === 'ACTIVE' && !listing.isPremium && (
+  <button
+    onClick={() => handlePromote(listing.id)}
+    className="text-xs bg-amber-50 border border-amber-200 text-amber-700 px-3 rounded-xl py-2 font-medium hover:bg-amber-100"
+  >
+    ★ Promoviši
+  </button>
+)}
+{listing.isPremium && (
+  <span className="text-xs bg-amber-100 text-amber-700 px-3 rounded-xl py-2 font-medium">
+    ★ Premium
+  </span>
+)}
+```
+
+---
+
+#### Testing Premium Payments
+1. Install Stripe CLI: https://stripe.com/docs/stripe-cli
+2. Run `stripe listen --forward-to localhost:3000/api/webhooks/stripe` (copy the webhook secret to `.env.local`)
+3. Run `npm run dev`
+4. Go to `/profile` → click "★ Promoviši" on an ACTIVE listing
+5. You should be redirected to Stripe's hosted checkout page
+6. Use test card: `4242 4242 4242 4242`, any future expiry, any CVC
+7. After paying, Stripe redirects to `/listing/[slug]?promoted=1`
+8. The `checkout.session.completed` webhook fires → listing gets `is_premium = true`
+9. Go to `/profile` — the listing should now show "★ Premium" badge instead of "★ Promoviši"
+10. Check the swipe deck or search results — premium listing should appear first
+11. Run `npx tsc --noEmit` — must pass with zero errors
+
+**Important:** The Stripe webhook will NOT fire if the local server is not reachable. Always run `stripe listen` in a second terminal when testing payments locally.
+
+---
+
+## Architecture Overview
 
 ```
-prisma/schema.prisma
+prisma/schema.prisma         ← DB shape reference (source of truth for model names/fields)
       ↓
-contracts/validators.ts   (Zod input schemas)
+contracts/validators.ts      ← Zod input schemas (used by tRPC routers for input validation)
       ↓
-contracts/api.ts          (TypeScript response types)
+contracts/api.ts             ← TypeScript response types (used everywhere — routers + components)
       ↓
-server/api/routers/*.ts   (Implementation)
+server/api/routers/*.ts      ← tRPC procedures (all business logic lives here)
+server/api/root.ts           ← Registers all routers into appRouter
+server/api/helpers.ts        ← toListingCard(), toListingDetail() — DB row → frontend type transforms
       ↓
-components/**/*.tsx        (UI consuming tRPC hooks)
+app/**/page.tsx              ← Next.js pages ('use client' unless pure server layout)
+components/**/*.tsx          ← UI components consuming tRPC hooks
 ```
 
-**Rule:** Contracts are defined first. No agent touches `contracts/` without updating both files together and notifying other agents. The Prisma schema is the DB source of truth — never write raw SQL that contradicts it.
+**Contract-First Rule:** Contracts are defined first. No agent touches `contracts/` without updating both `validators.ts` AND `api.ts` together. The Prisma schema is the naming reference for DB columns — never write SQL that contradicts it.
 
 ---
 
@@ -80,7 +1038,7 @@ You are the Architect Agent for SwipeMarket.
 PROJECT: SwipeMarket — Serbian classifieds marketplace (Tinder swipe + classifieds)
 STACK: Next.js 14.2, React 18.3, TypeScript, Tailwind 4, tRPC 10.45.2, Supabase (Auth/Storage/Realtime/DB), Prisma 5
 ROOT: C:\Users\sam\Desktop\swipemarket\
-AUTH: Supabase Auth (Google OAuth) — no NextAuth, no Docker
+AUTH: Supabase Auth (Google OAuth + Phone OTP) — no NextAuth, no Docker
 DB: Supabase hosted PostgreSQL — use supabase client, not raw Prisma queries
 TASK: [describe task]
 
@@ -96,7 +1054,7 @@ Before making changes:
 
 ### BACKEND AGENT
 
-**When to use:** Implementing or modifying tRPC procedures, fixing API logic, integrating external services (moderation APIs, Supabase features).
+**When to use:** Implementing or modifying tRPC procedures, fixing API logic, integrating external services.
 
 **Files owned:**
 - `server/api/routers/*.ts`
@@ -104,8 +1062,8 @@ Before making changes:
 - `server/api/root.ts`
 - `server/api/trpc.ts`
 - `lib/moderation.ts`
-- `lib/utils.ts` (server utilities)
-- `app/api/**/*.ts` (Route Handlers)
+- `lib/utils.ts`
+- `app/api/**/*.ts`
 
 **Prompt template:**
 ```
@@ -114,7 +1072,7 @@ You are the Backend Agent for SwipeMarket.
 PROJECT: SwipeMarket — Serbian classifieds marketplace (Tinder swipe + classifieds)
 STACK: Next.js 14.2, React 18.3, TypeScript, Tailwind 4, tRPC 10.45.2, Supabase (Auth/Storage/Realtime/DB), Prisma 5
 ROOT: C:\Users\sam\Desktop\swipemarket\
-AUTH: Supabase Auth (Google OAuth) — no NextAuth, no Docker
+AUTH: Supabase Auth (Google OAuth + Phone OTP) — no NextAuth, no Docker
 DB: Supabase hosted PostgreSQL — use supabase client, never raw Prisma queries
 TASK: [describe task]
 
@@ -129,7 +1087,6 @@ Rules:
 
 Before implementing:
 - Read prisma/schema.prisma for exact field names
-- Read lib/supabase/types.ts for exact DB column names (snake_case)
 - Check existing patterns in other routers for consistency
 ```
 
@@ -138,26 +1095,34 @@ Before implementing:
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { createTRPCRouter, protectedProcedure } from '../trpc'
-import { createListingSchema } from '../../../contracts/validators'
-import type { CreateListingResponse } from '../../../contracts/api'
+import { mySchema } from '@/contracts/validators'
+import type { MyResponseType } from '@/contracts/api'
+import { ERRORS } from '@/lib/constants'
 
-export const listingRouter = createTRPCRouter({
-  create: protectedProcedure
-    .input(createListingSchema)
-    .mutation(async ({ ctx, input }): Promise<CreateListingResponse> => {
+export const myRouter = createTRPCRouter({
+  doThing: protectedProcedure
+    .input(mySchema)
+    .mutation(async ({ ctx, input }): Promise<MyResponseType> => {
+      // ctx.user.id = logged-in user's ID
+      // ctx.supabase = Supabase client with RLS
       const { data, error } = await ctx.supabase
-        .from('listings')
-        .insert({ ...input, user_id: ctx.user.id })
+        .from('my_table')
+        .insert({ user_id: ctx.user.id, ...input })
         .select()
         .single()
 
-      if (error) throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: error.message
-      })
-
-      return { id: data.id, slug: data.slug, status: data.status }
+      if (error) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: ERRORS.GENERIC_ERROR })
+      return { success: true }
     }),
+})
+```
+
+After creating a new router, always register it in `server/api/root.ts`:
+```typescript
+import { myRouter } from './routers/my'
+export const appRouter = createTRPCRouter({
+  // ...existing...
+  my: myRouter,
 })
 ```
 
@@ -184,7 +1149,7 @@ You are the Frontend Agent for SwipeMarket.
 PROJECT: SwipeMarket — Serbian classifieds marketplace (Tinder swipe + classifieds)
 STACK: Next.js 14.2, React 18.3, TypeScript, Tailwind 4, tRPC 10.45.2, Supabase (Auth/Storage/Realtime/DB)
 ROOT: C:\Users\sam\Desktop\swipemarket\
-AUTH: Supabase Auth (Google OAuth)
+AUTH: Supabase Auth (Google OAuth + Phone OTP)
 UI LANGUAGE: Serbian — all user-facing text must be in Serbian
 TASK: [describe task]
 
@@ -200,7 +1165,7 @@ Rules:
 Component checklist before marking done:
 [ ] Props interface defined with TypeScript
 [ ] Loading state: skeleton or spinner
-[ ] Error state: error message or retry button
+[ ] Error state: Serbian error message
 [ ] Empty state: Serbian message explaining what to do
 [ ] Mobile responsive (tested at 375px)
 [ ] No hardcoded English strings
@@ -216,10 +1181,7 @@ interface Props {
 }
 
 export function ListingGrid({ categoryId }: Props) {
-  const { data, isLoading, error } = api.listing.list.useQuery({
-    categoryId,
-    limit: 20,
-  })
+  const { data, isLoading, error } = api.listing.list.useQuery({ categoryId, limit: 20 })
 
   if (isLoading) return <ListingGridSkeleton />
   if (error) return <p className="text-center text-red-500 py-8">Greška pri učitavanju</p>
@@ -243,7 +1205,7 @@ export function ListingGrid({ categoryId }: Props) {
 
 ### QA AGENT
 
-**When to use:** Writing tests, verifying completed features against the smoke test checklist, identifying edge cases, running the CI pipeline.
+**When to use:** Writing tests, verifying completed features, identifying edge cases, running CI.
 
 **Files owned:**
 - `tests/*.spec.ts` (Playwright E2E)
@@ -267,21 +1229,24 @@ Test requirements:
 4. Run npm run typecheck first — must be 0 errors before any test is written
 
 Critical flows to cover:
-1. Sign in with Google → lands on home screen with swipe deck
+1. Phone OTP sign-in → lands on home screen with swipe deck
 2. Swipe right → listing appears in /favorites
 3. Create listing with 3 photos → listing visible in grid with images
 4. Open listing → tap Kontaktiraj → message sent → appears in /messages
 5. Search for term → results appear → apply filter → results narrow
 6. Profile edit → save → refresh → changes persist
+7. Edit own listing → change title → confirm change on listing detail page
+8. Mark listing as sold → card shows Reaktiviraj button
+9. Rate seller → stars appear on listing detail page
 
-Phase 3 smoke test checklist (verify these are actually working):
-[ ] Google OAuth sign-in completes end-to-end (not just code-complete)
-[ ] Upload photo → appears in Supabase Storage → URL loads in browser
-[ ] Send message → second browser tab receives it in real time
-[ ] Price shows dual RSD + EUR on listing card and swipe card
-[ ] Premium listing shows amber badge in grid and swipe deck
-[ ] Header shows "SwipeMarket" everywhere — no "SwipeList" remaining
-[ ] Saved search creates a SearchProfile record in DB
+Phase 4 smoke test checklist:
+[ ] Phone OTP login completes (Supabase sends SMS, code verifies, session is set)
+[ ] Edit listing form pre-fills correctly from existing data
+[ ] Mark as sold → listing status changes in DB
+[ ] Delete listing → listing no longer appears in profile
+[ ] Rate seller → rating stored → average star count shows on listing page
+[ ] Rating blocked on own listing (error message shown)
+[ ] Admin resolve report → report disappears from queue (was broken, now fixed)
 ```
 
 ---
@@ -292,7 +1257,6 @@ Phase 3 smoke test checklist (verify these are actually working):
 
 **Files owned:**
 - `.github/workflows/ci.yml`
-- `vercel_deployment_guide.md`
 - `supabase/migrations/*.sql`
 - `next.config.ts`
 
@@ -309,28 +1273,28 @@ Infrastructure:
 - Deployment: Vercel (not Hetzner, not Coolify, not Docker)
 - Database: Supabase hosted (awbtohtpjrqlxfoqtita.supabase.co)
 - Storage: Supabase Storage bucket 'listing-images'
-- Auth: Supabase Auth (Google OAuth configured in Supabase dashboard)
+- Auth: Supabase Auth (Google OAuth + Phone OTP configured in Supabase dashboard)
 - CI: GitHub Actions (.github/workflows/ci.yml)
 
 Current CI pipeline:
 1. Checkout code
 2. Setup Node.js 20 with npm cache
 3. npm ci
-4. npm run typecheck
+4. npm run typecheck (tsc --noEmit)
 5. npm run test:unit (Vitest)
 6. Install Playwright browsers
 7. npm run test:e2e (Playwright)
-
-Known CI issues to fix:
-- ESLint step will fail (eslint.config.mjs path issue)
-- Prisma not in package.json devDependencies (migrations won't run)
 
 Security checklist:
 [ ] SUPABASE_SERVICE_ROLE_KEY only used in server/api/routers/admin.ts
 [ ] No secrets in code or committed files
 [ ] Vercel env vars set for production (DEMO_MODE=false, NEXT_PUBLIC_APP_URL=https://swipemarket.rs)
-[ ] Supabase RLS policies active on all tables
+[ ] Supabase RLS policies active on all tables (including new 'ratings' table)
 [ ] listing-images bucket is public read, authenticated write only
+
+Pending migration to run in Supabase (ratings table — see Phase 4 section above for full SQL):
+- CREATE TABLE ratings (...)
+- RLS policies for ratings
 ```
 
 ---
@@ -357,7 +1321,7 @@ DevOps Agent fixes CI pipeline (independent of above)
 **Must be sequential:**
 - Architect defines contracts → THEN Backend + Frontend start
 - Feature complete → THEN QA verifies
-- CI green → THEN deployment
+- SQL migration run → THEN ratings feature testable
 
 ---
 
@@ -386,7 +1350,6 @@ Create or update `SESSION_NOTES.md` at the end of every session:
 
 ## Completed This Session
 - [x] Task description (file changed: path/to/file.ts)
-- [x] Task description
 
 ## In Progress (not finished)
 - Task name: what's done, what remains, why stopped
@@ -419,13 +1382,13 @@ Load only what you need. Don't paste the entire codebase into context.
 | QA | Test target files, `contracts/*.ts` | Implementation files |
 | DevOps | `.github/workflows/ci.yml`, `package.json` | App code rarely |
 
-**Minimum context header for any session (paste at the top):**
+**Minimum context header for any session (paste at the top of your prompt):**
 ```
 PROJECT: SwipeMarket — Serbian classifieds marketplace (Tinder swipe meets Halo Oglasi)
 STACK: Next.js 14.2, React 18.3, TypeScript, Tailwind 4, tRPC 10.45.2, Supabase (Auth/Storage/Realtime/DB)
 ROOT: C:\Users\sam\Desktop\swipemarket\
-AUTH: Supabase Auth, Google OAuth — NO NextAuth, NO Docker, NO Prisma queries (Supabase client only)
-PHASE: Phase 4 in progress (see AGENTS.md for task list)
+AUTH: Supabase Auth, Google OAuth + Phone OTP — NO NextAuth, NO Docker, NO Prisma queries (Supabase client only)
+PHASE: Phase 4 — push notifications and premium payments not yet started (see AGENTS.md)
 CRITICAL: tRPC v10 — use isLoading not isPending on mutations
 CURRENT SESSION GOAL: [your specific task here]
 ```
@@ -448,9 +1411,10 @@ CURRENT SESSION GOAL: [your specific task here]
 |---------|--------------|-----------------|
 | Using `isPending` on mutation | tRPC v10 doesn't have this | Use `isLoading` |
 | `createServiceRoleClient()` in a user router | Bypasses RLS — security hole | Use `createServerSupabaseClient()` |
-| Importing from `next.config.mjs` | Deprecated, replaced by `next.config.ts` | Use `next.config.ts` |
 | Writing UI text in English | App is Serbian-language | All strings in Serbian |
 | Querying Supabase directly from a React component | Bypasses tRPC type safety | Use tRPC hooks via `api.*` |
 | Skipping loading/error/empty states | White screen on slow connections | All three states required |
-| Adding features to `components/ui/*` | These are base primitives | Create in `components/listings/`, `components/messages/`, etc. |
-| Running `npx prisma migrate dev` | Won't work — Prisma not in deps yet | Fix: `npm install --save-dev prisma @prisma/client` first |
+| Adding features to `components/ui/*` | These are base primitives | Create in `components/listings/`, `components/ratings/`, etc. |
+| Using `'RESOLVED'` as report status | Not a valid enum value in DB | Use `'ACTION_TAKEN'` or `'DISMISSED'` |
+| Importing `ratingRouter` without running ratings SQL | Runtime error — table doesn't exist | Run SQL migration first |
+| Forgetting to register new router in `root.ts` | tRPC won't expose the endpoints | Add import + entry to `appRouter` in `server/api/root.ts` |

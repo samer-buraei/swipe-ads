@@ -267,6 +267,32 @@ export interface SearchProfileItem {
 }
 
 // ============================================================================
+// RATING TYPES
+// ============================================================================
+
+export interface RatingItem {
+  id: string;
+  score: number;
+  comment: string | null;
+  createdAt: Date;
+  fromUser: {
+    id: string;
+    name: string | null;
+    avatarUrl: string | null;
+  };
+  listingId: string | null;
+  listingTitle?: string | null;
+}
+
+export interface RatingSummary {
+  average: number;
+  count: number;
+  breakdown: { score: number; count: number }[];
+}
+
+export type RatingsResponse = PaginatedResponse<RatingItem>;
+
+// ============================================================================
 // IMAGE UPLOAD TYPES
 // ============================================================================
 

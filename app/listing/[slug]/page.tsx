@@ -14,6 +14,8 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { ReportModal } from '@/components/listings/ReportModal';
+import { RatingStars } from '@/components/ratings/RatingStars';
+import { RateSellerModal } from '@/components/ratings/RateSellerModal';
 
 export default function ListingDetailPage() {
   const params = useParams<{ slug: string }>();
@@ -21,7 +23,14 @@ export default function ListingDetailPage() {
   const { data, isLoading, error } = api.listing.get.useQuery({ slug: params.slug });
 
   const { data: user } = api.user.me.useQuery();
+  const utils = api.useUtils();
 
+  const { data: ratingSummary } = api.rating.summary.useQuery(
+    { userId: data?.seller?.id ?? '' },
+    { enabled: !!data?.seller?.id }
+  );
+
+  const [showRateModal, setShowRateModal] = useState(false);
   const [exchangeRate, setExchangeRate] = useState<number | null>(null);
   useEffect(() => {
     fetch('/api/exchange-rate')
@@ -219,6 +228,9 @@ export default function ListingDetailPage() {
                     {data.seller.name ?? 'Korisnik'}
                     {data.seller.isVerified && <ShieldCheck className="h-4 w-4 text-green-500" />}
                   </div>
+                  {(ratingSummary?.count ?? 0) > 0 && (
+                    <RatingStars score={ratingSummary!.average} count={ratingSummary!.count} size="sm" />
+                  )}
                 </div>
               </div>
 
@@ -254,7 +266,26 @@ export default function ListingDetailPage() {
                 </Button>
               )}
 
+              {user && !isOwnListing && (
+                <button
+                  onClick={() => setShowRateModal(true)}
+                  className="w-full mt-2 text-xs text-indigo-500 hover:underline text-center"
+                >
+                  Oceni prodavca
+                </button>
+              )}
+
               <ReportModal listingId={data.id} disabled={!user} />
+
+              {showRateModal && (
+                <RateSellerModal
+                  toUserId={data.seller.id}
+                  sellerName={data.seller.name}
+                  listingId={data.id}
+                  onClose={() => setShowRateModal(false)}
+                  onSuccess={() => utils.rating.summary.invalidate({ userId: data.seller.id })}
+                />
+              )}
             </div>
           </aside>
         </div>

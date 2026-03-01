@@ -282,8 +282,29 @@ export const confirmUploadSchema = z.object({
 });
 
 // ============================================================================
+// ============================================================================
+// RATING SCHEMAS
+// ============================================================================
+
+export const createRatingSchema = z.object({
+  toUserId: z.string().min(1),
+  listingId: z.string().optional(),
+  score: z.number().int().min(1).max(5),
+  comment: z.string().max(500).optional(),
+})
+
+export const listRatingsSchema = z.object({
+  userId: z.string().min(1),
+  limit: z.number().min(1).max(50).default(20),
+  cursor: z.string().optional(),
+})
+
+// ============================================================================
 // TYPE EXPORTS (inferred from schemas)
 // ============================================================================
+
+export type CreateRatingInput = z.infer<typeof createRatingSchema>
+export type ListRatingsInput = z.infer<typeof listRatingsSchema>
 
 export type CreateListingInput = z.infer<typeof createListingSchema>;
 export type UpdateListingInput = z.infer<typeof updateListingSchema>;

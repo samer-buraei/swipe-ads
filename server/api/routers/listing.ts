@@ -2,6 +2,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
+import { sendPushNotification } from '@/lib/push'
 import {
   createListingSchema,
   updateListingSchema,
@@ -226,6 +227,63 @@ export const listingRouter = createTRPCRouter({
         })
         await ctx.supabase.from('listing_images').insert(imageRows)
       }
+
+      // Fire-and-forget push notifications to matching saved searches
+      ; (async () => {
+        try {
+          // Filter at DB level: only load profiles matching this listing's city.
+          // Profiles with city=null mean "all cities" — .or() handles both cases.
+          // This avoids loading every search profile into memory on every listing create.
+          const { data: profiles } = await ctx.supabase
+            .from('search_profiles')
+            .select('user_id, category_ids, keywords, city')
+            .eq('notify_on_new', true)
+            .or(`city.is.null,city.ilike.${input.city}`)
+
+          if (!profiles?.length) return
+
+          // Keyword and category matching still done in JS (can't do this in PostgREST easily)
+          const matchingUserIds = profiles
+            .filter(p => {
+              // Empty category_ids means "all categories"
+              const catMatch = !p.category_ids?.length || p.category_ids.includes(input.categoryId)
+              const kwMatch = !p.keywords?.length || p.keywords.some((kw: string) =>
+                input.title.toLowerCase().includes(kw.toLowerCase()) ||
+                input.description.toLowerCase().includes(kw.toLowerCase())
+              )
+              return catMatch && kwMatch
+            })
+            .map(p => p.user_id)
+            // Don't notify the poster about their own listing
+            .filter((id: string) => id !== ctx.user.id)
+
+          if (!matchingUserIds.length) return
+
+          // Fetch push subscriptions for matching users
+          const { data: subs } = await ctx.supabase
+            .from('push_subscriptions')
+            .select('endpoint, p256dh, auth')
+            .in('user_id', matchingUserIds)
+
+          if (!subs?.length) return
+
+          const listingUrl = `/listing/${slug}`
+          for (const sub of subs) {
+            const result = await sendPushNotification(sub, {
+              title: 'Novi oglas koji te zanima',
+              body: `${input.title} — ${input.city}`,
+              url: listingUrl,
+            })
+            // Clean up expired subscriptions
+            if (result?.expired) {
+              await ctx.supabase.from('push_subscriptions').delete().eq('endpoint', sub.endpoint)
+            }
+          }
+        } catch (e) {
+          // Never let push notification errors break listing creation
+          console.error('Push notification error:', e)
+        }
+      })()
 
       return { id: listing.id, slug, status: listing.status }
     }),

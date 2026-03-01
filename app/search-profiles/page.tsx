@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Bell, Trash2, ArrowLeft, Search, Plus, X } from 'lucide-react';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SearchProfilesPage() {
     const router = useRouter();
@@ -13,6 +13,33 @@ export default function SearchProfilesPage() {
     const { data: profiles, isLoading } = api.searchProfile.list.useQuery();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState({ name: '', keywords: '', city: '', minPrice: '', maxPrice: '', notifyNew: true });
+    const [pushStatus, setPushStatus] = useState<'unknown' | 'granted' | 'denied'>('unknown')
+
+    useEffect(() => {
+        if ('Notification' in window) setPushStatus(Notification.permission as any)
+    }, [])
+
+    const handleEnablePush = async () => {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+            alert('Vaš pregledač ne podržava notifikacije.')
+            return
+        }
+        const permission = await Notification.requestPermission()
+        setPushStatus(permission as any)
+        if (permission !== 'granted') return
+
+        const reg = await navigator.serviceWorker.ready
+        const sub = await reg.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
+        })
+
+        await fetch('/api/push/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ subscription: sub }),
+        })
+    }
 
     const createMutation = api.searchProfile.create.useMutation({
         onSuccess: () => {
@@ -51,6 +78,15 @@ export default function SearchProfilesPage() {
                     Pratite oglase i dobijajte obaveštenja čim se pojavi nešto novo po vašem ukusu. Sačuvajte do 5 specifičnih pretraga po ključnim rečima, lokaciji ili ceni.
                 </p>
             </div>
+
+            {pushStatus !== 'granted' && (
+                <button
+                    onClick={handleEnablePush}
+                    className="w-full bg-indigo-50 border border-indigo-100 text-indigo-600 rounded-2xl py-3 text-sm font-medium mb-4"
+                >
+                    🔔 Dozvoli notifikacije za nove oglase
+                </button>
+            )}
 
             {isLoading ? (
                 <div className="p-8 text-center text-muted-foreground animate-pulse flex flex-col items-center gap-4">

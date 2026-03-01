@@ -27,6 +27,14 @@ export default function ProfilePage() {
     }
   })
 
+  const changeStatus = api.listing.changeStatus.useMutation({
+    onSuccess: () => utils.listing.myListings.invalidate(),
+  })
+
+  const deleteListing = api.listing.delete.useMutation({
+    onSuccess: () => utils.listing.myListings.invalidate(),
+  })
+
   const startEditing = () => {
     setEditName(user?.name ?? '')
     setEditCity(user?.city ?? '')
@@ -189,7 +197,14 @@ export default function ProfilePage() {
       </div>
 
       {/* Phone Verification */}
-      <PhoneVerification currentPhone={user.phone} phoneVerifiedAt={user.phoneVerifiedAt} />
+      <PhoneVerification
+        currentPhone={user.phone}
+        onVerified={(phone) => {
+          // Optimistically show new phone in UI
+          // The real phone is stored in Supabase Auth, profile will refresh on next load
+          utils.user.me.invalidate()
+        }}
+      />
 
       {/* My listings */}
       {listings?.items && listings.items.length > 0 && (
@@ -200,7 +215,45 @@ export default function ProfilePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {listings.items.slice(0, 6).map(listing => (
-              <ListingCard key={listing.id} listing={listing} />
+              <div key={listing.id}>
+                <ListingCard listing={listing} />
+                <div className="flex gap-2 mt-2 px-1">
+                  <button
+                    onClick={() => router.push(`/listing/${listing.slug}/edit`)}
+                    className="flex-1 text-xs bg-white border border-gray-200 text-gray-700 rounded-xl py-2 font-medium hover:bg-gray-50"
+                  >
+                    Izmeni
+                  </button>
+                  {listing.status === 'ACTIVE' ? (
+                    <>
+                      <button
+                        onClick={() => changeStatus.mutate({ id: listing.id, status: 'SOLD' })}
+                        disabled={changeStatus.isLoading}
+                        className="flex-1 text-xs bg-green-50 border border-green-200 text-green-700 rounded-xl py-2 font-medium hover:bg-green-100 disabled:opacity-50"
+                      >
+                        Prodato
+                      </button>
+                    </>
+                  ) : listing.status === 'SOLD' ? (
+                    <button
+                      onClick={() => changeStatus.mutate({ id: listing.id, status: 'ACTIVE' })}
+                      disabled={changeStatus.isLoading}
+                      className="flex-1 text-xs bg-blue-50 border border-blue-200 text-blue-700 rounded-xl py-2 font-medium hover:bg-blue-100 disabled:opacity-50"
+                    >
+                      Reaktiviraj
+                    </button>
+                  ) : null}
+                  <button
+                    onClick={() => {
+                      if (confirm('Obrisati oglas?')) deleteListing.mutate({ id: listing.id })
+                    }}
+                    disabled={deleteListing.isLoading}
+                    className="text-xs text-red-400 border border-red-100 px-3 rounded-xl py-2 hover:bg-red-50 disabled:opacity-50"
+                  >
+                    Obriši
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
           {listings.items.length > 6 && (

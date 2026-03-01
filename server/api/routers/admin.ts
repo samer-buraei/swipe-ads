@@ -50,7 +50,7 @@ export const adminRouter = createTRPCRouter({
     }),
 
     resolveReport: adminProcedure
-        .input(z.object({ id: z.string(), status: z.enum(['RESOLVED', 'DISMISSED']) }))
+        .input(z.object({ id: z.string(), status: z.enum(['ACTION_TAKEN', 'DISMISSED']) }))
         .mutation(async ({ ctx, input }) => {
             const adminSupabase = createServiceRoleClient() as SupabaseClient;
             await adminSupabase
