@@ -24,7 +24,7 @@ CREATE TYPE report_reason AS ENUM (
 );
 
 CREATE TYPE report_status AS ENUM (
-  'PENDING', 'RESOLVED', 'DISMISSED'
+  'PENDING', 'REVIEWED', 'ACTION_TAKEN', 'DISMISSED'
 );
 
 CREATE TYPE attribute_type AS ENUM (
@@ -117,6 +117,7 @@ CREATE TABLE listings (
   moderation_score DECIMAL(5,4),
   moderation_flags JSONB,
   is_premium BOOLEAN DEFAULT FALSE,
+  featured_until TIMESTAMPTZ,
   view_count INTEGER DEFAULT 0,
   favorite_count INTEGER DEFAULT 0,
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -336,7 +337,62 @@ CREATE POLICY "reports_own_select" ON reports FOR SELECT USING (auth.uid() = rep
 CREATE POLICY "reports_own_insert" ON reports FOR INSERT WITH CHECK (auth.uid() = reporter_id);
 
 -- ============================================================================
--- 11. SEED DEMO DATA
+-- 11. RATINGS
+-- ============================================================================
+
+CREATE TABLE ratings (
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  from_user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  to_user_id   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  listing_id   TEXT REFERENCES listings(id) ON DELETE SET NULL,
+  score        INTEGER NOT NULL CHECK (score >= 1 AND score <= 5),
+  comment      TEXT,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(from_user_id, to_user_id, listing_id)
+);
+
+CREATE INDEX idx_ratings_to_user   ON ratings(to_user_id);
+CREATE INDEX idx_ratings_from_user ON ratings(from_user_id);
+
+ALTER TABLE ratings ENABLE ROW LEVEL SECURITY;
+
+-- Anyone can read ratings
+CREATE POLICY "ratings_read" ON ratings FOR SELECT USING (true);
+
+-- Only authenticated users can insert as themselves
+CREATE POLICY "ratings_insert" ON ratings FOR INSERT
+  WITH CHECK (auth.uid() = from_user_id);
+
+-- ============================================================================
+-- 12. AUTH TRIGGER
+-- Auto-creates a row in public.users whenever a Supabase Auth user is created
+-- (covers Google OAuth, OTP/phone, email — all sign-up paths)
+-- ============================================================================
+
+CREATE OR REPLACE FUNCTION public.handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.users (id, email, name, image)
+  VALUES (
+    NEW.id,
+    NEW.email,
+    COALESCE(
+      NEW.raw_user_meta_data->>'full_name',
+      NEW.raw_user_meta_data->>'name'
+    ),
+    NEW.raw_user_meta_data->>'avatar_url'
+  )
+  ON CONFLICT (id) DO NOTHING;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- ============================================================================
+-- 13. SEED DEMO DATA
 -- ============================================================================
 
 INSERT INTO users (id, email, name, city, is_verified) VALUES

@@ -13,17 +13,126 @@
 
 | # | Task | Type | Status |
 |---|------|------|--------|
-| 1 | Run both SQL migrations | Browser — Supabase Dashboard | ✅ Done |
+| 1 | **Run full database schema in Supabase** | Browser — Supabase SQL Editor | ⚠️ DO THIS FIRST |
 | 2 | Set DEMO_MODE=false | File edit | ✅ Done |
 | 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
 | 4 | Push all code to GitHub | Terminal | ✅ Done |
 | 5 | Import project to Vercel + add env vars + deploy | Browser — Vercel Dashboard | ✅ Done |
-| 6 | Verify live app + test all features | Browser | ⚠️ Do this now — check Vercel for live URL |
-| 7 | Connect custom domain swipemarket.rs | Browser — Vercel Dashboard | ⏳ Optional |
+| 6 | Add Vercel URL to Supabase Auth redirect URLs | Browser — Supabase Dashboard | ⚠️ Do after step 1 |
+| 7 | Verify live app + test all features | Browser | ⏳ After steps 1 and 6 |
+| 8 | Connect custom domain swipemarket.rs | Browser — Vercel Dashboard | ⏳ Optional |
 
 > **Stripe skipped** — not supported in Serbia. Promoviši button removed from UI. No Stripe env vars needed.
+> **Root cause of "Could not find table public.listings" error:** The base Supabase schema was never run. Steps below fix this.
 
-**→ Deployment is live or finishing. Get the Vercel URL and run the verification tests in the DEPLOYMENT CHECKLIST section.**
+**→ Start with DATABASE SETUP below, then run the verification tests.**
+
+---
+
+## DATABASE SETUP — Run this first (Antigravity instructions)
+
+> The live site currently shows "Could not find the table 'public.listings'" because the database has no tables.
+> You must run 3 SQL files in the Supabase SQL Editor in this exact order.
+> **Project ID:** `awbtohtpjrqlxfoqtita`
+> **SQL Editor URL:** `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`
+
+---
+
+### STEP 1 — Run the base schema (supabase-schema.sql)
+
+This creates ALL tables: users, listings, listing_images, favorites, swipe_events, search_profiles, conversations, conversation_participants, messages, reports, ratings, categories. Also creates all RLS policies, indexes, the auth trigger, and 6 demo listings.
+
+1. Open `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`
+2. Make sure you are logged in to Supabase (project: awbtohtpjrqlxfoqtita)
+3. You will see a large empty text editor area
+4. Open the file `C:\Users\sam\Desktop\swipemarket\supabase-schema.sql` and copy its entire contents
+5. Paste the entire contents into the Supabase SQL Editor text area (replacing any existing content)
+6. Click the green **"Run"** button (bottom right of the editor)
+7. Wait for it to complete — it may take 10–20 seconds
+8. ✅ PASS: At the bottom of the screen you see "Success. No rows returned" or similar success message
+9. ❌ FAIL: Any red error text appears. If you see "already exists" errors on the ENUMs/tables, the schema was partially run before — see TROUBLESHOOTING note below
+
+> **TROUBLESHOOTING:** If you get "already exists" errors, it means the schema was partially run. In that case, navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new` and run this cleanup first, then re-run the schema:
+> ```sql
+> DROP TABLE IF EXISTS ratings, reports, messages, conversation_participants, conversations, search_profiles, swipe_events, favorites, listing_images, listings, category_attributes, categories, users CASCADE;
+> DROP TYPE IF EXISTS listing_status, item_condition, swipe_direction, report_reason, report_status, attribute_type CASCADE;
+> DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
+> ```
+
+---
+
+### STEP 2 — Run the search_profiles migration
+
+This converts the `keywords` column from TEXT to TEXT[] and adds a `conditions` column.
+
+1. Click **"New query"** (top left, or navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`)
+2. Paste this SQL exactly:
+
+```sql
+-- supabase/migrations/20231025000000_search_profiles_arrays.sql
+
+-- 1. Cast existing `keywords` from TEXT to TEXT[] using a comma delimiter split
+ALTER TABLE search_profiles
+ALTER COLUMN keywords TYPE TEXT[] USING string_to_array(keywords, ',');
+
+-- 2. Add the `conditions` textual array to match the ItemConditionSchema
+ALTER TABLE search_profiles
+ADD COLUMN conditions TEXT[];
+```
+
+3. Click **"Run"**
+4. ✅ PASS: "Success. No rows returned" — the columns were altered successfully
+5. ❌ FAIL: If you get "column keywords is of type text[]" — the migration already ran, skip to Step 3
+
+---
+
+### STEP 3 — Run the category attributes seed
+
+This seeds all attributes for vehicles, real estate, electronics, fashion, sports, pets, and services categories.
+
+1. Click **"New query"** (top left)
+2. Open the file `C:\Users\sam\Desktop\swipemarket\supabase-seed-category-attributes.sql` and copy its entire contents
+3. Paste into the SQL Editor
+4. Click **"Run"**
+5. ✅ PASS: "Success. Rows affected: 47" (or similar positive number) — attributes seeded
+6. ❌ FAIL: "duplicate key value violates unique constraint" — seed already ran, skip (attributes are already there)
+
+---
+
+### STEP 4 — Verify the data is there
+
+1. Click **"New query"** (top left)
+2. Paste and run:
+```sql
+SELECT COUNT(*) FROM listings WHERE status = 'ACTIVE';
+```
+3. ✅ PASS: Returns `6` — the 6 demo listings are there
+4. ❌ FAIL: Returns `0` — the seed data didn't insert. Re-run Step 1.
+
+---
+
+### STEP 5 — Go to the live site
+
+1. Navigate to `https://vercel.com/dashboard` and find the **swipe-ads** project
+2. Get the Vercel URL (e.g. `https://swipe-ads-abc123.vercel.app`)
+3. Navigate to that URL
+4. ✅ PASS: You see a stack of listing cards (MacBook, PS5, iPhone, etc.) — the 6 demo listings appear
+5. ❌ FAIL: Still shows "Could not find table" — wait 30 seconds and refresh (Vercel may have cached the error)
+
+---
+
+### STEP 6 — Add Vercel URL to Supabase Auth redirect URLs (required for Google login)
+
+1. Navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/auth/url-configuration`
+2. Scroll down to **"Redirect URLs"**
+3. Click **"Add URL"** → type `[YOUR_VERCEL_URL]/auth/callback` → click **"Add"**
+4. Click **"Add URL"** again → type `[YOUR_VERCEL_URL]/**` → click **"Add"**
+5. Click **"Save"**
+6. ✅ PASS: Both URLs appear in the Redirect URLs list
+
+---
+
+> **Once Steps 1–6 are complete, the app is fully functional. Proceed to the FULL FEATURE TEST PLAN below.**
 
 ---
 
@@ -37,6 +146,8 @@
 
 ### PRE-TEST SETUP
 
+> ⚠️ **Before running any tests, you must complete DATABASE SETUP Steps 1–6 above.** The tests will fail if the database schema hasn't been run.
+
 **A — Find the live URL (do this first)**
 
 1. Navigate to `https://vercel.com/dashboard`
@@ -45,18 +156,11 @@
 4. Copy that URL exactly (e.g. `https://swipe-ads-abc123.vercel.app`)
 5. This is your `[LIVE_URL]` — substitute it everywhere below
 
-**B — Add Vercel URL to Supabase (MANDATORY — without this Google login fails)**
+**B — Confirm 6 listing cards are visible**
 
-1. Navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/auth/url-configuration`
-2. Scroll down to the section labelled **"Redirect URLs"**
-3. Click the **"Add URL"** button
-4. Type exactly: `[LIVE_URL]/auth/callback` (using your real Vercel URL)
-5. Click **"Add"** to save that entry
-6. Click **"Add URL"** again
-7. Type exactly: `[LIVE_URL]/**`
-8. Click **"Add"**
-9. Click the **"Save"** button at the bottom of the page
-10. ✅ Confirm: both URLs appear in the Redirect URLs list before continuing
+1. Navigate to `[LIVE_URL]`
+2. ✅ Confirm: You can see a stack of listing cards (MacBook, PS5, iPhone, dvosed, gitara, bicikla)
+3. ❌ If you see an error or blank screen: DATABASE SETUP Step 1 did not run correctly. Stop and fix that first.
 
 **C — Prepare two browser sessions**
 

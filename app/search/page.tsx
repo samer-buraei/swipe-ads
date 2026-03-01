@@ -21,6 +21,7 @@ function SearchContent() {
     const [condition, setCondition] = useState(searchParams.get('condition') ?? '')
     const [priceMin, setPriceMin] = useState(searchParams.get('priceMin') ?? '')
     const [priceMax, setPriceMax] = useState(searchParams.get('priceMax') ?? '')
+    const [city, setCity] = useState(searchParams.get('city') ?? '')
     const [showFilters, setShowFilters] = useState(false)
 
     const { data: categories } = api.category.list.useQuery()
@@ -30,16 +31,18 @@ function SearchContent() {
         conditions: condition ? [condition as any] : undefined,
         minPrice: priceMin ? Number(priceMin) : undefined,
         maxPrice: priceMax ? Number(priceMax) : undefined,
+        city: city || undefined,
         limit: 20,
     })
 
-    const activeFilterCount = [categoryId, condition, priceMin, priceMax].filter(Boolean).length
+    const activeFilterCount = [categoryId, condition, priceMin, priceMax, city].filter(Boolean).length
 
     const clearAllFilters = () => {
         setCategoryId('')
         setCondition('')
         setPriceMin('')
         setPriceMax('')
+        setCity('')
     }
 
     return (
@@ -95,6 +98,12 @@ function SearchContent() {
                             onRemove={() => { setPriceMin(''); setPriceMax('') }}
                         />
                     )}
+                    {city && (
+                        <FilterChip
+                            label={city}
+                            onRemove={() => setCity('')}
+                        />
+                    )}
                     <button onClick={clearAllFilters} className="text-xs text-red-500 underline">
                         Obriši sve
                     </button>
@@ -139,6 +148,20 @@ function SearchContent() {
                                     {c.label}
                                 </button>
                             ))}
+                        </div>
+                    </div>
+
+                    {/* City */}
+                    <div>
+                        <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Grad</label>
+                        <div className="mt-2">
+                            <input
+                                type="text"
+                                placeholder="Pr. Beograd"
+                                value={city}
+                                onChange={e => setCity(e.target.value)}
+                                className="w-full text-sm border border-border rounded-xl px-3 py-2 outline-none focus:ring-2 focus:ring-primary/30 bg-card"
+                            />
                         </div>
                     </div>
 
