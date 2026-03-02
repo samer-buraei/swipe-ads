@@ -37,7 +37,7 @@
 
 ---
 
-## CURRENT STATE (as of 2026-03-02)
+## CURRENT STATE (as of 2026-03-02 — updated after live testing session)
 
 | Item | Status | Notes |
 |------|--------|-------|
@@ -47,12 +47,20 @@
 | Phone OTP | ✅ Working | Test number +381641112222 / code 123456 |
 | Database schema | ✅ Applied | All tables, RLS policies, 6 demo listings |
 | Storage bucket | ✅ Created | `listing-images` bucket is public, RLS set |
-| Image uploads | ✅ Fixed | service_role client now uses @supabase/supabase-js directly |
-| Middleware | ❌ Removed | Was causing Vercel "Deploying outputs..." internal error (74.5 kB bundle). Removed permanently. |
-| Admin user | ⚠️ NOT SET | samer.buraei@gmail.com is NOT yet admin — run Step A SQL below |
+| Image uploads | ✅ Fixed | service_role client uses @supabase/supabase-js directly |
+| Image display | ✅ Fixed | Removed ?width= transform params — Supabase paid feature, caused 404s on free tier |
+| Middleware | ❌ Removed | Was causing Vercel "Deploying outputs..." internal error. Removed permanently. |
+| Admin user | ✅ Done | samer.buraei@gmail.com confirmed as admin via SQL |
+| Admin panel | ✅ Working | /admin loads, shows empty moderation queue (listings auto-approved) |
+| Posting listings | ✅ Working | Owner posted a listing successfully |
+| Messaging | ✅ Fixed | Commit d412fc9 — all message.send writes now use service role. Was blocked by missing RLS INSERT/UPDATE policies on conversations table. |
+| Rating | ✅ Fixed | Commit d412fc9 — added service role + users upsert guard. Was failing due to FK constraint when handle_new_user trigger hadn't created public.users row for OAuth user. |
+| Error visibility | ⚠️ Limited | No Sentry configured. Server errors: Vercel Dashboard → swipe-ads → Functions → View logs. Client errors: browser console (F12). Added alert() for send message errors. |
 | Custom domain | ⏳ Not connected | swipemarket.rs not yet pointed to Vercel |
 
 **Key architecture note:** Route protection is now entirely client-side. Each protected page (`/profile`, `/new`, `/favorites`, `/messages`) has a `useEffect` that calls `supabase.auth.getUser()` and redirects to `/login` if no session. The Header component uses `onAuthStateChange` to show "Prijavi se" (logged out) or "Profil" (logged in) reactively.
+
+**RLS pattern note:** The Supabase RLS policies are written for client-side access only. Server-side operations (tRPC mutations) that write on behalf of multiple users must use `createServiceRoleClient()` to bypass RLS. The session client (`createServerSupabaseClient()`) is fine for SELECTs but breaks for writes involving other users' rows.
 
 ---
 
