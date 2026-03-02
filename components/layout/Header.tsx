@@ -1,12 +1,26 @@
 'use client';
 
 import Link from 'next/link';
-import { Heart, MessageCircle, Sparkles, PlusCircle } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Heart, MessageCircle, Sparkles, PlusCircle, User as UserIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import { SearchBar } from '@/components/search/SearchBar';
+import { createClient } from '@/lib/supabase/client';
+import type { User } from '@supabase/supabase-js';
 
 export function Header() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 w-full transition-all duration-300">
       <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm supports-[backdrop-filter]:bg-white/60" />
@@ -50,6 +64,25 @@ export function Header() {
               <span>{item.label}</span>
             </Link>
           ))}
+
+          {/* Auth-aware: Prijavi se or Profil */}
+          {user ? (
+            <Link
+              href={ROUTES.profile}
+              className="group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary/50 hover:text-foreground"
+            >
+              <UserIcon className="h-4 w-4 transition-transform group-hover:scale-110" />
+              <span>Profil</span>
+            </Link>
+          ) : (
+            <Link
+              href={ROUTES.login}
+              className="group relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-all hover:bg-secondary/50 hover:text-foreground"
+            >
+              <UserIcon className="h-4 w-4 transition-transform group-hover:scale-110" />
+              <span>Prijavi se</span>
+            </Link>
+          )}
 
           <div className="ml-2 pl-2 border-l border-border/50">
             <Link
