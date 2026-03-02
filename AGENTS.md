@@ -1,7 +1,7 @@
 # AGENTS.md — SwipeMarket Multi-Agent Workflow Guide
 
 > This file tells every AI agent exactly where the project stands, what to do next, and how to work without breaking other agents' work.
-> Last updated: 2026-03-02
+> Last updated: 2026-03-02 (deployment session complete — site is live)
 >
 > **Who reads this file:**
 > - **Gemini 2.5 Pro High** — executes the coding tasks. Read NEXT TASKS first, then the full guide for the task you're implementing.
@@ -13,23 +13,241 @@
 
 | # | Task | Type | Status |
 |---|------|------|--------|
-| 1 | **Run full database schema in Supabase** | Browser — Supabase SQL Editor | ✅ Done |
-| 1b | **Run setup-storage-rls.sql in Supabase** (creates `listing-images` bucket) | Browser — Supabase SQL Editor | ⚠️ DO THIS — image upload is broken without it |
+| 1 | Run full database schema in Supabase | Supabase SQL Editor | ✅ Done |
+| 1b | Run setup-storage-rls.sql (creates `listing-images` bucket) | Supabase SQL Editor | ✅ Done |
 | 2 | Set DEMO_MODE=false | File edit | ✅ Done |
 | 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
 | 4 | Push all code to GitHub | Terminal | ✅ Done |
-| 5 | Import project to Vercel + add env vars + deploy | Browser — Vercel Dashboard | ✅ Done |
-| 6 | Add Vercel URL to Supabase Auth redirect URLs | Browser — Supabase Dashboard | ✅ Done |
-| 6b | **Enable Google OAuth provider in Supabase** | Browser — Supabase Dashboard | ⚠️ Google login returns 400 — provider not enabled |
-| 7 | Verify live app + test all features | Browser | ⏳ After steps 1b and 6b |
-| 8 | Connect custom domain swipemarket.rs | Browser — Vercel Dashboard | ⏳ Optional |
+| 5 | Import project to Vercel + add env vars + deploy | Vercel Dashboard | ✅ Done |
+| 6 | Add Vercel URL to Supabase Auth redirect URLs | Supabase Dashboard | ✅ Done |
+| 6b | Enable Google OAuth provider in Supabase | Supabase Dashboard | ✅ Done |
+| 7 | Verify live app — site is up, owner logged in with Google | Browser | ✅ Done |
+| **7a** | **Set samer.buraei@gmail.com as admin in Supabase** | **Supabase SQL Editor** | **⚠️ DO THIS FIRST** |
+| **7b** | **Test full post-listing flow** (login → upload images → post) | **Browser** | **⚠️ DO THIS SECOND** |
+| 7c | Register second Gmail account as normal user, post a listing | Browser — incognito | ⏳ After 7a |
+| 7d | Run full feature test plan (Tests 1–18 below) | Browser agent | ⏳ After 7c |
+| 8 | Connect custom domain swipemarket.rs | Vercel Dashboard | ⏳ Optional |
 
 > **Stripe skipped** — not supported in Serbia. Promoviši button removed from UI. No Stripe env vars needed.
-> **Image upload broken:** The `listing-images` Supabase Storage bucket was never created. Run `setup-storage-rls.sql` (step 1b) to fix. See STORAGE BUCKET SETUP section below.
-> **Google OAuth broken:** Supabase project has Google provider disabled. Enable it in Auth → Providers → Google. Needs Google Cloud OAuth client ID + secret.
-> **Nav issue:** Bottom nav shows 'Omiljeni' instead of 'Profile' — this is a translations/i18n bug, low priority.
+> **Site URL:** https://swipe-ads.vercel.app ✅ Live and working
+> **Auth:** Google OAuth ✅ working | Phone OTP ✅ working
+> **Middleware removed** — was causing every Vercel deploy to fail. Auth is now client-side only (useEffect + supabase.auth.getUser() in each protected page).
 
-**→ Start with DATABASE SETUP below, then run the verification tests.**
+**→ See IMMEDIATE NEXT STEPS section below — start with Step A (admin SQL).**
+
+---
+
+## CURRENT STATE (as of 2026-03-02)
+
+| Item | Status | Notes |
+|------|--------|-------|
+| Site URL | ✅ Live | https://swipe-ads.vercel.app |
+| Vercel deployment | ✅ Passing | All builds succeed, no middleware |
+| Google OAuth | ✅ Working | Owner samer.buraei@gmail.com logged in successfully |
+| Phone OTP | ✅ Working | Test number +381641112222 / code 123456 |
+| Database schema | ✅ Applied | All tables, RLS policies, 6 demo listings |
+| Storage bucket | ✅ Created | `listing-images` bucket is public, RLS set |
+| Image uploads | ✅ Fixed | service_role client now uses @supabase/supabase-js directly |
+| Middleware | ❌ Removed | Was causing Vercel "Deploying outputs..." internal error (74.5 kB bundle). Removed permanently. |
+| Admin user | ⚠️ NOT SET | samer.buraei@gmail.com is NOT yet admin — run Step A SQL below |
+| Custom domain | ⏳ Not connected | swipemarket.rs not yet pointed to Vercel |
+
+**Key architecture note:** Route protection is now entirely client-side. Each protected page (`/profile`, `/new`, `/favorites`, `/messages`) has a `useEffect` that calls `supabase.auth.getUser()` and redirects to `/login` if no session. The Header component uses `onAuthStateChange` to show "Prijavi se" (logged out) or "Profil" (logged in) reactively.
+
+---
+
+## IMMEDIATE NEXT STEPS (Antigravity — do these in order)
+
+### Step A — Set owner as admin (Supabase SQL Editor)
+
+1. Open `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`
+2. Run this SQL:
+
+```sql
+UPDATE users SET is_admin = true WHERE email = 'samer.buraei@gmail.com';
+```
+
+3. Verify it worked:
+
+```sql
+SELECT id, email, is_admin FROM users WHERE email = 'samer.buraei@gmail.com';
+```
+
+4. ✅ PASS: `is_admin` column shows `true`
+5. ❌ FAIL: Row not found → the user hasn't logged in yet (handle_new_user trigger creates the row on first login). Have the owner log in at https://swipe-ads.vercel.app first, then re-run.
+
+---
+
+### Step B — Test posting a listing (as owner)
+
+1. Go to `https://swipe-ads.vercel.app`
+2. Click **"Prijavi se"** in the header → log in with `samer.buraei@gmail.com` via Google
+3. After login: you land on the home page. Header should now show **"Profil"** instead of **"Prijavi se"**
+4. Click **"Novo"** (the + button in the bottom nav, or **"Postavi oglas"** in the desktop header)
+5. Fill in all required fields: title, description, price, category, condition, city
+6. Click the image upload area — select 2–3 JPEG or PNG images from your computer
+7. ✅ Confirm: Thumbnail previews appear for each uploaded image (no red error)
+8. Click **"Postavi oglas"** / **"Post"** to submit the listing
+9. ✅ PASS: You are redirected to the listing detail page, images are visible, no errors
+10. ❌ FAIL: Red error on image upload → check STORAGE BUCKET SETUP section; confirm `listing-images` bucket exists in Supabase
+
+---
+
+### Step C — Register second user and send a message
+
+1. Open an **incognito window** → navigate to `https://swipe-ads.vercel.app/login`
+2. Log in with a **different Google account** (a second Gmail you own)
+3. ✅ Confirm: Logged in as the second user, Header shows "Profil"
+4. Browse listings on the home page (swipe deck)
+5. Click on the listing posted by the owner in Step B
+6. Click the **"Pošalji poruku"** / message button on the listing detail page
+7. Send a short test message (e.g. "Zdravo, da li je dostupno?")
+8. ✅ PASS: Message appears in the conversation thread
+9. Now switch back to the **main browser window** (owner account)
+10. Click **"Poruke"** in the nav
+11. ✅ PASS: The conversation from the second user is visible in the inbox
+
+---
+
+### Step D — Verify admin panel (after Step A)
+
+1. Log in as `samer.buraei@gmail.com`
+2. Click **"Profil"** in the header → navigate to `/profile`
+3. ✅ PASS: You see an **"Admin Panel"** button or link (only visible to is_admin = true users)
+4. Click it → navigates to `/admin`
+5. ✅ PASS: Admin panel shows list of all users, listings, and reports
+
+---
+
+### Step E — Run full feature test plan
+
+After Steps A–D pass, run the full feature test plan (Tests 1–18 below).
+Start with TEST 1 and work through in order.
+Report ✅ PASS or ❌ FAIL for each test, with the exact error text on failure.
+
+---
+
+## DEPLOYMENT SESSION HISTORY (2026-03-02)
+
+This documents everything that broke during the deployment session and how each issue was resolved. For reference if similar issues arise.
+
+---
+
+### Issue 1 — Image uploads failing: "Neautorizovan pristup"
+
+**Symptom:** Every image upload from `/new` returned "Neautorizovan pristup" (Unauthorized access).
+
+**Root cause:** `lib/supabase/server.ts` had a `createServiceRoleClient()` function that imported `createServerClient` from `@supabase/ssr`. The SSR client always injects the requesting user's JWT as the Bearer token, which overrides the service_role key with the user's limited permissions.
+
+**Fix:** Replaced `createServiceRoleClient()` to import `createClient` directly from `@supabase/supabase-js` (not the SSR package), with `auth: { autoRefreshToken: false, persistSession: false }`. This correctly sends the service_role key as Bearer, bypassing RLS.
+
+---
+
+### Issue 2 — "permission denied for schema public"
+
+**Symptom:** After fixing the service_role client, uploads still failed with a PostgreSQL error: "permission denied for schema public".
+
+**Root cause:** The `service_role` PostgreSQL role had no explicit GRANT on the public schema. Even though it has superuser-level privileges in many contexts, Supabase's default config does not grant it public schema access automatically.
+
+**Fix:** Ran in Supabase SQL Editor:
+```sql
+GRANT USAGE ON SCHEMA public TO service_role;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO service_role;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO service_role;
+```
+
+---
+
+### Issue 3 — verifyOtp tRPC mutation not setting session cookies
+
+**Symptom:** After Phone OTP verification succeeded (Supabase returned tokens), the user's session was not persisted. Refreshing the page showed them logged out.
+
+**Root cause:** tRPC uses `fetchRequestHandler` under the hood. It creates its own `Response` object and does not propagate `Set-Cookie` headers set via Next.js's `cookies().set()` inside the tRPC handler.
+
+**Fix:** Changed the `verifyOtp` tRPC mutation to return `{ accessToken, refreshToken }` in its response instead of trying to set cookies server-side. In `app/login/page.tsx`, the `onSuccess` callback now calls `supabase.setSession({ access_token, refresh_token })` client-side, which correctly persists the session in the browser.
+
+---
+
+### Issue 4 — middleware.ts causing every Vercel deployment to fail
+
+**Symptom:** Every Vercel deployment succeeded at "Building" but then failed at "Deploying outputs..." with an internal Vercel error. The error had no user-readable message — just an internal failure code.
+
+**Root cause:** `middleware.ts` was added for Supabase session refresh. It imported `createServerClient` from `@supabase/ssr`, which created an Edge Middleware bundle of 74.5 kB. This exceeded an internal Vercel limit for Edge Middleware bundles, triggering the deployment failure.
+
+**Attempts that failed:**
+1. Simplified middleware to only check cookies (no @supabase/ssr import) → bundle 26.7 kB → still failed
+2. Deleted duplicate `next.config.ts` file → still failed
+3. Deleted and recreated the entire Vercel project from scratch → still failed
+4. Added VAPID env vars to new Vercel project → different build error (see Issue 6) but deploy still would have failed
+
+**Final fix:** Deleted `middleware.ts` entirely. Route protection moved to client-side `useEffect` in each protected page. Session refresh happens via `onAuthStateChange` in `Header.tsx` which is mounted on every page.
+
+---
+
+### Issue 5 — Duplicate next.config files (.mjs + .ts)
+
+**Symptom:** Vercel build failed with: `Configuring Next.js via 'next.config.ts' is not supported. Please rename it to 'next.config.js' or 'next.config.mjs'.`
+
+**Root cause:** Both `next.config.mjs` and `next.config.ts` existed in the repo root. `next.config.ts` is only supported in Next.js 15+. This project uses Next.js 14.2.18.
+
+**Fix:** Deleted `next.config.ts`. Kept `next.config.mjs` with the full config including Supabase image hostname:
+```js
+remotePatterns: [
+  { protocol: 'https', hostname: 'awbtohtpjrqlxfoqtita.supabase.co' },
+  { protocol: 'https', hostname: 'images.unsplash.com' },
+  { protocol: 'https', hostname: 'picsum.photos' },
+]
+```
+
+---
+
+### Issue 6 — push.ts VAPID crash at build time
+
+**Symptom:** After recreating the Vercel project (fresh env vars), build failed with: `No subject set in vapidDetails.subject`. The crash happened during Next.js page data collection at build time (not runtime).
+
+**Root cause:** `lib/push.ts` called `webpush.setVapidDetails(...)` at the module's top level (outside any function). When Next.js imported this module during the build to collect page metadata, the VAPID env vars were not set yet (new Vercel project hadn't had them added yet).
+
+**Fix:** Wrapped the `setVapidDetails()` call in a conditional:
+```typescript
+if (
+    process.env.VAPID_SUBJECT &&
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY &&
+    process.env.VAPID_PRIVATE_KEY
+) {
+    webpush.setVapidDetails(...)
+}
+```
+Also added a guard at the top of `sendPushNotification()`: if `!process.env.VAPID_SUBJECT`, return `{ expired: false }` silently. This makes VAPID/push entirely optional — the app builds and runs fine without those env vars.
+
+---
+
+### Issue 7 — BottomNav and Header missing auth-aware elements
+
+**Symptom:** The bottom nav had no "Profile" link, and the desktop header had no login/logout button. Users had no way to navigate to their profile or know if they were logged in.
+
+**Fix:**
+- `components/layout/BottomNav.tsx`: Replaced the 4th nav item (was "Omiljeni"/Heart) with "Profil" (User icon → `/profile`).
+- `components/layout/Header.tsx`: Added `'use client'` directive + `useState<User | null>` + `useEffect` with `supabase.auth.getUser()` + `onAuthStateChange`. Shows "Prijavi se" link (→ `/login`) when logged out, "Profil" link (→ `/profile`) when logged in.
+
+---
+
+### Issue 8 — Site 404 after Vercel project deletion
+
+**Symptom:** After deleting the old Vercel project and creating a new one, `https://swipe-ads.vercel.app` showed `404 DEPLOYMENT_NOT_FOUND`.
+
+**Root cause:** When a Vercel project is deleted, its custom domain assignments are removed. The new project was deployed but `swipe-ads.vercel.app` was not yet associated with it.
+
+**Fix:** In the new Vercel project → Settings → Domains → added `swipe-ads.vercel.app` → Vercel showed "Valid Configuration". After the next successful deployment, the domain started serving the app.
+
+---
+
+### Final outcome
+
+- `middleware.ts` deleted, `next.config.ts` deleted, `push.ts` guarded, `Header.tsx` and `BottomNav.tsx` fixed
+- Deployment succeeded: `https://swipe-ads.vercel.app` is live
+- Owner `samer.buraei@gmail.com` logged in via Google OAuth successfully ✅
 
 ---
 
