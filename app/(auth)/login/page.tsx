@@ -37,7 +37,12 @@ export default function LoginPage() {
   })
 
   const verifyOtp = api.auth.verifyOtp.useMutation({
-    onSuccess: () => {
+    onSuccess: async (data) => {
+      const supabase = createClient()
+      await supabase.auth.setSession({
+        access_token: data.accessToken,
+        refresh_token: data.refreshToken,
+      })
       router.push('/')
       router.refresh()
     },

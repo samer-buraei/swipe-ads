@@ -45,13 +45,18 @@ export const authRouter = createTRPCRouter({
                 token: input.token,
                 type: 'sms',
             })
-            if (error || !data.user) {
+            if (error || !data.user || !data.session) {
                 throw new TRPCError({
                     code: 'UNAUTHORIZED',
                     message: 'Neispravan ili istekao kod. Pokušajte ponovo.',
                 })
             }
-            return { success: true, userId: data.user.id }
+            return {
+                success: true,
+                userId: data.user.id,
+                accessToken: data.session.access_token,
+                refreshToken: data.session.refresh_token,
+            }
         }),
 
     /**
