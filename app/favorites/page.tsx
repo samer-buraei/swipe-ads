@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { ListingCard } from '@/components/listings/ListingCard';
 import { api } from '@/lib/trpc';
 import { Heart } from 'lucide-react';
@@ -7,9 +9,18 @@ import Link from 'next/link';
 import { ROUTES } from '@/lib/constants';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { createClient } from '@/lib/supabase/client';
 
 export default function FavoritesPage() {
+  const router = useRouter();
   const { data, isLoading } = api.favorite.list.useQuery({ limit: 20 });
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) router.push('/login');
+    });
+  }, []);
 
   return (
     <div className="space-y-8 pb-24">

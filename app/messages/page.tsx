@@ -1,17 +1,23 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { ConversationList } from '@/components/messages/ConversationList'
 import { ConversationView } from '@/components/messages/ConversationView'
 import { createClient } from '@/lib/supabase/client'
 
 export default function MessagesPage() {
+  const router = useRouter()
   const [selectedConversationId, setSelectedConversationId] = useState<string>()
   const [currentUserId, setCurrentUserId] = useState<string>()
 
   useEffect(() => {
     const supabase = createClient()
     supabase.auth.getUser().then(({ data }) => {
-      if (data.user) setCurrentUserId(data.user.id)
+      if (data.user) {
+        setCurrentUserId(data.user.id)
+      } else {
+        router.push('/login')
+      }
     })
   }, [])
 

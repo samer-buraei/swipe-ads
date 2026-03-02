@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { api } from '@/lib/trpc'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,12 @@ export default function ProfilePage() {
   const router = useRouter()
   const supabase = createClient()
   const utils = api.useUtils()
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user) router.push('/login')
+    })
+  }, [])
 
   const { data: user, isLoading } = api.user.me.useQuery()
   const { data: listings } = api.listing.myListings.useQuery({})
