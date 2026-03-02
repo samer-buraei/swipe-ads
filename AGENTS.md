@@ -1,7 +1,7 @@
 # AGENTS.md — SwipeMarket Multi-Agent Workflow Guide
 
 > This file tells every AI agent exactly where the project stands, what to do next, and how to work without breaking other agents' work.
-> Last updated: 2026-03-01
+> Last updated: 2026-03-02
 >
 > **Who reads this file:**
 > - **Gemini 2.5 Pro High** — executes the coding tasks. Read NEXT TASKS first, then the full guide for the task you're implementing.
@@ -13,17 +13,21 @@
 
 | # | Task | Type | Status |
 |---|------|------|--------|
-| 1 | **Run full database schema in Supabase** | Browser — Supabase SQL Editor | ⚠️ DO THIS FIRST |
+| 1 | **Run full database schema in Supabase** | Browser — Supabase SQL Editor | ✅ Done |
+| 1b | **Run setup-storage-rls.sql in Supabase** (creates `listing-images` bucket) | Browser — Supabase SQL Editor | ⚠️ DO THIS — image upload is broken without it |
 | 2 | Set DEMO_MODE=false | File edit | ✅ Done |
 | 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
 | 4 | Push all code to GitHub | Terminal | ✅ Done |
 | 5 | Import project to Vercel + add env vars + deploy | Browser — Vercel Dashboard | ✅ Done |
-| 6 | Add Vercel URL to Supabase Auth redirect URLs | Browser — Supabase Dashboard | ⚠️ Do after step 1 |
-| 7 | Verify live app + test all features | Browser | ⏳ After steps 1 and 6 |
+| 6 | Add Vercel URL to Supabase Auth redirect URLs | Browser — Supabase Dashboard | ✅ Done |
+| 6b | **Enable Google OAuth provider in Supabase** | Browser — Supabase Dashboard | ⚠️ Google login returns 400 — provider not enabled |
+| 7 | Verify live app + test all features | Browser | ⏳ After steps 1b and 6b |
 | 8 | Connect custom domain swipemarket.rs | Browser — Vercel Dashboard | ⏳ Optional |
 
 > **Stripe skipped** — not supported in Serbia. Promoviši button removed from UI. No Stripe env vars needed.
-> **Root cause of "Could not find table public.listings" error:** The base Supabase schema was never run. Steps below fix this.
+> **Image upload broken:** The `listing-images` Supabase Storage bucket was never created. Run `setup-storage-rls.sql` (step 1b) to fix. See STORAGE BUCKET SETUP section below.
+> **Google OAuth broken:** Supabase project has Google provider disabled. Enable it in Auth → Providers → Google. Needs Google Cloud OAuth client ID + secret.
+> **Nav issue:** Bottom nav shows 'Omiljeni' instead of 'Profile' — this is a translations/i18n bug, low priority.
 
 **→ Start with DATABASE SETUP below, then run the verification tests.**
 
@@ -133,6 +137,40 @@ SELECT COUNT(*) FROM listings WHERE status = 'ACTIVE';
 ---
 
 > **Once Steps 1–6 are complete, the app is fully functional. Proceed to the FULL FEATURE TEST PLAN below.**
+
+---
+
+## STORAGE BUCKET SETUP — Run this to fix image uploads
+
+> **Why:** The `listing-images` Supabase Storage bucket was never created as part of initial deployment. Without it, every image upload fails with "Bucket not found" and users cannot submit listings.
+> **File:** `C:\Users\sam\Desktop\swipemarket\setup-storage-rls.sql`
+
+### STEP 1b — Run setup-storage-rls.sql
+
+1. Open `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/sql/new`
+2. Open the file `C:\Users\sam\Desktop\swipemarket\setup-storage-rls.sql` and copy its entire contents
+3. Paste into the SQL Editor and click **"Run"**
+4. ✅ PASS: "Success" message — the bucket and RLS policies are created
+5. ❌ FAIL: "policy already exists" — run only the INSERT line below and skip policy creation:
+   ```sql
+   INSERT INTO storage.buckets (id, name, public)
+   VALUES ('listing-images', 'listing-images', true)
+   ON CONFLICT (id) DO NOTHING;
+   ```
+
+### STEP 1b-verify — Confirm bucket exists
+
+1. Navigate to `https://supabase.com/dashboard/project/awbtohtpjrqlxfoqtita/storage/buckets`
+2. ✅ PASS: You see a bucket named `listing-images` marked as Public
+3. ❌ FAIL: No bucket visible — re-run Step 1b
+
+### STEP 1b-test — Confirm image upload works on live site
+
+1. Navigate to `https://swipe-ads.vercel.app` and log in (OTP: 0641112222 / 123456)
+2. Go to `/new` (create listing)
+3. Click the image upload area and select any JPEG or PNG file
+4. ✅ PASS: Image thumbnail appears in the uploader, no error overlay
+5. ❌ FAIL: Red error text appears on the image slot — note the exact error text and report it
 
 ---
 
