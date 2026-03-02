@@ -225,8 +225,10 @@ export const listingRouter = createTRPCRouter({
           return {
             listing_id: (listing as any).id,
             original_url: base,
-            medium_url: `${base}?width=800&quality=80`,
-            thumb_url: `${base}?width=400&height=400&resize=cover&quality=70`,
+            // Use plain URLs — Supabase image transforms are a paid feature.
+            // These fall back to original_url in helpers.ts so this is safe.
+            medium_url: base,
+            thumb_url: base,
             order: index,
           }
         })

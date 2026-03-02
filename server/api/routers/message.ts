@@ -1,6 +1,7 @@
 // server/api/routers/message.ts
 import { TRPCError } from '@trpc/server'
 import { createTRPCRouter, protectedProcedure } from '../trpc'
+import { createServiceRoleClient } from '@/lib/supabase/server'
 import {
   sendMessageSchema,
   listConversationsSchema,
@@ -266,8 +267,12 @@ export const messageRouter = createTRPCRouter({
       }
 
       // Create conversation if not found
+      // Uses service role to bypass RLS — conversations and participant rows
+      // need to be created on behalf of both users, which the session client
+      // cannot do (RLS only allows inserting your own participant row).
       if (!conversationId) {
-        const { data: newConv, error } = await ctx.supabase
+        const serviceClient = createServiceRoleClient()
+        const { data: newConv, error } = await serviceClient
           .from('conversations')
           .insert({ listing_id: input.listingId })
           .select()
@@ -276,8 +281,8 @@ export const messageRouter = createTRPCRouter({
         if (error || !newConv) throw new Error(error?.message ?? 'Failed to create conversation')
         conversationId = newConv.id
 
-        // Add both participants
-        await ctx.supabase
+        // Add both participants via service role (RLS blocks inserting the receiver's row)
+        await serviceClient
           .from('conversation_participants')
           .insert([
             { conversation_id: conversationId, user_id: ctx.user.id },
