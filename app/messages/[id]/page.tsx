@@ -27,8 +27,13 @@ export default function ConversationPage() {
 
   const sendMutation = api.message.send.useMutation({
     onSuccess: () => {
-      setMessage('');
+      // Re-fetch the conversation so the new message appears immediately.
+      // (Input is cleared at the call site, before the mutation.)
+      utils.message.getConversation.invalidate({ conversationId: params.id }).catch(() => { });
       utils.message.listConversations.invalidate().catch(() => { });
+    },
+    onError: (err) => {
+      alert(`Greška pri slanju poruke: ${err.message}`);
     },
   });
 
@@ -215,7 +220,9 @@ export default function ConversationPage() {
                     listingId: data.listing.id,
                     receiverId: data.otherUser.id,
                     content: message.trim(),
+                    conversationId: params.id,
                   });
+                  setMessage('');
                 }
               }
             }}
@@ -233,7 +240,9 @@ export default function ConversationPage() {
                 listingId: data.listing.id,
                 receiverId: data.otherUser.id,
                 content: message.trim(),
+                conversationId: params.id,
               });
+              setMessage('');
             }}
           >
             <Send className="h-4 w-4 ml-0.5" />
