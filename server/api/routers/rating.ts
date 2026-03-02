@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { TRPCError } from '@trpc/server'
 import { createTRPCRouter, publicProcedure, protectedProcedure } from '../trpc'
+import { createServiceRoleClient } from '@/lib/supabase/server'
 import { createRatingSchema, listRatingsSchema } from '@/contracts/validators'
 import type { RatingItem, RatingSummary, RatingsResponse } from '@/contracts/api'
 import { ERRORS } from '@/lib/constants'
@@ -16,7 +17,19 @@ export const ratingRouter = createTRPCRouter({
         })
       }
 
-      const { error } = await ctx.supabase
+      // Use service role to bypass RLS and avoid FK failures if the
+      // handle_new_user trigger didn't fire for the rater's account yet.
+      const svc = createServiceRoleClient()
+
+      // Guard: ensure rater exists in public.users (trigger may have missed them)
+      await svc.from('users').upsert({
+        id: ctx.user.id,
+        email: ctx.user.email,
+        name: ctx.user.name ?? null,
+        image: ctx.user.image ?? null,
+      } as any, { onConflict: 'id', ignoreDuplicates: true })
+
+      const { error } = await svc
         .from('ratings')
         .insert({
           from_user_id: ctx.user.id,
@@ -24,7 +37,7 @@ export const ratingRouter = createTRPCRouter({
           listing_id: input.listingId ?? null,
           score: input.score,
           comment: input.comment ?? null,
-        })
+        } as any)
 
       if (error) {
         if (error.code === '23505') {
@@ -33,6 +46,7 @@ export const ratingRouter = createTRPCRouter({
             message: 'Već ste ocenili ovog prodavca za ovaj oglas.',
           })
         }
+        console.error('Rating insert error:', error)
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: ERRORS.GENERIC_ERROR })
       }
 

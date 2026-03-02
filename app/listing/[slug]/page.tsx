@@ -42,7 +42,10 @@ export default function ListingDetailPage() {
   const sendMessage = api.message.send.useMutation({
     onSuccess: ({ conversationId }) => {
       router.push(ROUTES.conversation(conversationId))
-    }
+    },
+    onError: (err) => {
+      alert(`Greška pri slanju poruke: ${err.message}`)
+    },
   })
 
   // Favorite toggle logic

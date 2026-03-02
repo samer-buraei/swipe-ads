@@ -290,27 +290,32 @@ export const messageRouter = createTRPCRouter({
           ] as any)
       }
 
+      // All writes use service role to bypass RLS.
+      // messages_own_insert (auth.uid() = sender_id) and conversation UPDATE/SELECT
+      // policies are too restrictive for server-side operations.
+      const svc = createServiceRoleClient()
+
       // Create the message
-      const { data: message, error } = await ctx.supabase
+      const { data: message, error } = await svc
         .from('messages')
         .insert({
           conversation_id: conversationId,
           sender_id: ctx.user.id,
           content: input.content,
-        })
+        } as any)
         .select()
         .single()
 
       if (error || !message) throw new Error(error?.message ?? 'Failed to send message')
 
       // Update conversation timestamp
-      await ctx.supabase
+      await svc
         .from('conversations')
-        .update({ updated_at: new Date().toISOString() })
+        .update({ updated_at: new Date().toISOString() } as any)
         .eq('id', conversationId)
 
       // Increment unread count for receiver
-      const { data: receiverPart } = await ctx.supabase
+      const { data: receiverPart } = await svc
         .from('conversation_participants')
         .select('unread_count')
         .eq('conversation_id', conversationId)
@@ -318,9 +323,9 @@ export const messageRouter = createTRPCRouter({
         .single()
 
       if (receiverPart) {
-        await ctx.supabase
+        await svc
           .from('conversation_participants')
-          .update({ unread_count: (receiverPart.unread_count || 0) + 1 })
+          .update({ unread_count: ((receiverPart as any).unread_count || 0) + 1 } as any)
           .eq('conversation_id', conversationId)
           .eq('user_id', input.receiverId)
       }
