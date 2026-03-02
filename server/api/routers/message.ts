@@ -316,7 +316,7 @@ export const messageRouter = createTRPCRouter({
       const { data: receiverPart } = await svc
         .from('conversation_participants')
         .select('unread_count')
-        .eq('conversation_id', conversationId)
+        .eq('conversation_id', conversationId!)
         .eq('user_id', input.receiverId)
         .single()
 
@@ -324,7 +324,7 @@ export const messageRouter = createTRPCRouter({
         await svc
           .from('conversation_participants')
           .update({ unread_count: ((receiverPart as any).unread_count || 0) + 1 } as any)
-          .eq('conversation_id', conversationId)
+          .eq('conversation_id', conversationId!)
           .eq('user_id', input.receiverId)
       }
 
