@@ -308,12 +308,9 @@ export const messageRouter = createTRPCRouter({
 
       if (error || !message) throw new Error(error?.message ?? 'Failed to send message')
 
-      // Update conversation timestamp
-      // @ts-ignore — generated Database type marks conversations update as never
-      await svc
-        .from('conversations')
-        .update({ updated_at: new Date().toISOString() })
-        .eq('id', conversationId)
+      // Update conversation timestamp — entire chain on one line so ts-ignore covers .update()
+      // @ts-ignore
+      await (svc.from('conversations').update({ updated_at: new Date().toISOString() } as any) as any).eq('id', conversationId)
 
       // Increment unread count for receiver
       const { data: receiverPart } = await svc
