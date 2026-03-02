@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Heart, Home, MessageCircle, PlusCircle, Sparkles, User } from 'lucide-react';
+import { Home, MessageCircle, PlusCircle, Sparkles, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import { motion } from 'framer-motion';
@@ -11,7 +11,7 @@ const items = [
   { href: ROUTES.home, label: 'Početna', icon: Home },
   { href: ROUTES.quickBrowse, label: 'Swipe', icon: Sparkles },
   { href: ROUTES.newListing, label: 'Novo', icon: PlusCircle, isPrimary: true },
-  { href: ROUTES.favorites, label: 'Omiljeni', icon: Heart },
+  { href: ROUTES.profile, label: 'Profil', icon: User },
   { href: ROUTES.messages, label: 'Poruke', icon: MessageCircle },
 ];
 
