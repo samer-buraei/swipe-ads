@@ -3,7 +3,6 @@ import { Fraunces, Sora } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/app/providers';
 import { AppShell } from '@/components/layout/AppShell';
-import { createServerSupabaseClient } from '@/lib/supabase/server';
 
 const sora = Sora({
   variable: '--font-body',
@@ -20,19 +19,16 @@ export const metadata: Metadata = {
   description: 'Kupi i prodaj listanjem kao na Tinderu',
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
-
   return (
     <html lang="sr">
       <body className={`${sora.variable} ${fraunces.variable} antialiased`}>
         <Providers>
-          <AppShell user={user}>{children}</AppShell>
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>

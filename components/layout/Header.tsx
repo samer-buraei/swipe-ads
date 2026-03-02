@@ -1,17 +1,26 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import { Heart, MessageCircle, Sparkles, PlusCircle, User as UserIcon } from 'lucide-react';
 import type { User } from '@supabase/supabase-js';
 import { cn } from '@/lib/utils';
 import { ROUTES } from '@/lib/constants';
 import { SearchBar } from '@/components/search/SearchBar';
+import { createClient } from '@/lib/supabase/client';
 
-interface HeaderProps {
-  user: User | null;
-}
+export function Header() {
+  const [user, setUser] = useState<User | null>(null);
 
-export function Header({ user }: HeaderProps) {
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data: { user } }) => setUser(user));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <header className="sticky top-0 z-40 w-full transition-all duration-300">
       <div className="absolute inset-0 bg-white/70 backdrop-blur-xl border-b border-white/20 shadow-sm supports-[backdrop-filter]:bg-white/60" />
@@ -56,7 +65,7 @@ export function Header({ user }: HeaderProps) {
             </Link>
           ))}
 
-          {/* Auth-aware: server-rendered, no flash */}
+          {/* Auth-aware login/profile link */}
           {user ? (
             <Link
               href={ROUTES.profile}
