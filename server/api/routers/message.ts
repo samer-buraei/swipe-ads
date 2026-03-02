@@ -321,11 +321,9 @@ export const messageRouter = createTRPCRouter({
         .single()
 
       if (receiverPart) {
-        await svc
-          .from('conversation_participants')
-          .update({ unread_count: ((receiverPart as any).unread_count || 0) + 1 } as any)
-          .eq('conversation_id', conversationId!)
-          .eq('user_id', input.receiverId)
+        const newCount = ((receiverPart as any).unread_count || 0) + 1
+        // @ts-ignore
+        await (svc.from('conversation_participants').update({ unread_count: newCount } as any) as any).eq('conversation_id', conversationId!).eq('user_id', input.receiverId)
       }
 
       return { messageId: message.id, conversationId: conversationId! }
@@ -334,18 +332,10 @@ export const messageRouter = createTRPCRouter({
   markRead: protectedProcedure
     .input(markMessagesReadSchema)
     .mutation(async ({ ctx, input }): Promise<MutationResponse> => {
-      await ctx.supabase
-        .from('messages')
-        .update({ is_read: true })
-        .eq('conversation_id', input.conversationId)
-        .neq('sender_id', ctx.user.id)
-        .eq('is_read', false)
-
-      await ctx.supabase
-        .from('conversation_participants')
-        .update({ unread_count: 0 })
-        .eq('conversation_id', input.conversationId)
-        .eq('user_id', ctx.user.id)
+      // @ts-ignore
+      await (ctx.supabase.from('messages').update({ is_read: true } as any) as any).eq('conversation_id', input.conversationId).neq('sender_id', ctx.user.id).eq('is_read', false)
+      // @ts-ignore
+      await (ctx.supabase.from('conversation_participants').update({ unread_count: 0 } as any) as any).eq('conversation_id', input.conversationId).eq('user_id', ctx.user.id)
 
       return { success: true, message: SUCCESS.MESSAGE_SENT }
     }),
