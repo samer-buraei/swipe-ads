@@ -274,12 +274,12 @@ export const messageRouter = createTRPCRouter({
         const serviceClient = createServiceRoleClient()
         const { data: newConv, error } = await serviceClient
           .from('conversations')
-          .insert({ listing_id: input.listingId })
+          .insert({ listing_id: input.listingId } as any)
           .select()
           .single()
 
         if (error || !newConv) throw new Error(error?.message ?? 'Failed to create conversation')
-        conversationId = newConv.id
+        conversationId = (newConv as any).id
 
         // Add both participants via service role (RLS blocks inserting the receiver's row)
         await serviceClient
@@ -287,7 +287,7 @@ export const messageRouter = createTRPCRouter({
           .insert([
             { conversation_id: conversationId, user_id: ctx.user.id },
             { conversation_id: conversationId, user_id: input.receiverId },
-          ])
+          ] as any)
       }
 
       // Create the message
