@@ -1,10 +1,19 @@
 import webpush from 'web-push'
 
-webpush.setVapidDetails(
-    process.env.VAPID_SUBJECT!,
-    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
-    process.env.VAPID_PRIVATE_KEY!
-)
+// Only initialise VAPID if all three env vars are present.
+// Without them the module still loads fine — push notifications
+// are simply skipped (non-critical feature).
+if (
+    process.env.VAPID_SUBJECT &&
+    process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY &&
+    process.env.VAPID_PRIVATE_KEY
+) {
+    webpush.setVapidDetails(
+        process.env.VAPID_SUBJECT,
+        process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+        process.env.VAPID_PRIVATE_KEY
+    )
+}
 
 export interface PushSubscriptionRow {
     endpoint: string
@@ -16,6 +25,10 @@ export async function sendPushNotification(
     subscription: PushSubscriptionRow,
     payload: { title: string; body: string; url: string }
 ) {
+    if (!process.env.VAPID_SUBJECT) {
+        // Push not configured — skip silently
+        return { expired: false }
+    }
     try {
         await webpush.sendNotification(
             {
