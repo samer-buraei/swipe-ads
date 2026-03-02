@@ -235,33 +235,40 @@ export const messageRouter = createTRPCRouter({
         })
       }
 
-      // Find existing conversation for this listing between these two users
-      const { data: myConvs } = await ctx.supabase
-        .from('conversation_participants')
-        .select('conversation_id')
-        .eq('user_id', ctx.user.id)
+      // If the caller already knows the conversationId (e.g. ConversationView),
+      // skip the expensive lookup entirely — the RLS session client cannot query
+      // another user's conversation_participants rows anyway.
+      let conversationId: string | null = input.conversationId ?? null
 
-      let conversationId: string | null = null
-      const myConvIds = myConvs?.map((c) => c.conversation_id) ?? []
-
-      if (myConvIds.length > 0) {
-        // Check if receiver is also in any of these conversations for this listing
-        const { data: theirConvs } = await ctx.supabase
+      if (!conversationId) {
+        // Find existing conversation for this listing between these two users
+        // Use service role so we can query the other user's participant rows
+        const svcLookup = createServiceRoleClient()
+        const { data: myConvs } = await svcLookup
           .from('conversation_participants')
           .select('conversation_id')
-          .eq('user_id', input.receiverId)
-          .in('conversation_id', myConvIds)
+          .eq('user_id', ctx.user.id)
 
-        for (const tc of theirConvs ?? []) {
-          const { data: conv } = await ctx.supabase
-            .from('conversations')
-            .select('id, listing_id')
-            .eq('id', tc.conversation_id)
-            .eq('listing_id', input.listingId)
-            .maybeSingle()
-          if (conv) {
-            conversationId = conv.id
-            break
+        const myConvIds = myConvs?.map((c) => c.conversation_id) ?? []
+
+        if (myConvIds.length > 0) {
+          const { data: theirConvs } = await svcLookup
+            .from('conversation_participants')
+            .select('conversation_id')
+            .eq('user_id', input.receiverId)
+            .in('conversation_id', myConvIds)
+
+          for (const tc of theirConvs ?? []) {
+            const { data: conv } = await svcLookup
+              .from('conversations')
+              .select('id, listing_id')
+              .eq('id', tc.conversation_id)
+              .eq('listing_id', input.listingId)
+              .maybeSingle()
+            if (conv) {
+              conversationId = conv.id
+              break
+            }
           }
         }
       }

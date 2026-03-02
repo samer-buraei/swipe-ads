@@ -97,6 +97,7 @@ export function ConversationView({ conversationId, currentUserId, onBack }: Conv
             listingId: data?.listing.id ?? '',
             receiverId: data?.otherUser.id ?? '',
             content: trimmed,
+            conversationId,  // pass known ID so server skips the RLS-blocked lookup
         })
     }
 

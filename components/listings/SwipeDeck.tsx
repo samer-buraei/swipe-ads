@@ -258,8 +258,9 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
               priority={isTop}
             />
           ) : (
-            <div className="h-full w-full flex items-center justify-center text-muted-foreground/50">
-              No Image
+            <div className="h-full w-full flex flex-col items-center justify-center gap-2 bg-secondary/40">
+              <span className="text-4xl">📷</span>
+              <span className="text-sm text-muted-foreground/60 font-medium">Nema slike</span>
             </div>
           )}
 
@@ -318,7 +319,10 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
           <div className="flex flex-wrap gap-2 mt-4">
             {card.condition && (
               <Badge variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20">
-                {card.condition}
+                {card.condition === 'NEW' ? 'Novo'
+                  : card.condition === 'LIKE_NEW' ? 'Kao novo'
+                  : card.condition === 'GOOD' ? 'Dobro'
+                  : 'Korišćeno'}
               </Badge>
             )}
             {/* Info Button */}

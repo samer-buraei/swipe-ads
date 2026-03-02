@@ -217,6 +217,8 @@ export const sendMessageSchema = z.object({
     .min(1, 'Poruka ne može biti prazna')
     .max(2000, 'Poruka je predugačka')
     .trim(),
+  // If already in a conversation, pass its ID to skip the expensive lookup
+  conversationId: z.string().optional(),
 });
 
 export const listConversationsSchema = paginationSchema;
