@@ -309,9 +309,10 @@ export const messageRouter = createTRPCRouter({
       if (error || !message) throw new Error(error?.message ?? 'Failed to send message')
 
       // Update conversation timestamp
+      const convUpdate: any = { updated_at: new Date().toISOString() }
       await svc
         .from('conversations')
-        .update({ updated_at: new Date().toISOString() } as any)
+        .update(convUpdate)
         .eq('id', conversationId)
 
       // Increment unread count for receiver
