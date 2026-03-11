@@ -67,6 +67,11 @@ Use them for:
 - stitching related packets
 - deciding whether a branch is good enough to push or merge
 
+For the first pilot, keep this simpler:
+- use one big model for the full morning review flow
+- recommended: Claude Opus
+- use ChatGPT or Gemini only for second opinions or uncertainty cases
+
 ---
 
 ## The Safe Overnight Strategy
@@ -193,6 +198,7 @@ Before you go to sleep:
 7. Make sure the packet order is fixed.
 8. Make sure hot files are not assigned twice.
 9. Make sure the branch starts clean enough that morning review is understandable.
+10. Create or clear the overnight canary file at `orchestration/_overnight_canary.md`.
 
 Recommended maximum for one night:
 - 3 packets for early calibration
@@ -238,9 +244,8 @@ Since you are vibecoding your first project, the simplest working model is:
 
 ### In the morning
 
-- Claude reviews diffs for regressions
-- ChatGPT reviews packet compliance and process safety
-- Gemini checks checkpoint or browser/UX sanity when needed
+- For the pilot: Claude reviews diffs, packet compliance, and overall branch safety
+- After calibration: ChatGPT and Gemini can be added for second-pass review or browser/UX verification
 - You decide what is accepted
 
 This keeps your cognitive load low while still giving you strong review coverage.
@@ -256,10 +261,13 @@ Do this first before anything more complex:
 Lane:
 - `ws01-nav-auth`
 
+Before sleep, by you or a big model:
+- create the shared `useRequireAuth` hook if you want that abstraction in this lane
+
 Packets:
 - remove fake unread badge
-- create `useRequireAuth`
-- apply `useRequireAuth` to one protected page only
+- apply `useRequireAuth` to `favorites/page.tsx`
+- apply `useRequireAuth` to `quick-browse/page.tsx`
 
 That is enough for the first night.
 
@@ -364,6 +372,15 @@ For each packet:
 5. Report changed files, tests run, blockers, and notes.
 
 If a packet seems to require a schema change, external dashboard access, or a bigger refactor than stated, stop and report that packet as blocked.
+If any packet is blocked, stop the entire overnight run.
+Do not skip to later packets.
+Commit only fully completed packets and then stop.
+At the end of the run, write a short final status into `orchestration/_overnight_canary.md` with:
+- completed packet ids
+- blocked packet id, if any
+- warnings
+- anything that needs morning review
+Do not git add or commit the canary file.
 ```
 
 ---
@@ -419,6 +436,11 @@ Tell ClawdBot to stop for the night if any of these happen:
 - it finishes the assigned packet list
 
 Stopping safely is better than improvising.
+
+Important stop rule:
+- if one packet is blocked, stop the entire run
+- do not skip ahead to packet 3, 4, or 5
+- sequential packets may depend on the earlier packet even if that dependency is not obvious to a smaller model
 
 ---
 
