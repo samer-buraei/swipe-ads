@@ -1,14 +1,15 @@
 # CLAUDE.md — SwipeMarket Codebase Context
 
 > Read this file before making any changes. It is the authoritative reference for all AI coding agents.
-> **For project status, completed tasks, and what to build next → read `AGENTS.md` after this file.**
-> Last updated: 2026-03-01
+> **For current project status, verified bug inventory, and active backlog → read `AGENTS.md`, `STATUS.md`, and `REVAMP_TODO.md` after this file.**
+> **This file is primarily the codebase map and implementation guardrail file. Do not treat old feature-completeness claims here as the canonical product status.**
+> Last updated: 2026-03-11
 
 ---
 
 ## What This App Is
 
-**SwipeMarket** is a Serbian classifieds marketplace (like KupujemProdajem / Halo Oglasi) with a Tinder-style swipe interface for browsing listings. Users swipe right to save, left to skip, up to contact the seller immediately. They can also browse in a traditional grid, post listings, message sellers, and manage their profile.
+**SwipeMarket** is a Serbian classifieds marketplace (like KupujemProdajem / Halo Oglasi) with a Tinder-style swipe interface for browsing listings. Users swipe right to save and left to skip. They can also browse in a traditional grid, post listings, message sellers, and manage their profile.
 
 **Target market:** Serbian-speaking users. All UI text must be in Serbian.
 **Prices:** Displayed in both RSD (primary) and EUR (secondary, via live exchange rate).
@@ -17,39 +18,38 @@
 
 ## Current Project Status
 
-**Phase:** Phase 4 complete. All features implemented and TypeScript clean. See `AGENTS.md` for deployment checklist.
+**Phase:** Deployed MVP foundation. Core routes, routers, auth, storage, messaging, ratings, and admin basics exist, but the product is not feature-complete.
 
-### One Remaining Production Blocker
+### Current Reality
 
-| # | Blocker | Fix |
-|---|---------|-----|
-| 1 | `DEMO_MODE="true"` in `.env.local` | Set to `"false"` — must be done by a human |
+- The app is live at `https://swipe-ads.vercel.app`.
+- Google OAuth, phone OTP, image upload, posting, messaging, ratings, and basic admin flows all exist.
+- The main problem is not missing architecture. The main problem is incomplete buyer, seller, and admin interaction loops.
+- Many features are in a partial state: backend exists but UI is thin, UI exists but is not wired, or the route exists but the loop is not complete.
+- The active backlog for these gaps is `REVAMP_TODO.md`.
+- The source-verified route/API/button map and known bugs are in `STATUS.md`.
+- Deployment history, environment caveats, and what previously did or did not work are in `AGENTS.md`.
 
-Previously tracked blockers that are **resolved**:
-- ~~Prisma missing from `package.json`~~ — fixed, in devDependencies
-- ~~ESLint config broken~~ — fixed, ESLint `^8.57.1` with `.eslintrc.json`
+### What Is Stable Enough To Reuse
 
-### What Is Complete
-- Supabase Auth: Google OAuth + **Phone OTP** (Serbian numbers, +381 prefix)
-- Image upload to Supabase Storage (`listing-images` bucket)
-- Supabase Realtime messaging (ConversationList + ConversationView)
-- Full-text search page with filters
-- Category-specific attribute fields (from DB via `category.getAttributes`)
-- User profiles (own + public) with phone add/change
-- Premium listing UI (amber badge + ring)
-- RSD/EUR dual currency display
-- Content moderation (OpenAI text + Sightengine image, both optional/graceful)
-- Rate limiting (5 listings/day, message rate limits)
-- RLS enforcement via `createServerSupabaseClient`
-- CI pipeline (GitHub Actions — typecheck + Vitest + Playwright)
-- **Listing management UI** — sellers can edit, mark as sold, reactivate, delete from profile
-- **Seller ratings** — code complete; requires SQL migration in Supabase (see `AGENTS.md`)
-- **Admin dashboard** — approve/reject listings, resolve reports (bug fixed: `ACTION_TAKEN` not `RESOLVED`)
-- **Push notifications** — web-push via `lib/push.ts`, subscriptions stored in `push_subscriptions` table, wired into `listing.create`, UI on search-profiles page
-- **Premium payments** — Stripe Checkout redirect, webhook with idempotency, `is_premium` flag set on listing
+- Supabase Auth: Google OAuth + phone OTP
+- Supabase Storage upload flow
+- Core tRPC router structure
+- Basic listing CRUD and listing status changes
+- Favorites, swipe recording, messaging, ratings, reports, saved searches, admin queue/report resolution
+- RSD/EUR display flow
+- Content moderation hooks and rate limiting
 
-### What Is NOT Built Yet
-- Nothing — all planned features are implemented. See `AGENTS.md` for manual deployment steps still needed.
+### What Is Still Incomplete
+
+- Swipe inspection loop and real undo behavior
+- Listing detail depth: gallery, structured specs, breadcrumbs, phone reveal, stronger trust block
+- Messaging completeness: reliable dedup, clear read state, attachments, conversation management
+- Seller operating loop: full inventory management, better edit flow, media control, analytics, renew/bump
+- Profile trust surfaces and public-profile linkage
+- Saved-search relevance and discoverability
+- User-level admin operations, audit trail, and broader trust/safety tooling
+- Several fake or dead affordances in UI
 
 ---
 
@@ -163,11 +163,11 @@ swipemarket/
 │   ├── profile/
 │   │   ├── page.tsx              # Own profile (edit, phone verify, listing actions)
 │   │   └── [userId]/page.tsx     # Public profile (read-only)
-│   ├── quick-browse/page.tsx     # Traditional grid browse
+│   ├── quick-browse/page.tsx     # Swipe deck
 │   ├── search/page.tsx           # Search with filters
 │   ├── search-profiles/page.tsx  # Manage saved searches
 │   ├── layout.tsx                # Root layout (Providers, AppShell)
-│   ├── page.tsx                  # Home — swipe deck
+│   ├── page.tsx                  # Home — hero + newest listing grid
 │   ├── providers.tsx             # tRPC + React Query providers
 │   └── globals.css
 │
@@ -249,7 +249,7 @@ swipemarket/
 ├── .github/workflows/ci.yml      # CI: typecheck → unit → e2e
 ├── .eslintrc.json                 # ESLint config (extends next/core-web-vitals)
 ├── .env.local                    # Never commit. See env vars below.
-├── next.config.ts                # Use this one (not next.config.mjs)
+├── next.config.mjs               # Active Next.js config
 ├── CLAUDE.md                     # This file — codebase reference
 └── AGENTS.md                     # Project state, phase tracking, what to build next
 ```
@@ -416,7 +416,7 @@ const adminSupabase = createServiceRoleClient() // ONLY in admin.ts — bypasses
 - **NEVER** modify `components/ui/*` — these are base UI primitives
 - **NEVER** commit `.env.local` or any file containing secrets
 - **NEVER** upgrade Next.js, React, tRPC, or React Query without a full migration plan
-- **NEVER** use `next.config.mjs` — the active config is `next.config.ts`
+- **NEVER** assume `next.config.ts` exists — the active config is `next.config.mjs`
 - **NEVER** skip Zod validation on any API input
 - **NEVER** use `'RESOLVED'` as a report status — the valid values are `'ACTION_TAKEN'` and `'DISMISSED'`
 

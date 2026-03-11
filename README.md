@@ -1,5 +1,7 @@
 # SwipeList - Tinder-Style Marketplace for Serbia
 
+> Historical/high-level product overview. For the current deployed state, known issues, and active backlog, use `AGENTS.md`, `STATUS.md`, and `REVAMP_TODO.md`.
+
 > **Brza kupovina u ritmu grada** (Fast buying in the rhythm of the city)
 
 A modern classified ads platform with Tinder-like swipe interface, built for the Serbian market.

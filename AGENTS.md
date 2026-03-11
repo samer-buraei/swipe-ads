@@ -1,43 +1,43 @@
 # AGENTS.md — SwipeMarket Multi-Agent Workflow Guide
 
 > This file tells every AI agent exactly where the project stands, what to do next, and how to work without breaking other agents' work.
-> Last updated: 2026-03-02 (deployment session complete — site is live)
+> Last updated: 2026-03-11 (deployment complete; current work is revamp and flow completion)
 >
 > **Who reads this file:**
-> - **Gemini 2.5 Pro High** — executes the coding tasks. Read NEXT TASKS first, then the full guide for the task you're implementing.
-> - **Claude** — architect and reviewer. Writes the specs in this file, reviews Gemini's output, runs TypeScript checks.
+> - **Any coding agent** — read the canonical files section first, then use the specific file that matches your task.
+> - **Claude / Gemini / Codex / other reviewers** — use this file for operational state and deployment history, not as the sole source of current product completeness.
 
 ---
 
-## NEXT TASKS — EXECUTE IN THIS ORDER
+## CANONICAL FILES — READ THESE FIRST
+
+| File | Use it for |
+|---|---|
+| `AGENTS.md` | Operational state, deployment history, environment caveats, what previously worked or failed |
+| `STATUS.md` | Source-verified route map, API map, button/code trace, and known bug inventory |
+| `REVAMP_TODO.md` | Current implementation backlog and execution workstreams |
+| `FULL_FEATURE_TEST_PLAN_RESULTS.md` | Latest automated browser-test attempt and why it was incomplete |
+| `CLAUDE.md` | Codebase map and implementation guardrails, but not the authoritative feature-completeness document |
+
+## CURRENT ENGINEERING FOCUS — EXECUTE IN THIS ORDER
 
 | # | Task | Type | Status |
 |---|------|------|--------|
-| 1 | Run full database schema in Supabase | Supabase SQL Editor | ✅ Done |
-| 1b | Run setup-storage-rls.sql (creates `listing-images` bucket) | Supabase SQL Editor | ✅ Done |
-| 2 | Set DEMO_MODE=false | File edit | ✅ Done |
-| 3 | Generate VAPID keys + add to .env.local | Terminal | ✅ Done |
-| 4 | Push all code to GitHub | Terminal | ✅ Done |
-| 5 | Import project to Vercel + add env vars + deploy | Vercel Dashboard | ✅ Done |
-| 6 | Add Vercel URL to Supabase Auth redirect URLs | Supabase Dashboard | ✅ Done |
-| 6b | Enable Google OAuth provider in Supabase | Supabase Dashboard | ✅ Done |
-| 7 | Verify live app — site is up, owner logged in with Google | Browser | ✅ Done |
-| **7a** | **Set samer.buraei@gmail.com as admin in Supabase** | **Supabase SQL Editor** | **⚠️ DO THIS FIRST** |
-| **7b** | **Test full post-listing flow** (login → upload images → post) | **Browser** | **⚠️ DO THIS SECOND** |
-| 7c | Register second Gmail account as normal user, post a listing | Browser — incognito | ⏳ After 7a |
-| 7d | Run full feature test plan (Tests 1–18 below) | Browser agent | ⏳ After 7c |
-| 8 | Connect custom domain swipemarket.rs | Vercel Dashboard | ⏳ Optional |
+| 1 | Work from `REVAMP_TODO.md` P0 items first | Backlog | ✅ Ready |
+| 2 | Use `STATUS.md` for code trace before changing UI or logic | Review | ✅ Ready |
+| 3 | Use `FULL_FEATURE_TEST_PLAN_RESULTS.md` to understand what browser automation did not verify | QA | ✅ Ready |
+| 4 | Update `REVAMP_TODO.md` / `AGENTS.md` if implementation changes status or invalidates history | Docs | ✅ Ongoing |
+| 5 | Connect custom domain `swipemarket.rs` if desired | Vercel Dashboard | ⏳ Optional |
 
-> **Stripe skipped** — not supported in Serbia. Promoviši button removed from UI. No Stripe env vars needed.
 > **Site URL:** https://swipe-ads.vercel.app ✅ Live and working
 > **Auth:** Google OAuth ✅ working | Phone OTP ✅ working
 > **Middleware removed** — was causing every Vercel deploy to fail. Auth is now client-side only (useEffect + supabase.auth.getUser() in each protected page).
 
-**→ See IMMEDIATE NEXT STEPS section below — start with Step A (admin SQL).**
+**→ Historical deployment/setup instructions remain below for reference, but they are not the active engineering queue anymore.**
 
 ---
 
-## CURRENT STATE (as of 2026-03-02 — updated after live testing session)
+## CURRENT STATE (as of 2026-03-11)
 
 | Item | Status | Notes |
 |------|--------|-------|
@@ -57,6 +57,9 @@
 | Rating | ✅ Fixed | Commit d412fc9 — added service role + users upsert guard. Was failing due to FK constraint when handle_new_user trigger hadn't created public.users row for OAuth user. |
 | Error visibility | ⚠️ Limited | No Sentry configured. Server errors: Vercel Dashboard → swipe-ads → Functions → View logs. Client errors: browser console (F12). Added alert() for send message errors. |
 | Custom domain | ⏳ Not connected | swipemarket.rs not yet pointed to Vercel |
+| Source-verified code map | ✅ Available | See `STATUS.md` |
+| Revamp backlog | ✅ Defined | See `REVAMP_TODO.md` |
+| Automated browser test pass | ⚠️ Incomplete | See `FULL_FEATURE_TEST_PLAN_RESULTS.md` for the browser-tool limitation |
 
 **Key architecture note:** Route protection is now entirely client-side. Each protected page (`/profile`, `/new`, `/favorites`, `/messages`) has a `useEffect` that calls `supabase.auth.getUser()` and redirects to `/login` if no session. The Header component uses `onAuthStateChange` to show "Prijavi se" (logged out) or "Profil" (logged in) reactively.
 
@@ -64,7 +67,7 @@
 
 ---
 
-## IMMEDIATE NEXT STEPS (Antigravity — do these in order)
+## HISTORICAL DEPLOYMENT STEPS (Completed 2026-03-02)
 
 ### Step A — Set owner as admin (Supabase SQL Editor)
 

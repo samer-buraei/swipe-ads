@@ -20,6 +20,7 @@ Use this as the working source of truth for follow-up implementation.
 - Treat "broken connection" items as higher priority than "missing nice-to-have feature" items.
 - When implementing an item, update its checkbox and add a short note under `Implementation Notes`.
 - If a task splits into multiple PRs, keep the original item here and add sub-notes rather than duplicating it elsewhere.
+- Use the `Execution Workstreams` section below after choosing the next backlog item. It contains the merged high-medium-level implementation guidance.
 
 ## Priority Legend
 
@@ -37,6 +38,22 @@ Use this as the working source of truth for follow-up implementation.
 5. Complete admin and trust/safety operations.
 6. Deepen the swipe layer into a true differentiator.
 
+## Verification Discipline
+
+Treat each workstream as a checkpoint, not as one long coding session.
+
+After each completed workstream:
+- run `npx vitest run`
+- run `npm run typecheck`
+- run `npm run lint`
+- manually verify the primary affected routes in the browser
+
+Checkpoint groups:
+- After navigation, swipe, and listing-detail changes: verify home, quick browse, favorites, listing detail, seller profile links, and signed-out redirects.
+- After messaging and first-contact changes: verify both message surfaces, first-contact flow, and duplicate-message behavior.
+- After seller-management and profile-trust changes: verify profile, edit listing, full inventory management, analytics, and visible trust indicators.
+- After saved-search, abuse, and admin changes: verify notification relevance, report/rating protection, and admin operations end to end.
+
 ## P0 - Broken Connections And Critical Practical Gaps
 
 - [ ] Wire swipe cards to listing detail.
@@ -50,10 +67,15 @@ Use this as the working source of truth for follow-up implementation.
 - [ ] Improve auth boundary behavior on protected routes.
   Why this is needed: signed-out users should hit a clear login handoff instead of weak loading/error states.
   Current gap: routes like swipe, favorites, messages, and posting do not always fail gracefully for unauthenticated users.
+  Execution note: use one shared auth-gate pattern such as a `useRequireAuth()` hook with return-URL support instead of each page hand-rolling `supabase.auth.getUser()` + redirect behavior.
 
 - [ ] Remove or wire all dead buttons and fake affordances.
   Why this is needed: dead controls reduce trust immediately and make the app feel unfinished.
-  Known examples: swipe info button, chat image button, chat overflow menu, profile "Prikaži sve oglase", premium settings row.
+  Known examples: swipe info button, chat image button, chat overflow menu, profile "Prikaži sve oglase", premium settings row, fake unread badge on "Poruke".
+
+- [ ] Link the listing-detail seller card to the public seller profile.
+  Why this is needed: the public seller profile exists, but buyers cannot naturally reach it from the highest-value trust surface.
+  Current gap: seller name/card on listing detail is a dead end instead of a trust-expansion path.
 
 - [ ] Add duplicate-report protection.
   Why this is needed: one user should not be able to repeatedly report the same listing and force moderation state changes.
@@ -66,10 +88,12 @@ Use this as the working source of truth for follow-up implementation.
 - [ ] Make swipe undo a real undo.
   Why this is needed: UI state and stored state must match.
   Current gap: the card returns visually, but persisted swipe/favorite side effects may remain.
+  Execution note: the current `handleUndo` behavior is local-only. Real undo likely needs a dedicated `swipe.undo` mutation that removes the stored swipe event and reverses any favorite side effect.
 
 - [ ] Reconcile optimistic and realtime chat messages correctly.
   Why this is needed: messaging has to feel exact and dependable.
   Current gap: senders can see duplicate copies of the same message.
+  Execution note: the current duplicate path is optimistic ids like `optimistic-${Date.now()}` in the UI versus realtime/server UUIDs, so id-only dedup is not enough.
 
 - [ ] Support common mobile image formats end to end.
   Why this is needed: sellers often post directly from phone camera rolls.
@@ -84,6 +108,16 @@ Use this as the working source of truth for follow-up implementation.
 - [ ] Build a proper listing image gallery and lightbox.
   Why this is needed: photos are the main decision surface in classifieds.
   Includes: full-screen viewer, swipe/arrows, zoom, image count, mobile-friendly browsing.
+
+- [ ] Add category-specific specification rendering on listing detail.
+  Why this is needed: buyers expect structured specs, not just generic description text, especially in verticals like vehicles and real estate.
+  Execution note: use listing attributes already returned by detail responses and render structured sections rather than raw JSON.
+
+- [ ] Add breadcrumbs / category context on listing detail.
+  Why this is needed: buyers need navigation context and a path back to browse flows.
+
+- [ ] Add a phone reveal pattern on listing detail.
+  Why this is needed: showing the seller phone only after a deliberate "Prikaži broj" action matches user expectations in the region and creates a useful trust/intent signal.
 
 - [ ] Add custom first message when contacting a seller.
   Why this is needed: buyers need control over tone and intent from the first touchpoint.
@@ -130,6 +164,10 @@ Use this as the working source of truth for follow-up implementation.
 - [ ] Replace free-text city filtering with canonical selection.
   Why this is needed: typos and inconsistent city names weaken search quality and saved search matching.
 
+- [ ] Plan and introduce subcategories for major verticals.
+  Why this is needed: a permanently flat category model is too coarse for areas like vehicles and real estate.
+  Scope note: this is not a P0 taxonomy rewrite, but the direction should be defined before search/discovery gets deeper.
+
 - [ ] Replace or remove fake trending / featured content.
   Why this is needed: hardcoded product signals make the app feel like a mockup instead of a live marketplace.
 
@@ -157,8 +195,15 @@ Use this as the working source of truth for follow-up implementation.
 - [ ] Add duplicate / repost listing flow.
   Why this is needed: repeat sellers should not recreate similar listings from scratch.
 
+- [ ] Add listing expiration / auto-archive rules.
+  Why this is needed: stale inventory destroys trust over time if old listings remain active forever.
+
+- [ ] Add renew / bump listing controls.
+  Why this is needed: once listings can expire or age out, sellers need an explicit way to refresh them.
+
 - [ ] Allow image reordering before submit.
   Why this is needed: the first image has an outsized effect on clickthrough.
+  Execution note: image management should eventually cover reorder, add, and remove both before and after publish.
 
 - [ ] Improve post-publish image management.
   Why this is needed: sellers often want to replace, reorder, or add better photos after publishing.
@@ -188,6 +233,7 @@ Use this as the working source of truth for follow-up implementation.
 
 - [ ] Add moderation audit trail and reason visibility.
   Why this is needed: internal operations and future appeals require traceability.
+  Includes: moderation reason fields, `resolved_by`, and enough history to understand who acted, when, and why.
 
 - [ ] Add user blocking across messaging and profile interactions.
   Why this is needed: peer-to-peer marketplaces need a direct safety escape hatch.
@@ -204,6 +250,15 @@ Use this as the working source of truth for follow-up implementation.
 
 - [ ] Expand anti-spam rules for future offers and negotiation flows.
   Why this is needed: adding structured commerce will expand abuse vectors, so the protection model needs to mature with it.
+
+- [ ] Centralize exchange-rate and other shared cross-surface logic.
+  Why this is needed: the same concept should not be implemented differently on cards, detail pages, and other surfaces because that creates trust-eroding inconsistencies.
+
+- [ ] Add legal and support shell pages.
+  Why this is needed: a real marketplace needs visible Terms, Privacy Policy, Impressum/company info, and support entry points before broad launch.
+
+- [ ] Add a desktop footer with legal/support/navigation anchors.
+  Why this is needed: the product currently ends like a prototype instead of a real marketplace surface.
 
 ## P3 - Swipe Layer Differentiation
 
@@ -242,6 +297,116 @@ Use this as the working source of truth for follow-up implementation.
 - Do not add more decorative surface area before core listing detail, messaging, and seller management are complete.
 - Prefer wiring existing backend support before inventing new backend complexity where possible.
 - When a feature already exists partially in backend or schema, finish the full loop instead of rebuilding it from scratch.
+- In this codebase, tRPC mutation loading state is typically `isLoading`, not `isPending`.
+
+## Execution Workstreams
+
+Use these as the high-medium-level implementation tracks for other agents. Pick from the backlog above, then use the matching workstream below to understand scope, likely files, and common mistakes.
+
+### 1. Navigation And Auth Cleanup
+
+- Goal: make all key destinations reachable and make signed-out behavior consistent.
+- Reuse: `components/layout/BottomNav.tsx`, `components/layout/Header.tsx`, protected pages under `app/`.
+- Build: mobile favorites access, remove fake unread badge, wire/remove dead settings rows, and unify auth-gate behavior with a shared pattern.
+- Avoid: per-page auth logic drift and fake badges left in place "temporarily".
+
+### 2. Swipe Journey Completion
+
+- Goal: turn swipe into a usable classifieds discovery mode rather than a gimmick.
+- Reuse: `components/listings/SwipeDeck.tsx`, `app/quick-browse/page.tsx`, `server/api/routers/swipe.ts`.
+- Build: tap-to-detail, real info action, real undo, and deck refill behavior that responds to refetches.
+- Avoid: local-only undo and tap handlers that break drag gestures.
+
+### 3. Listing Detail Completion
+
+- Goal: make the listing page strong enough for real purchase decisions.
+- Reuse: `app/listing/[slug]/page.tsx`, `components/listings/ListingCard.tsx`, `components/listings/DynamicAttributeFields.tsx`, `server/api/routers/listing.ts`.
+- Build: gallery/lightbox, category-specific specs, breadcrumbs, freshness/view signals, phone reveal, and seller profile linking.
+- Avoid: tiny-thumbnail-only image UX, raw attribute dumps, and dead-end seller trust surfaces.
+
+### 4. Search And Discovery Unification
+
+- Goal: make home search, header search, and the search page feel like one product.
+- Reuse: `app/page.tsx`, `app/search/page.tsx`, `components/search/SearchBar.tsx`, `components/listings/ListingGrid.tsx`, `server/api/routers/listing.ts`.
+- Build: visible sort controls, scalable result loading, cleaner city/category filters, and a future-ready subcategory direction for major verticals.
+- Avoid: UI controls that do not map to real backend support and duplicate search logic in multiple places.
+
+### 5. Messaging Reliability
+
+- Goal: stabilize chat before adding attachments, offers, or richer communication states.
+- Reuse: `app/messages/[id]/page.tsx`, `components/messages/ConversationView.tsx`, `components/messages/useRealtimeMessages.ts`, `server/api/routers/message.ts`.
+- Build: optimistic/realtime reconciliation, clearer read-state UI, and consistency across the two message surfaces.
+- Avoid: id-only dedup if optimistic ids and server ids differ.
+
+### 6. First Contact And Negotiation Entry
+
+- Goal: make seller contact flexible, then add a simple structured offer layer.
+- Reuse: `app/listing/[slug]/page.tsx`, `server/api/routers/message.ts`.
+- Build: editable first-contact message first; only then add offers with explicit statuses such as sent, countered, accepted, rejected, or withdrawn.
+- Avoid: treating offers as a trivial chat tweak or jumping straight to payments.
+
+### 7. Seller Inventory Loop
+
+- Goal: let sellers manage listings like inventory, not just individual posts.
+- Reuse: `app/profile/page.tsx`, `app/listing/[slug]/edit/page.tsx`, `app/new/page.tsx`, `server/api/routers/listing.ts`.
+- Build: real all-listings management, stronger edit flow, image reorder/add/remove, negotiable flag, duplicate/repost, expiration, and renew/bump.
+- Avoid: leaving create and edit mismatched, or adding expiration without a renew path.
+
+### 8. Profile Trust Surfaces
+
+- Goal: make profile data visible and useful before deeper seller-quality features.
+- Reuse: `app/profile/page.tsx`, `app/profile/[userId]/page.tsx`, `server/api/routers/user.ts`, `server/api/routers/rating.ts`.
+- Build: visible bio, real rating summary, stronger verification/member-since context, and better seller reputation display.
+- Avoid: storing fields the buyer never sees or leaving ratings hardcoded to placeholders.
+
+### 9. Seller Analytics And Response Signals
+
+- Goal: give sellers actionable feedback and give buyers stronger responsiveness signals.
+- Reuse: existing views, favorites, conversations, and profile surfaces.
+- Build: views, saves, inquiry counts, response rate, response time, and sold context.
+- Avoid: starting with a fancy dashboard instead of a few reliable numbers.
+
+### 10. Saved Search Integrity
+
+- Goal: make saved searches discoverable and make alerts trustworthy.
+- Reuse: `app/search-profiles/page.tsx`, `server/api/routers/searchProfile.ts`, push-matching logic in `server/api/routers/listing.ts`.
+- Build: better discoverability plus matching that respects keyword, category, city, `minPrice`, `maxPrice`, and `conditions`.
+- Avoid: sending more alerts before relevance is fixed.
+
+### 11. Abuse And Safety Controls
+
+- Goal: close obvious abuse vectors before they scale.
+- Reuse: `server/api/routers/report.ts`, `server/api/routers/rating.ts`, `server/api/routers/message.ts`, admin surfaces.
+- Build: duplicate-report protection, tighter rating eligibility, user blocking, and stronger server-side safety constraints.
+- Avoid: trusting UI-only restrictions for abuse prevention.
+
+### 12. Admin Operations Panel
+
+- Goal: let admins operate the marketplace without raw SQL for normal tasks.
+- Reuse: `app/admin/page.tsx`, `server/api/routers/admin.ts`, admin gating in `server/api/trpc.ts`.
+- Build: user management, moderation reasons, audit trail, analytics, and likely new components under `components/admin/`.
+- Avoid: treating this as a light UI task; it is backend-heavy because the current admin router is narrow.
+
+### 13. Shared Logic Centralization
+
+- Goal: remove logic drift where the same concept is implemented multiple ways.
+- Reuse: exchange-rate logic, messaging logic, and any cross-surface helper duplication.
+- Build: one obvious implementation path for shared concepts.
+- Avoid: long-lived "temporary" duplicate implementations.
+
+### 14. Legal And Support Shell
+
+- Goal: add the non-feature surfaces needed before broad launch claims.
+- Reuse: app layout and navigation structure.
+- Build: legal pages, footer, and basic support/about access.
+- Avoid: forgetting this until after launch, but also avoid doing it before core user loops work.
+
+### 15. Swipe Differentiation Later
+
+- Goal: deepen swipe only after the marketplace core is solid.
+- Reuse: `components/listings/SwipeDeck.tsx`, `server/api/routers/swipe.ts`.
+- Build: in-card image browsing, filters, stronger actions, ranking, and a meaningful marketplace equivalent of a "match".
+- Avoid: prioritizing this above trust, detail, messaging, or seller operations.
 
 ## One-Sentence Summary
 
