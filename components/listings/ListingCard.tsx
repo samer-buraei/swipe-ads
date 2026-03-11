@@ -2,22 +2,22 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, MapPin, Star } from 'lucide-react';
+import { Heart, MapPin, Star, X, EyeOff } from 'lucide-react';
 import type { ListingCard as ListingCardType } from '@/contracts/api';
 import { formatPrice, ROUTES } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { api } from '@/lib/trpc';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
 
 interface ListingCardProps {
   listing: ListingCardType;
   className?: string;
+  variant?: 'grid' | 'list';
 }
 
-export function ListingCard({ listing, className }: ListingCardProps) {
+export function ListingCard({ listing, className, variant = 'grid' }: ListingCardProps) {
   const [localFavorite, setLocalFavorite] = useState(listing.isFavorited ?? false);
   const utils = api.useUtils();
   const { data: exchange } = useExchangeRate();
@@ -30,6 +30,97 @@ export function ListingCard({ listing, className }: ListingCardProps) {
 
   const isFavorited = localFavorite;
 
+  const eurPrice = exchange?.rate
+    ? listing.currency === 'EUR'
+      ? listing.price
+      : Math.round(listing.price / exchange.rate)
+    : null;
+
+  const getMetaLine = () => {
+    if (!listing.attributes) return listing.city;
+    if (listing.categoryId === 'vozila' || listing.categoryId === 'vehicles') {
+      const parts = [
+        listing.attributes.year,
+        listing.attributes.mileage ? `${listing.attributes.mileage} km` : null,
+        listing.city,
+      ].filter(Boolean);
+      return parts.join(' | ');
+    }
+    if (listing.categoryId === 'nekretnine') {
+      const parts = [
+        listing.attributes.sqm ? `${listing.attributes.sqm}m²` : null,
+        listing.city,
+      ].filter(Boolean);
+      return parts.join(' | ');
+    }
+    return listing.city;
+  };
+
+  if (variant === 'list') {
+    return (
+      <div className={cn('flex bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100', className)}>
+        {/* Image */}
+        <Link href={ROUTES.listing(listing.slug)} className="relative w-28 h-28 flex-shrink-0 bg-gray-100">
+          {listing.heroImage ? (
+            <Image
+              src={listing.heroImage.thumbUrl}
+              alt={listing.title}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">
+              Nema slike
+            </div>
+          )}
+          {listing.isPremium && (
+            <div className="absolute top-1 left-1 bg-amber-400 text-amber-900 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
+              <Star className="w-2 h-2 fill-amber-900" /> PREMIUM
+            </div>
+          )}
+          {/* Action icons overlaid at bottom */}
+          <div className="absolute bottom-1 left-0 right-0 flex justify-around px-1">
+            <button
+              className="bg-white/90 rounded-full p-1 shadow-sm"
+              onClick={(e) => { e.preventDefault(); }}
+              aria-label="Preskoči"
+            >
+              <X className="h-3 w-3 text-gray-500" />
+            </button>
+            <button
+              className={cn('bg-white/90 rounded-full p-1 shadow-sm', isFavorited && 'bg-red-50')}
+              onClick={(e) => { e.preventDefault(); toggleFavorite.mutate({ listingId: listing.id }); }}
+              aria-label="Sačuvaj"
+            >
+              <Heart className={cn('h-3 w-3', isFavorited ? 'text-red-500 fill-red-500' : 'text-gray-500')} />
+            </button>
+            <button
+              className="bg-white/90 rounded-full p-1 shadow-sm"
+              onClick={(e) => { e.preventDefault(); }}
+              aria-label="Sakrij"
+            >
+              <EyeOff className="h-3 w-3 text-gray-500" />
+            </button>
+          </div>
+        </Link>
+
+        {/* Details */}
+        <Link href={ROUTES.listing(listing.slug)} className="flex-1 p-3 min-w-0">
+          <p className="font-semibold text-gray-900 text-sm line-clamp-1 leading-tight">
+            {listing.title}
+          </p>
+          <p className="text-lg font-bold text-gray-900 mt-0.5 leading-tight">
+            {eurPrice !== null ? `€${eurPrice.toLocaleString('de-DE')}` : formatPrice(listing.price, listing.currency)}
+          </p>
+          <p className="text-xs text-gray-500 mt-1 leading-tight truncate">
+            {getMetaLine()}
+          </p>
+        </Link>
+      </div>
+    );
+  }
+
+  // Grid variant (default)
   return (
     <div
       className={cn(
@@ -58,17 +149,12 @@ export function ListingCard({ listing, className }: ListingCardProps) {
             Nema slike
           </div>
         )}
-
-        {/* Gradient Overlay for Text Readability if we put text on image, 
-            but here we keep text below for cleanliness. 
-            However, we can add a subtle inner shadow. */}
         <div className="absolute inset-0 ring-1 ring-inset ring-black/5 rounded-[2rem] pointer-events-none" />
       </Link>
 
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 flex-1 space-y-1">
-            {/* Price - The most important info */}
             <div className="flex flex-col">
               <div className="text-xl font-bold tracking-tight text-primary flex items-center flex-wrap gap-2">
                 <span>{formatPrice(listing.price, listing.currency)}</span>
@@ -97,7 +183,6 @@ export function ListingCard({ listing, className }: ListingCardProps) {
                 <span>{listing.city}</span>
               </div>
 
-              {/* Dynamic Attributes */}
               {listing.attributes && (
                 <>
                   <span className="text-muted-foreground/30">•</span>

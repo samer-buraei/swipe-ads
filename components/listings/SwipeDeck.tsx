@@ -7,13 +7,15 @@
 import { useState, useCallback, useRef } from 'react';
 import { motion, useMotionValue, useTransform, animate, PanInfo, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Heart, X, RotateCcw, MapPin, Info, Star } from 'lucide-react';
+import Link from 'next/link';
+import { Heart, X, RotateCcw, Phone, EyeOff, Star, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { formatPrice, UI } from '@/lib/constants';
+import { formatPrice, UI, ROUTES } from '@/lib/constants';
 import { api } from '@/lib/trpc';
 import type { ListingCard } from '@/contracts/api';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useExchangeRate } from '@/lib/hooks/useExchangeRate';
+import { useRouter } from 'next/navigation';
 
 interface SwipeDeckProps {
   initialCards: ListingCard[];
@@ -43,7 +45,6 @@ export function SwipeDeck({
       const currentCard = cards[0];
       const timeSpent = Date.now() - swipeStartTime.current;
 
-      // Optimistic state update speed
       recordSwipe.mutate({
         listingId: currentCard.id,
         direction,
@@ -56,7 +57,6 @@ export function SwipeDeck({
 
       swipeStartTime.current = Date.now();
 
-      // Short delay to allow animation to clear before enabling next interaction
       setTimeout(() => setIsAnimating(false), 300);
 
       if (cards.length === 1) {
@@ -71,8 +71,6 @@ export function SwipeDeck({
     setCards((prev) => [lastSwiped, ...prev]);
     setLastSwiped(null);
   }, [lastSwiped]);
-
-  // Use a ref to access the card's animation controls externally (simplified here via props)
 
   if (cards.length === 0) {
     return (
@@ -109,25 +107,8 @@ export function SwipeDeck({
   return (
     <div className={cn('relative flex flex-col items-center', className)}>
       {/* Card Stack Container */}
-      <div className="relative h-[65vh] max-h-[600px] w-full max-w-sm shrink-0">
+      <div className="relative w-full" style={{ height: 'calc(100svh - 14rem)' }}>
         <AnimatePresence mode='popLayout'>
-          {cards.slice(0, 3).reverse().map((card, index) => {
-            // We reverse logic: cards[0] is top, need to be last in DOM or use z-index.
-            // Mapping slice(0,3).reverse() renders 2, 1, 0.
-            // But we need to pass correct original index.
-            // Let's stick to standard map and z-index.
-            return null;
-          })}
-          {/* Explicit rendering for Z-order control */}
-          {cards.slice(0, 3).reverse().map((card) => {
-            const index = cards.indexOf(card);
-            // Since we only render 3, the index relative to slice is what matters.
-            // Let's just use the component logic below which handles index '0' as top.
-            // Wait, mapping over reversed slice is tricky for index props.
-            // Let's Map normal order and use Z-Index.
-            return null;
-          })}
-
           {cards.slice(0, 3).map((card, i) => (
             <SwipeCard
               key={card.id}
@@ -139,40 +120,6 @@ export function SwipeDeck({
             />
           ))}
         </AnimatePresence>
-      </div>
-
-      {/* Controls - Floating styling */}
-      <div className="mt-8 flex items-center justify-center gap-6">
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-16 w-16 rounded-full border-none bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:scale-110 hover:shadow-[0_15px_35px_rgba(239,68,68,0.2)] hover:bg-red-50 transition-all duration-300"
-          onClick={() => handleSwipe('LEFT')}
-          disabled={isAnimating}
-        >
-          <X className="h-8 w-8 text-destructive" strokeWidth={3} />
-        </Button>
-
-        {lastSwiped && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-10 w-10 rounded-full text-muted-foreground hover:bg-secondary hover:text-foreground"
-            onClick={handleUndo}
-          >
-            <RotateCcw className="h-5 w-5" />
-          </Button>
-        )}
-
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-16 w-16 rounded-full border-none bg-white shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:scale-110 hover:shadow-[0_15px_35px_rgba(34,197,94,0.2)] hover:bg-green-50 transition-all duration-300"
-          onClick={() => handleSwipe('RIGHT')}
-          disabled={isAnimating}
-        >
-          <Heart className="h-8 w-8 text-green-500 fill-green-500" />
-        </Button>
       </div>
     </div>
   );
@@ -190,10 +137,12 @@ interface SwipeCardProps {
 function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
+  const router = useRouter();
+  const { data: exchange } = useExchangeRate();
+  const toggleFavorite = api.favorite.toggle.useMutation();
 
   // Physics setup
   const rotate = useTransform(x, [-200, 200], [-15, 15]);
-  const opacity = useTransform(x, [-300, 0, 300], [0.5, 1, 0.5]); // Fade out on extreme swipe
 
   // Overlay Opacities
   const likeOpacity = useTransform(x, [20, 150], [0, 1]);
@@ -201,8 +150,19 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
 
   // Stack Scale/Y setup
   const scale = 1 - index * 0.04;
-  const translateY = index * 12; // Visible stack effect
+  const translateY = index * 12;
   const zIndex = 50 - index;
+
+  const eurPrice = exchange?.rate
+    ? card.currency === 'EUR'
+      ? card.price
+      : Math.round(card.price / exchange.rate)
+    : null;
+
+  const conditionLabel = card.condition === 'NEW' ? 'Novo'
+    : card.condition === 'LIKE_NEW' ? 'Kao novo'
+    : card.condition === 'GOOD' ? 'Odlično stanje'
+    : 'Korišćeno';
 
   const handleDragEnd = (_: any, info: PanInfo) => {
     if (disabled) return;
@@ -229,7 +189,7 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
   return (
     <motion.div
       className={cn(
-        'absolute inset-0 origin-bottom touch-none cursor-grab active:cursor-grabbing',
+        'absolute inset-0 origin-bottom touch-none',
         !isTop && 'pointer-events-none'
       )}
       style={{
@@ -238,17 +198,16 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
         rotate: isTop ? rotate : 0,
         scale,
         zIndex,
-        opacity: 1 // Keep background cards visible
       }}
-      drag={isTop && !disabled ? 'x' : false} // Lock drag to X axis mostly? Or free? Tinder used free. Let's allowing slight Y.
+      drag={isTop && !disabled ? 'x' : false}
       dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
       dragElastic={0.7}
       onDragEnd={handleDragEnd}
-      whileTap={{ cursor: 'grabbing', scale: 1.02 }}
+      whileTap={{ scale: 1.02 }}
     >
-      <div className={cn("relative h-full w-full overflow-hidden rounded-[2.5rem] bg-card shadow-[0_20px_50px_rgba(0,0,0,0.1)] border ring-1", card.isPremium ? "border-amber-400/50 ring-amber-400/20" : "border-white/50 ring-black/5")}>
-        {/* Full Bleed Image */}
-        <div className="absolute inset-0 bg-secondary/20">
+      <div className="relative h-full w-full overflow-hidden rounded-3xl bg-white shadow-lg flex flex-col">
+        {/* Image area — takes ~60% of card */}
+        <div className="relative flex-1 bg-gray-100 cursor-grab active:cursor-grabbing">
           {card.heroImage ? (
             <Image
               src={card.heroImage.mediumUrl}
@@ -258,77 +217,99 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
               priority={isTop}
             />
           ) : (
-            <div className="h-full w-full flex flex-col items-center justify-center gap-2 bg-secondary/40">
+            <div className="h-full w-full flex flex-col items-center justify-center gap-2 bg-gray-100">
               <span className="text-4xl">📷</span>
-              <span className="text-sm text-muted-foreground/60 font-medium">Nema slike</span>
+              <span className="text-sm text-gray-400">Nema slike</span>
             </div>
           )}
 
-          {/* Overlays */}
+          {/* Like/Nope stamps */}
           {isTop && (
             <>
-              {/* Like Stamp */}
               <motion.div
                 style={{ opacity: likeOpacity }}
-                className="absolute left-6 top-8 rounded-xl border-4 border-green-500 px-4 py-2 rotate-[-15deg] z-10 bg-green-500/10 backdrop-blur-sm"
+                className="absolute left-4 top-6 rounded-xl border-4 border-green-500 px-3 py-1.5 rotate-[-15deg] z-10 bg-green-500/10 backdrop-blur-sm"
               >
-                <span className="font-bold text-2xl text-green-500 tracking-widest">LIKE</span>
+                <span className="font-bold text-xl text-green-500 tracking-widest">LIKE</span>
               </motion.div>
-
-              {/* Nope Stamp */}
               <motion.div
                 style={{ opacity: nopeOpacity }}
-                className="absolute right-6 top-8 rounded-xl border-4 border-destructive px-4 py-2 rotate-[15deg] z-10 bg-destructive/10 backdrop-blur-sm"
+                className="absolute right-4 top-6 rounded-xl border-4 border-red-500 px-3 py-1.5 rotate-[15deg] z-10 bg-red-500/10 backdrop-blur-sm"
               >
-                <span className="font-bold text-2xl text-destructive tracking-widest">NOPE</span>
+                <span className="font-bold text-xl text-red-500 tracking-widest">NOPE</span>
               </motion.div>
             </>
           )}
 
+          {/* Top badges */}
           {card.isPremium && (
-            <div className="absolute top-4 right-4 z-10 bg-amber-400 text-amber-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
+            <div className="absolute top-3 left-3 z-10 bg-amber-400 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-full shadow flex items-center gap-1">
               <Star className="w-3 h-3 fill-amber-900" /> PREMIUM
             </div>
           )}
 
-          {/* Gradient for Text */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-        </div>
-
-        {/* Content Layer */}
-        <div className="absolute inset-x-0 bottom-0 p-6 text-white pb-8">
-          <div className="flex items-end justify-between mb-2">
-            <div className="space-y-1">
-              <h2 className="text-3xl font-bold leading-tight font-serif drop-shadow-md">
-                {card.title}
-              </h2>
-              <div className="flex items-center gap-2 text-white/90">
-                <MapPin className="h-4 w-4" />
-                <span className="text-sm font-medium">{card.city}</span>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <span className="block text-2xl font-bold text-primary drop-shadow-md">
-                {formatPrice(card.price, card.currency)}
-              </span>
-            </div>
+          {/* Photo counter */}
+          <div className="absolute top-3 right-3 z-10 flex items-center gap-1 bg-black/40 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+            <span>1/1</span>
+            <ChevronRight className="h-3 w-3" />
           </div>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mt-4">
-            {card.condition && (
-              <Badge variant="outline" className="border-white/30 bg-white/10 text-white hover:bg-white/20">
-                {card.condition === 'NEW' ? 'Novo'
-                  : card.condition === 'LIKE_NEW' ? 'Kao novo'
-                  : card.condition === 'GOOD' ? 'Dobro'
-                  : 'Korišćeno'}
-              </Badge>
-            )}
-            {/* Info Button */}
-            <Button variant="ghost" size="icon" className="ml-auto rounded-full bg-white/10 hover:bg-white/20 text-white">
-              <Info className="h-5 w-5" />
-            </Button>
+          {/* Dot indicators */}
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1">
+            <div className="w-4 h-1 rounded-full bg-white" />
+          </div>
+        </div>
+
+        {/* Bottom info panel — white */}
+        <div className="bg-white px-4 pt-3 pb-4 flex-shrink-0">
+          <Link href={ROUTES.listing(card.slug)} className="block" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-lg font-bold text-gray-900 leading-tight line-clamp-1">
+              {card.title}
+            </h2>
+            <p className="text-2xl font-bold text-gray-900 mt-0.5">
+              {eurPrice !== null
+                ? `€${eurPrice.toLocaleString('de-DE')}`
+                : formatPrice(card.price, card.currency)}
+            </p>
+            <p className="text-sm text-gray-500 mt-0.5">
+              {conditionLabel} • {card.city}
+            </p>
+          </Link>
+
+          {/* Action buttons */}
+          <div className="flex justify-center gap-4 mt-3">
+            <button
+              onClick={() => onSwipe('LEFT')}
+              disabled={disabled}
+              className="w-13 h-13 w-[52px] h-[52px] rounded-full bg-gray-100 flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+              aria-label="Preskoči"
+            >
+              <X className="h-5 w-5 text-gray-500" strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={() => { toggleFavorite.mutate({ listingId: card.id }); onSwipe('RIGHT'); }}
+              disabled={disabled}
+              className="w-[52px] h-[52px] rounded-full bg-gray-800 flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+              aria-label="Sačuvaj"
+            >
+              <Heart className="h-5 w-5 text-white fill-white" />
+            </button>
+            <button
+              onClick={() => { if (card.seller?.id) router.push(ROUTES.listing(card.slug)); }}
+              disabled={disabled}
+              className="w-[52px] h-[52px] rounded-full bg-gray-100 flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+              aria-label="Pozovi"
+            >
+              <Phone className="h-5 w-5 text-gray-500" />
+            </button>
+            <button
+              onClick={() => onSwipe('LEFT')}
+              disabled={disabled}
+              className="w-[52px] h-[52px] rounded-full bg-gray-100 flex items-center justify-center shadow-sm active:scale-95 transition-transform"
+              aria-label="Sakrij"
+            >
+              <EyeOff className="h-5 w-5 text-gray-500" />
+            </button>
           </div>
         </div>
       </div>
@@ -338,8 +319,8 @@ function SwipeCard({ card, index, isTop, onSwipe, disabled }: SwipeCardProps) {
 
 export function SwipeDeckSkeleton() {
   return (
-    <div className="relative h-[65vh] max-h-[600px] w-full max-w-sm shrink-0">
-      <div className="absolute inset-0 rounded-[2.5rem] bg-secondary animate-pulse shadow-xl" />
+    <div className="relative w-full rounded-3xl overflow-hidden bg-gray-100 animate-pulse" style={{ height: 'calc(100svh - 14rem)' }}>
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-white" />
     </div>
   );
 }
