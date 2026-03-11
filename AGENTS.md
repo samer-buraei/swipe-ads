@@ -18,6 +18,7 @@
 | `REVAMP_TODO.md` | Current implementation backlog and execution workstreams |
 | `FULL_FEATURE_TEST_PLAN_RESULTS.md` | Latest automated browser-test attempt and why it was incomplete |
 | `CLAUDE.md` | Codebase map and implementation guardrails, but not the authoritative feature-completeness document |
+| `docs/LLM_EXECUTION_STRATEGY_REVIEW.md` | Proposed multi-LLM orchestration model, prompt hierarchy, and execution rules to review before scaling out weaker agents |
 
 ## CURRENT ENGINEERING FOCUS — EXECUTE IN THIS ORDER
 

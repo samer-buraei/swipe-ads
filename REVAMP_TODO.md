@@ -14,6 +14,11 @@ It combines:
 
 Use this as the working source of truth for follow-up implementation.
 
+Related references:
+- For source-verified current behavior, route coverage, button/code trace, and known gaps, read `STATUS.md`.
+- For operational state, deployment history, and what previously worked or failed, read `AGENTS.md`.
+- For the proposed multi-LLM execution model and prompt hierarchy, read `docs/LLM_EXECUTION_STRATEGY_REVIEW.md`.
+
 ## How To Use This File
 
 - Start with `P0` items before adding new surface area.
